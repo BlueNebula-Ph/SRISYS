@@ -1,0 +1,31 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save Supplier. <small class="text-muted">Please input supplier details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="addSupplierForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="name">Name</label>
+                    <input type="text" name="name" ng-model="ctrl.supplier.name" focus-me="ctrl.defaultFocus" />
+                </div>
+                <div form-input>
+                    <label for="address">Address</label>
+                    <textarea name="address" rows="4" ng-model="ctrl.supplier.address" />
+                </div>
+                <div form-input>
+                    <label for="contact">Contact Details</label>
+                    <input type="text" name="contact" ng-model="ctrl.supplier.contactDetails" />
+                </div>
+                <div form-input>
+                    <label for="email">Email</label>
+                    <input type="text" name="email" ng-model="ctrl.supplier.email" />
+                </div>
+                <div form-input>
+                    <label for="others">Other Details</label>
+                    <textarea name="other" rows="4" ng-model="ctrl.supplier.otherDetails" />
+                </div>
+            </div>
+        </form>
+    </shell-form>
+</add-edit-shell>
