@@ -1,9 +1,9 @@
 ﻿namespace Srisys.Web.DTO
 {
-    using BlueNebula.Common.DTOs;
     using System;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// View model for the SaveMaterialRequest entity.
@@ -67,7 +67,8 @@
         public int? SubCategoryId { get; set; }
 
         /// <summary>
-        /// Gets or sets property IsUsed. Applicable to Consumable type of material
+        /// Gets or sets a value indicating whether the material is used.
+        /// Applicable to Consumable type of material
         /// </summary>
         [DefaultValue(false)]
         public bool IsUsed { get; set; }

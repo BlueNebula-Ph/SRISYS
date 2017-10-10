@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp1.1</TargetFramework>
@@ -7,6 +7,7 @@
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <DocumentationFile>bin\Debug\netcoreapp1.1\Srisys.Web.xml</DocumentationFile>
+    <NoWarn>1701;1702;1705;SA1633;</NoWarn>
   </PropertyGroup>
 
   <ItemGroup>
@@ -16,9 +17,12 @@
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\view-items-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-category-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-supplier-controller.js" />
     <Content Include="wwwroot\js\controllers\system\manage-system-controller.js" />
+    <Content Include="wwwroot\js\controllers\system\view-categories-controller.js" />
+    <Content Include="wwwroot\js\controllers\system\view-suppliers-controller.js" />
     <Content Include="wwwroot\js\directives\add-edit-shell.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
     <Content Include="wwwroot\js\directives\details-shell.js" />
@@ -67,7 +71,6 @@
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
     <Folder Include="wwwroot\views\activity\" />
-    <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -2,6 +2,7 @@
 {
     using System.IO;
     using AutoMapper;
+    using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.EntityFrameworkCore;
@@ -11,7 +12,6 @@
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
     using Swashbuckle.AspNetCore.Swagger;
-    using BlueNebula.Common.Helpers;
 
     /// <summary>
     /// <see cref="Startup"/> class API configuration.
@@ -57,7 +57,6 @@
             services.AddDbContext<SrisysDbContext>(opt =>
             {
                 opt.UseInMemoryDatabase();
-
             });
 
             services.AddSwaggerGen(opt =>
@@ -95,7 +94,6 @@
 
             app.UseSwaggerUI(opt =>
             {
-                
                 opt.SwaggerEndpoint("/swagger/v1/swagger.json", "SRISYS API V1");
                 opt.RoutePrefix = "info";
             });

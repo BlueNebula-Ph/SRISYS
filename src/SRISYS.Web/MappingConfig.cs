@@ -1,8 +1,8 @@
 ﻿namespace Srisys.Web
 {
     using AutoMapper;
-    using Srisys.Web.Models;
     using Srisys.Web.DTO;
+    using Srisys.Web.Models;
 
     /// <summary>
     /// <see cref="MappingConfig"/> class Mapping configuration.
@@ -27,7 +27,7 @@
 
             this.CreateMap<SaveMaterialRequest, Material>();
 
-            // Supplier 
+            // Supplier
             this.CreateMap<Supplier, SupplierSummary>();
 
             this.CreateMap<Supplier, SupplierLookup>();
