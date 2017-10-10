@@ -1,7 +1,7 @@
 ﻿namespace Srisys.Web.DTO
 {
-    using BlueNebula.Common.DTOs;
     using System;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// View model for the MaterialSummary entity.
@@ -59,7 +59,7 @@
         public string SubCategoryName { get; set; }
 
         /// <summary>
-        /// Gets or sets property IsUsed.
+        /// Gets or sets a value indicating whether the material is used.
         /// </summary>
         public bool IsUsed { get; set; }
 

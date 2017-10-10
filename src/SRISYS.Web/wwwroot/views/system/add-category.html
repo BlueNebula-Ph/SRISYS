@@ -1,0 +1,19 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Save Category. <small class="text-muted">Please input category details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="addCategoryForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="category">Category</label>
+                    <input type="text" name="category" ng-model="ctrl.category.code" focus-me="ctrl.defaultFocus" />
+                </div>
+                <div form-input>
+                    <label for="customerName">Subcategories</label>
+                    <textarea name="subcategories" rows="10" placeholder="One subcategory per line." ng-model="ctrl.category.name" />
+                </div>
+            </div>
+        </form>
+    </shell-form>
+</add-edit-shell>

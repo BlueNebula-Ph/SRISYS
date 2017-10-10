@@ -6,12 +6,12 @@
     using System.Threading.Tasks;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
+    using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Srisys.Web.DTO;
-    using BlueNebula.Common.Helpers;
     using Srisys.Web.Common;
+    using Srisys.Web.DTO;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
@@ -58,7 +58,7 @@
 
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Tag.Contains(filter.SearchTerm));
+                list = list.Where(c => c.Name.Contains(filter.SearchTerm));
             }
 
             if (!(filter?.CategoryId).IsNullOrZero())

@@ -1,0 +1,76 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stockroom Inventory Management - Ace Plastic Center</title>
+
+    <environment names="Development">
+        <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.css" />
+        <link rel="stylesheet" href="~/lib/toastr/toastr.css" />
+        <link rel="stylesheet" href="~/css/site.css" />
+    </environment>
+    <environment names="Staging,Production">
+        <link rel="stylesheet" href="~/lib/bootswatch/spacelab/bootstrap.min.css" />
+        <link rel="stylesheet" href="~/lib/font-awesome/css/font-awesome.min.css" />
+        <link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body ng-app="srisys-app">
+    <div ui-view></div>
+
+    <environment names="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/lib/angular/angular.js"></script>
+        <script src="~/lib/angular-ui-router/release/angular-ui-router.js"></script>
+        <script src="~/lib/autoNumeric/dist/autoNumeric.js"></script>
+        <script src="~/lib/toastr/toastr.js"></script>
+        <script src="~/js/env.js"></script>
+        <script src="~/js/app.js" asp-append-version="true"></script>
+
+        <script src="~/js/directives/navigation.js"></script>
+        <script src="~/js/directives/sidebar.js"></script>
+        <script src="~/js/directives/loading-inidicator.js"></script>
+        <script src="~/js/directives/column-header.js"></script>
+        <script src="~/js/directives/form-input.js"></script>
+        <script src="~/js/directives/form-controls.js"></script>
+        <script src="~/js/directives/focus-me.js"></script>
+        <script src="~/js/directives/no-records.js"></script>
+        <script src="~/js/directives/pager.js"></script>
+        <script src="~/js/directives/summary-shell.js"></script>
+        <script src="~/js/directives/summary-controls.js"></script>
+        <script src="~/js/directives/numeric-textbox.js"></script>
+        <script src="~/js/directives/add-edit-shell.js"></script>
+        <script src="~/js/directives/details-shell.js"></script>
+        <script src="~/js/directives/price-toggler.js"></script>
+        <script src="~/js/directives/discount-control.js"></script>
+        <script src="~/js/directives/search-input.js"></script>
+
+        <script src="~/js/services/loading-service.js"></script>
+
+        <script src="~/js/controllers/system/manage-system-controller.js"></script>
+        <script src="~/js/controllers/system/add-category-controller.js"></script>
+        <script src="~/js/controllers/system/add-supplier-controller.js"></script>
+        <script src="~/js/controllers/system/view-categories-controller.js"></script>
+        <script src="~/js/controllers/system/view-suppliers-controller.js"></script>
+
+        <script src="~/js/controllers/activity/manage-activity-controller.js"></script>
+
+        <script src="~/js/controllers/inventory/manage-inventory-controller.js"></script>
+        <script src="~/js/controllers/inventory/add-item-controller.js"></script>
+        <script src="~/js/controllers/inventory/view-items-controller.js"></script>
+    </environment>
+    <environment names="Production">
+        <script src="~/lib/jquery/dist/jquery.min.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+        <script src="~/lib/angular/angular.min.js"></script>
+        <script src="~/lib/autoNumeric/dist/autoNumeric.min.js"></script>
+        <script src="~/lib/toastr/toastr.min.js"></script>
+        <script src="~/js/env.prod.js"></script>
+        <script src="~/js/app.min.js" asp-append-version="true"></script>
+    </environment>
+</body>
+</html>

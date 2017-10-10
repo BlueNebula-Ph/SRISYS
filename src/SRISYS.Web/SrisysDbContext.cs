@@ -17,7 +17,8 @@
         /// Initializes a new instance of the <see cref="SrisysDbContext"/> class.
         /// </summary>
         /// <param name="options">Context options</param>
-        public SrisysDbContext(DbContextOptions<SrisysDbContext> options) : base(options)
+        public SrisysDbContext(DbContextOptions<SrisysDbContext> options)
+            : base(options)
         {
         }
 
@@ -27,9 +28,19 @@
         public DbSet<Material> Materials { get; set; }
 
         /// <summary>
-        /// Gets or sets the leased materials db set.
+        /// Gets or sets the activities db set.
         /// </summary>
-        public DbSet<LeasedMaterial> LeasedMaterials { get; set; }
+        public DbSet<Activity> Activities { get; set; }
+
+        /// <summary>
+        /// Gets or sets the activity details db set.
+        /// </summary>
+        public DbSet<ActivityDetail> ActivityDetails { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adjustments db set.
+        /// </summary>
+        public DbSet<Adjustment> Adjustments { get; set; }
 
         /// <summary>
         /// Gets or sets the suppliers db set.
@@ -63,6 +74,27 @@
 
                 context.SaveChanges();
             }
+        }
+
+        /// <summary>
+        /// This method sets up the foreign keys of entities.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder.</param>
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            // Adjustments
+            modelBuilder.Entity<Adjustment>()
+                .HasOne(a => a.Material)
+                .WithMany(a => a.Adjustments)
+                .HasForeignKey(a => a.MaterialId);
+
+            // Activity
+            modelBuilder.Entity<ActivityDetail>()
+                .HasOne(a => a.Activity)
+                .WithMany(a => a.ActivityDetails)
+                .HasForeignKey(a => a.ActivityId);
         }
 
         private static void SeedReferenceTypes(SrisysDbContext context)

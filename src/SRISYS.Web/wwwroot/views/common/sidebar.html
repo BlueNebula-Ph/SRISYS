@@ -1,0 +1,12 @@
+﻿<ul class="sidebar">
+    <li ng-repeat="i in items track by $index" ng-class="{ 'header': i.isHeader, 'item': i.isItem }" ui-sref-active="sidebar-active">
+        <span ng-if="i.isHeader">
+            <i class="fa ng-class:i.icon;"></i> {{ i.text }}
+        </span>
+        <span ng-if="i.isItem">
+            <a ui-sref="{{ i.link }}">
+                <i class="fa ng-class:i.icon;"></i> {{ i.text }}
+            </a>
+        </span>
+    </li>
+</ul>

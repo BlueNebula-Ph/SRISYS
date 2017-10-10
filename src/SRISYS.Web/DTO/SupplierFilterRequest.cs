@@ -6,6 +6,6 @@
     /// View model for the SaveFilterRequest entity.
     /// </summary>
     public class SupplierFilterRequest : FilterRequestBase
-    { 
+    {
     }
 }

@@ -1,7 +1,7 @@
 ﻿namespace Srisys.Web.DTO
 {
-    using BlueNebula.Common.DTOs;
     using System.ComponentModel.DataAnnotations;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
     /// View model for the SaveSupplierRequest entity.

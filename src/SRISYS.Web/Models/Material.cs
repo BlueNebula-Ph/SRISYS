@@ -1,6 +1,7 @@
 ﻿namespace Srisys.Web.Models
 {
     using System;
+    using System.Collections.Generic;
     using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
 
@@ -31,6 +32,11 @@
         /// Gets or sets property Quantity.
         /// </summary>
         public double Quantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the remaining quantity of a material.
+        /// </summary>
+        public double RemainingQuantity { get; set; }
 
         /// <summary>
         /// Gets or sets property Size.
@@ -66,7 +72,8 @@
         public int? SubCategoryId { get; set; }
 
         /// <summary>
-        /// Gets or sets property IsUsed. Applicable to Consumable type of material
+        /// Gets or sets a value indicating whether the material is used.
+        /// Applicable to Consumable type of material.
         /// </summary>
         [DefaultValue(false)]
         public bool IsUsed { get; set; }
@@ -98,11 +105,6 @@
         public bool IsDeleted { get; set; }
 
         /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
-
-        /// <summary>
         /// Gets or sets property Material Type.
         /// </summary>
         public Reference Type { get; set; }
@@ -126,5 +128,10 @@
         /// Gets or sets property Supplier.
         /// </summary>
         public Supplier Supplier { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adjustments collection.
+        /// </summary>
+        public ICollection<Adjustment> Adjustments { get; set; }
     }
 }
