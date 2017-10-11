@@ -71,6 +71,7 @@
                 SeedReferenceTypes(context);
                 SeedReferences(context);
                 SeedMaterials(context);
+                SeedSuppliers(context);
 
                 context.SaveChanges();
             }
@@ -142,6 +143,19 @@
                     new Material { TypeId = 9, Name = "ITEM-003", Unit = "PC", Quantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
                 };
                 context.Materials.AddRange(materials);
+            }
+        }
+
+        private static void SeedSuppliers(SrisysDbContext context)
+        {
+            if (!context.Suppliers.Any())
+            {
+                var suppliers = new List<Supplier>
+                {
+                    new Supplier { Name = "Dave Grohl", Email = "dave@ff.com", Address = "Foo street", PhoneNumber = "339403", OtherDetails = "Foo" },
+                    new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
+                };
+                context.Suppliers.AddRange(suppliers);
             }
         }
     }

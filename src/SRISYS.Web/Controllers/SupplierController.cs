@@ -53,7 +53,7 @@ namespace Srisys.Web.Controllers
             // filter
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Tag.Contains(filter.SearchTerm));
+                list = list.Where(c => c.Name.Contains(filter.SearchTerm));
             }
 
             // sort

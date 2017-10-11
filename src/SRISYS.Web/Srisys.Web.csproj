@@ -42,7 +42,13 @@
     <Content Include="wwwroot\js\directives\summary-shell.js" />
     <Content Include="wwwroot\js\env.js" />
     <Content Include="wwwroot\js\env.prod.js" />
+    <Content Include="wwwroot\js\services\activity-service.js" />
+    <Content Include="wwwroot\js\services\category-service.js" />
+    <Content Include="wwwroot\js\services\inventory-service.js" />
+    <Content Include="wwwroot\js\services\item-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
+    <Content Include="wwwroot\js\services\reference-service.js" />
+    <Content Include="wwwroot\js\services\supplier-service.js" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\details-shell.html" />
@@ -63,7 +69,9 @@
     <Content Include="wwwroot\views\system\add-category.html" />
     <Content Include="wwwroot\views\system\add-supplier.html" />
     <Content Include="wwwroot\views\system\add-user.html" />
-    <Content Include="wwwroot\views\system\view-categories.html" />
+    <Content Include="wwwroot\views\system\category-list.html" />
+    <Content Include="wwwroot\views\system\supplier-list.html" />
+    <Content Include="wwwroot\views\system\user-list.html" />
     <Content Include="wwwroot\views\system\view-suppliers.html" />
     <Content Include="wwwroot\views\system\view-users.html" />
   </ItemGroup>

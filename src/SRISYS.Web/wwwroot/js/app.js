@@ -27,7 +27,9 @@
                     controllerAs: "ctrl"
                 }).state("system.list-suppliers", {
                     url: "/list/suppliers",
-                    template: "<div>List suppliers</div>"
+                    templateUrl: "/views/system/supplier-list.html",
+                    controller: "viewSuppliersController",
+                    controllerAs: "ctrl"
                 }).state("system.add-supplier", {
                     url: "/add/supplier/{id}",
                     templateUrl: "/views/system/add-supplier.html",
@@ -35,7 +37,9 @@
                     controllerAs: "ctrl"
                 }).state("system.list-categories", {
                     url: "/list/categories",
-                    template: "<div>List categories</div>"
+                    templateUrl: "/views/system/category-list.html",
+                    controller: "viewCategoriesController",
+                    controllerAs: "ctrl"
                 }).state("system.add-category", {
                     url: "/add/category/{id}",
                     templateUrl: "/views/system/add-category.html",

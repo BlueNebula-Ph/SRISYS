@@ -41,10 +41,5 @@
         /// </summary>
         [DefaultValue(false)]
         public bool IsDeleted { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
     }
 }
