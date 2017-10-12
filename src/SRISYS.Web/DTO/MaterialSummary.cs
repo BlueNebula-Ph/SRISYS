@@ -82,5 +82,10 @@
         /// Gets or sets property MinimumStock.
         /// </summary>
         public double MinimumStock { get; set; }
+
+        /// <summary>
+        /// Gets or sets the remaining quantity property.
+        /// </summary>
+        public double RemainingQuantity { get; set; }
     }
 }

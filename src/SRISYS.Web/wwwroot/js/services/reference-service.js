@@ -8,13 +8,14 @@
             return $http.get(url);
         };
 
-        dataFactory.fetchReferences = function (referenceTypeId, search) {
+        dataFactory.searchReferences = function (referenceTypeId, search) {
             var url = urlBase + "/" + referenceTypeId + "/search";
             return $http.post(url, search);
         };
 
-        dataFactory.fetchReference = function (type, id) {
-
+        dataFactory.getReferenceById = function (referenceTypeId, id) {
+            var url = urlBase + "/" + referenceTypeId + "/" + id;
+            return $http.get(url);
         };
 
         dataFactory.saveReference = function (id, reference) {
@@ -26,8 +27,9 @@
             }
         };
 
-        dataFactory.deleteReference = function (type) {
-
+        dataFactory.deleteReference = function (id) {
+            var url = urlBase + "/" + id;
+            return $http.delete(url);
         };
 
         return dataFactory;

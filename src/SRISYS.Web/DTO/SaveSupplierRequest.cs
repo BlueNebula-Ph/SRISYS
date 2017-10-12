@@ -35,10 +35,5 @@
         /// Gets or sets property OtherDetails.
         /// </summary>
         public string OtherDetails { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
     }
 }

@@ -1,25 +1,25 @@
 ﻿<add-edit-shell>
     <shell-title>
-        <h3>Save Inventory Item. <small class="text-muted">Please input item details.</small></h3>
+        <h3>Save Material. <small class="text-muted">Please input material details.</small></h3>
     </shell-title>
     <shell-form>
         <form name="addItemForm">
             <div form-input>
-                <label for="type">Item Type</label>
+                <label for="type">Material Type</label>
                 <div>
                     <label class="radio-inline">
-                        <input type="radio" name="typeOptions" value="Material"
-                               checked ng-model="ctrl.item.type"> Material
+                        <input type="radio" name="typeOptions" value="1"
+                               checked ng-model="ctrl.item.typeId"> Tool
                     </label>
                     <label class="radio-inline">
-                        <input type="radio" name="typeOptions" value="Consumable"
-                               ng-model="ctrl.item.type"> Consumable
+                        <input type="radio" name="typeOptions" value="2"
+                               ng-model="ctrl.item.typeId"> Consumable
                     </label>
                 </div>
             </div>
             <div class="col-md-3 left-padding-none">
                 <div form-input>
-                    <label for="name">Item Name</label>
+                    <label for="name">Material Name</label>
                     <input type="text" name="name" ng-model="ctrl.item.name" focus-me="ctrl.defaultFocus" />
                 </div>
                 <div form-input>
@@ -31,12 +31,16 @@
                     <input type="text" name="unit" ng-model="ctrl.item.unit" />
                 </div>
                 <div form-input>
-                    <label for="size">Size / Model</label>
-                    <input type="text" name="size" ng-model="ctrl.item.size" />
-                </div>
-                <div form-input>
                     <label for="brand">Brand</label>
                     <input type="text" name="brand" ng-model="ctrl.item.brand" />
+                </div>
+                <div form-input>
+                    <label for="model">Model</label>
+                    <input type="text" name="model" ng-model="ctrl.item.model" />
+                </div>
+                <div form-input>
+                    <label for="size">Size</label>
+                    <input type="text" name="size" ng-model="ctrl.item.size" />
                 </div>
             </div>
             <div class="col-md-3 left-padding-none" ng-show="ctrl.showConsumableFields">
@@ -60,8 +64,6 @@
                     <label for="price">Price</label>
                     <input type="text" name="price" ng-model="ctrl.item.price" numeric-textbox="{ currencySymbol: '₱ '}" />
                 </div>
-            </div>
-            <div class="col-md-3 left-padding-none" ng-show="ctrl.showConsumableFields">
                 <div form-input>
                     <label for="minimumStock">Minimum Stock</label>
                     <input type="number" name="minimumStock" ng-model="ctrl.item.minimumStock" />

@@ -92,10 +92,5 @@
         /// Gets or sets property MinimumStock. Applicable to Consumable type of material
         /// </summary>
         public double? MinimumStock { get; set; }
-
-        /// <summary>
-        /// Gets or sets property Tag.
-        /// </summary>
-        public string Tag { get; set; }
     }
 }

@@ -60,7 +60,9 @@
                     controllerAs: "ctrl"
                 }).state("inventory.list", {
                     url: "/list",
-                    template: "<div>List Items</div>"
+                    templateUrl: "/views/inventory/item-list.html",
+                    controller: "viewItemsController",
+                    controllerAs: "ctrl"
                 }).state("inventory.add", {
                     url: "/add/{id}",
                     templateUrl: "/views/inventory/add-item.html",

@@ -104,9 +104,9 @@
             {
                 var referenceTypes = new List<ReferenceType>
                 {
+                    new ReferenceType { Code = "MaterialType" },
                     new ReferenceType { Code = "Category" },
                     new ReferenceType { Code = "SubCategory" },
-                    new ReferenceType { Code = "MaterialType" },
                 };
                 context.ReferenceTypes.AddRange(referenceTypes);
             }
@@ -118,15 +118,15 @@
             {
                 var references = new List<Reference>
                 {
-                    new Reference { ReferenceTypeId = 1, Code = "CAT-001" },
-                    new Reference { ReferenceTypeId = 1, Code = "CAT-002" },
-                    new Reference { ReferenceTypeId = 1, Code = "CAT-003" },
-                    new Reference { ReferenceTypeId = 2, Code = "SUBCAT-001", ParentReferenceId = 1 },
-                    new Reference { ReferenceTypeId = 2, Code = "SUBCAT-021", ParentReferenceId = 1 },
-                    new Reference { ReferenceTypeId = 2, Code = "SUBCAT-003", ParentReferenceId = 1 },
-                    new Reference { ReferenceTypeId = 2, Code = "SUBCAT-004", ParentReferenceId = 2 },
-                    new Reference { ReferenceTypeId = 3, Code = "Consumable" },
-                    new Reference { ReferenceTypeId = 3, Code = "Tool" },
+                    new Reference { ReferenceTypeId = 1, Code = "Tool" },
+                    new Reference { ReferenceTypeId = 1, Code = "Consumable" },
+                    new Reference { ReferenceTypeId = 2, Code = "CAT-001" },
+                    new Reference { ReferenceTypeId = 2, Code = "CAT-002" },
+                    new Reference { ReferenceTypeId = 2, Code = "CAT-003" },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-001", ParentReferenceId = 1 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-021", ParentReferenceId = 1 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-003", ParentReferenceId = 1 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-004", ParentReferenceId = 2 },
                 };
                 context.References.AddRange(references);
             }
@@ -138,9 +138,9 @@
             {
                 var materials = new List<Material>
                 {
-                    new Material { TypeId = 8, Name = "ITEM-001", Unit = "PC", Quantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 1, SubCategoryId = 4, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
-                    new Material { TypeId = 8, Name = "ITEM-002", Unit = "PC", Quantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 2, SubCategoryId = 4, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
-                    new Material { TypeId = 9, Name = "ITEM-003", Unit = "PC", Quantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
+                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 1, SubCategoryId = 4, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
+                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 2, SubCategoryId = 4, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
+                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
                 };
                 context.Materials.AddRange(materials);
             }
