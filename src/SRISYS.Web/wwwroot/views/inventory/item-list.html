@@ -1,0 +1,44 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Material Inventory. <small class="text-muted">Search the inventory.</small></h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span title="Search material via keyword"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search Material..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchItems()">
+            <i class="fa fa-search"></i> Search
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchItems()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.typeCode }}</td>
+                    <td class="text-right">{{ c.quantity | number:0 }}</td>
+                    <td class="text-right">{{ c.remainingQuantity | number:0 }}</td>
+                    <td>{{ c.brand }}</td>
+                    <td>{{ c.model }}</td>
+                    <td class="text-center">
+                        <summary-controls show-details="true"
+                                          show-edit="true" edit-state="inventory.add({ id: {{ c.id }} })" edit-title="Edit this material."
+                                          show-delete="true" delete-title="Delete this material.">
+                        </summary-controls>
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="7"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

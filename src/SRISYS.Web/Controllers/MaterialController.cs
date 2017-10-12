@@ -58,7 +58,7 @@
 
             if (!string.IsNullOrEmpty(filter?.SearchTerm))
             {
-                list = list.Where(c => c.Name.Contains(filter.SearchTerm));
+                list = list.Where(c => c.Name.ToLower().Contains(filter.SearchTerm.ToLower()));
             }
 
             if (!(filter?.CategoryId).IsNullOrZero())
@@ -155,9 +155,7 @@
             await this.context.Materials.AddAsync(material);
             await this.context.SaveChangesAsync();
 
-            var mappedMaterial = this.mapper.Map<Material>(entity);
-
-            return this.CreatedAtRoute("GetMaterial", new { id = material.Id }, mappedMaterial);
+            return this.CreatedAtRoute("GetMaterial", new { id = material.Id }, entity);
         }
 
         /// <summary>

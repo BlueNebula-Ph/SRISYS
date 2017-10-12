@@ -127,13 +127,11 @@ namespace Srisys.Web.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            var material = this.mapper.Map<Supplier>(entity);
-            await this.context.Suppliers.AddAsync(material);
+            var supplier = this.mapper.Map<Supplier>(entity);
+            await this.context.Suppliers.AddAsync(supplier);
             await this.context.SaveChangesAsync();
 
-            var mappedSupplier = this.mapper.Map<Supplier>(entity);
-
-            return this.CreatedAtRoute("GetSupplier", new { id = material.Id }, mappedSupplier);
+            return this.CreatedAtRoute("GetSupplier", new { id = supplier.Id }, entity);
         }
 
         /// <summary>
@@ -150,16 +148,16 @@ namespace Srisys.Web.Controllers
                 return this.BadRequest();
             }
 
-            var material = await this.context.Suppliers.SingleOrDefaultAsync(t => t.Id == id);
-            if (material == null)
+            var supplier = await this.context.Suppliers.SingleOrDefaultAsync(t => t.Id == id);
+            if (supplier == null)
             {
                 return this.NotFound(id);
             }
 
             try
             {
-                this.mapper.Map(entity, material);
-                this.context.Update(material);
+                this.mapper.Map(entity, supplier);
+                this.context.Update(supplier);
                 await this.context.SaveChangesAsync();
             }
             catch (Exception ex)
