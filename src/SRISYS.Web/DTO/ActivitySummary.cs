@@ -1,14 +1,13 @@
-﻿namespace Srisys.Web.Models
+﻿namespace Srisys.Web.DTO
 {
     using System;
     using System.Collections.Generic;
-    using Srisys.Web.Common;
-    using System.ComponentModel;
+    using BlueNebula.Common.DTOs;
 
     /// <summary>
-    /// View model for the Activity entity.
+    /// View model for the ActivitySummary entity.
     /// </summary>
-    public class Activity : ModelBase
+    public class ActivitySummary : DTOBase
     {
         /// <summary>
         /// Gets or sets the activity date property.
@@ -26,20 +25,8 @@
         public string ReleasedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the status property.
-        /// 1 = Pending, 2 = Complete
-        /// </summary>
-        public ActivityStatus Status { get; set; }
-
-        /// <summary>
-        /// Gets or sets a value indicating whether gets or sets property IsDeleted.
-        /// </summary>
-        [DefaultValue(false)]
-        public bool IsDeleted { get; set; }
-
-        /// <summary>
         /// Gets or sets the activity details collection.
         /// </summary>
-        public ICollection<ActivityDetail> ActivityDetails { get; set; }
+        public IEnumerable<ActivityDetailSummary> ActivityDetails { get; set; }
     }
 }

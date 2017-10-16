@@ -120,11 +120,6 @@
         public Reference SubCategory { get; set; }
 
         /// <summary>
-        /// Gets or sets property MaterialType.
-        /// </summary>
-        public Reference MaterialType { get; set; }
-
-        /// <summary>
         /// Gets or sets property Supplier.
         /// </summary>
         public Supplier Supplier { get; set; }
