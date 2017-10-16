@@ -2,6 +2,7 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
+    using Srisys.Web.Common;
 
     /// <summary>
     /// Viewmodel for the adjustment entity.
@@ -36,6 +37,11 @@
         /// </summary>
         [Required]
         public string AdjustmentType { get; set; }
+
+        /// <summary>
+        /// Gets or sets the remarks.
+        /// </summary>
+        public string Remarks { get; set; }
 
         /// <summary>
         /// Gets or sets the material navigation property

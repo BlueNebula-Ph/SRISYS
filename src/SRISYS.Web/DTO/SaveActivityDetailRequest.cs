@@ -1,11 +1,12 @@
-﻿namespace Srisys.Web.Models
+﻿namespace Srisys.Web.DTO
 {
+    using BlueNebula.Common.DTOs;
     using Srisys.Web.Common;
 
     /// <summary>
-    /// View model for the activity detail entity.
+    /// View model for the SaveActivityDetailRequest entity.
     /// </summary>
-    public class ActivityDetail : ModelBase
+    public class SaveActivityDetailRequest : DTOBase
     {
         /// <summary>
         /// Gets or sets the parent activity id.
@@ -38,19 +39,8 @@
         public string ReceivedBy { get; set; }
 
         /// <summary>
-        /// Gets or sets the activity type of the material.
-        /// 1 = Borrow, 2 = Return
+        /// Gets or sets the activity type.
         /// </summary>
         public ActivityType ActivityType { get; set; }
-
-        /// <summary>
-        /// Gets or sets the activity navigation property.
-        /// </summary>
-        public Activity Activity { get; set; }
-
-        /// <summary>
-        /// Gets or sets the activity navigation property.
-        /// </summary>
-        public Material Material { get; set; }
     }
 }
