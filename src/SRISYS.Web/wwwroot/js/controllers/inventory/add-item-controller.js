@@ -1,11 +1,17 @@
 ﻿(function (module) {
-    var addItemController = function ($scope, $q, inventoryService, loadingService) {
+    var addItemController = function ($scope, $q, inventoryService, loadingService, utils) {
         var vm = this;
-        vm.defaultFocus = true;
+
+        // Data
+        var defaultItem = {};
         vm.item = {
             typeId: "1"
         };
+
+        // Helper properties
+        vm.defaultFocus = true;
         vm.showConsumableFields = false;
+        vm.saveEnabled = true;
 
         // Watchers
         $scope.$watch(function () {
@@ -20,27 +26,39 @@
             vm.defaultFocus = true;
         });
 
-        // Methods
+        // Public Methods
         vm.save = function () {
             loadingService.showLoading();
+            vm.saveEnabled = false;
+
             inventoryService
                 .saveItem(0, vm.item)
-                .then((response) => {
-                    toastr.success("Material saved successfully.", "Success");
-                }, (error) => {
-                    toastr.error("An error occurred while processing the request.", "Error");
-                    console.log(error);
-                })
-                .finally(() => { loadingService.hideLoading(); });
+                .then(saveSuccessful, utils.onError)
+                .finally(onSaveComplete);
         };
 
-        vm.reset = function () { };
+        vm.reset = function () {
+            clearForm();
+        };
 
-        // Load
+        // Private methods
+        var clearForm = function () {
+
+        };
+
+        var saveSuccessful = function (response) {
+            utils.showSuccessMessage("Material saved successfully.");
+            clearForm();
+        };
+
+        var onSaveComplete = function () {
+            loadingService.hideLoading();
+            vm.saveEnabled = true;
+        };
 
         return vm;
     };
 
-    module.controller("addItemController", ["$scope", "$q", "inventoryService", "loadingService", addItemController]);
+    module.controller("addItemController", ["$scope", "$q", "inventoryService", "loadingService", "utils", addItemController]);
 
 })(angular.module("srisys-app"));

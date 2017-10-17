@@ -1,0 +1,35 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Adjust Material Quantity. <small class="text-muted">Please input adjustment details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.adjustmentForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="item">Material Name</label>
+                    <select name="item" ng-model="" focus-me="ctrl.defaultFocus"></select>
+                </div>
+                <div form-input>
+                    <label for="type">Adjustment Type</label>
+                    <select name="type" ng-model="">
+                        <option value="0">Please select adjustment type..</option>
+                        <option value="1">Add</option>
+                        <option value="2">Deduct</option>
+                    </select>
+                </div>
+                <div form-input>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" class="text-right" name="quantity" ng-model="" />
+                </div>
+                <div form-input>
+                    <label for="price">Reason</label>
+                    <textarea name="reason" rows="4"></textarea>
+                </div>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.adjustmentForm.$pristine && ctrl.adjustmentForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
+</add-edit-shell>

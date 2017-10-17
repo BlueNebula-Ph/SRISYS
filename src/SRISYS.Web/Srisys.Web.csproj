@@ -16,7 +16,9 @@
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\adjust-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\purchase-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-items-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-category-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-supplier-controller.js" />
@@ -42,11 +44,14 @@
     <Content Include="wwwroot\js\directives\summary-shell.js" />
     <Content Include="wwwroot\js\env.js" />
     <Content Include="wwwroot\js\env.prod.js" />
+    <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
+    <Content Include="wwwroot\js\services\utilitity-service.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
+    <Content Include="wwwroot\js\services\utility-service.js" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\details-shell.html" />
@@ -64,7 +69,9 @@
     <Content Include="wwwroot\views\common\summary-shell.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
+    <Content Include="wwwroot\views\inventory\adjust-item.html" />
     <Content Include="wwwroot\views\inventory\item-list.html" />
+    <Content Include="wwwroot\views\inventory\purchase-item.html" />
     <Content Include="wwwroot\views\system\add-category.html" />
     <Content Include="wwwroot\views\system\add-supplier.html" />
     <Content Include="wwwroot\views\system\add-user.html" />

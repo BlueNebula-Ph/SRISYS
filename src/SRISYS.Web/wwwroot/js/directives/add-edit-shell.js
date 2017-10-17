@@ -5,7 +5,8 @@
             restrict: "E",
             transclude: {
                 title: "shellTitle",
-                form: "shellForm"
+                form: "shellForm",
+                controls: "shellControls"
             },
             templateUrl: "/views/common/add-edit-shell.html?" + $.now()
         };
