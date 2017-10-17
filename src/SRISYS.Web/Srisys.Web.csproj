@@ -46,7 +46,6 @@
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
-    <Content Include="wwwroot\js\services\utilitity-service.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />

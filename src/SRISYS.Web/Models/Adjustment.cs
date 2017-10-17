@@ -2,7 +2,6 @@
 {
     using System;
     using System.ComponentModel.DataAnnotations;
-    using Srisys.Web.Common;
 
     /// <summary>
     /// Viewmodel for the adjustment entity.
@@ -19,11 +18,6 @@
         /// Gets or sets the adjustment date.
         /// </summary>
         public DateTime Date { get; set; }
-
-        /// <summary>
-        /// Gets or sets the reason for adjustment.
-        /// </summary>
-        public string Reason { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity adjusted.

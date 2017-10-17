@@ -12,6 +12,7 @@ namespace Srisys.Web.Controllers
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
+    using System.Collections.Generic;
 
     /// <summary>
     /// <see cref="ReferenceController"/> class handles Reference basic add, edit, delete and get.
@@ -83,7 +84,7 @@ namespace Srisys.Web.Controllers
         /// <param name="parentId">Parent Id</param>
         /// <returns>List of References</returns>
         [HttpGet("{typeId}/lookup/{parentId?}", Name = "GetReferenceLookup")]
-        public IActionResult GetLookup(long typeId, int? parentId)
+        public IActionResult GetLookup(long typeId, [FromRoute] int? parentId)
         {
             // get list of active references (not deleted)
             var list = this.context.References
@@ -145,6 +146,20 @@ namespace Srisys.Web.Controllers
 
             var reference = this.mapper.Map<Reference>(entity);
             await this.context.References.AddAsync(reference);
+
+            // To facilitate batch adding of children references.
+            if (entity.Children != null && entity.Children.Any())
+            {
+                var referenceList = this.mapper.Map<ICollection<Reference>>(entity.Children);
+
+                foreach (var child in referenceList)
+                {
+                    child.ParentReference = reference;
+                }
+
+                await this.context.References.AddRangeAsync(referenceList);
+            }
+
             await this.context.SaveChangesAsync();
 
             var mappedReference = this.mapper.Map<ReferenceSummary>(reference);
