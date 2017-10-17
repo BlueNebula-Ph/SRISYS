@@ -33,11 +33,6 @@
         public DbSet<Activity> Activities { get; set; }
 
         /// <summary>
-        /// Gets or sets the activity details db set.
-        /// </summary>
-        public DbSet<ActivityDetail> ActivityDetails { get; set; }
-
-        /// <summary>
         /// Gets or sets the adjustments db set.
         /// </summary>
         public DbSet<Adjustment> Adjustments { get; set; }
@@ -90,12 +85,6 @@
                 .HasOne(a => a.Material)
                 .WithMany(a => a.Adjustments)
                 .HasForeignKey(a => a.MaterialId);
-
-            // Activity
-            modelBuilder.Entity<ActivityDetail>()
-                .HasOne(a => a.Activity)
-                .WithMany(a => a.ActivityDetails)
-                .HasForeignKey(a => a.ActivityId);
         }
 
         private static void SeedReferenceTypes(SrisysDbContext context)
@@ -123,10 +112,10 @@
                     new Reference { ReferenceTypeId = 2, Code = "CAT-001" },
                     new Reference { ReferenceTypeId = 2, Code = "CAT-002" },
                     new Reference { ReferenceTypeId = 2, Code = "CAT-003" },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-001", ParentReferenceId = 1 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-021", ParentReferenceId = 1 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-003", ParentReferenceId = 1 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-004", ParentReferenceId = 2 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-001", ParentReferenceId = 3 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-021", ParentReferenceId = 3 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-003", ParentReferenceId = 4 },
+                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-004", ParentReferenceId = 5 },
                 };
                 context.References.AddRange(references);
             }

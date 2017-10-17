@@ -2,6 +2,7 @@
 {
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
+    using System.Collections.Generic;
 
     /// <summary>
     /// <see cref="SaveReferenceRequest"/> class Create/Update Reference object.
@@ -33,5 +34,10 @@
         /// Gets or sets property ParentReference
         /// </summary>
         public SaveReferenceRequest ParentReference { get; set; }
+
+        /// <summary>
+        /// Gets or sets children references.
+        /// </summary>
+        public ICollection<SaveReferenceRequest> Children { get; set; }
     }
 }

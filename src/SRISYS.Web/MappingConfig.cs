@@ -1,10 +1,8 @@
 ﻿namespace Srisys.Web
 {
     using AutoMapper;
-    using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
-    using System;
 
     /// <summary>
     /// <see cref="MappingConfig"/> class Mapping configuration.
@@ -19,15 +17,7 @@
             // Activity
             this.CreateMap<Activity, ActivitySummary>();
 
-            this.CreateMap<ActivityFilterRequest, Activity>();
-
             this.CreateMap<SaveActivityRequest, Activity>();
-
-            // Activity Detail
-            this.CreateMap<ActivityDetail, ActivityDetailSummary>()
-                .ForMember(d => d.ActivityType, s => s.MapFrom(o => Enum.GetName(typeof(ActivityType), o.ActivityType)));
-
-            this.CreateMap<SaveActivityDetailRequest, ActivityDetail>();
 
             // Material
             this.CreateMap<Material, MaterialSummary>()
@@ -38,16 +28,12 @@
 
             this.CreateMap<Material, MaterialLookup>();
 
-            this.CreateMap<MaterialFilterRequest, Material>();
-
             this.CreateMap<SaveMaterialRequest, Material>();
 
             // Supplier
             this.CreateMap<Supplier, SupplierSummary>();
 
             this.CreateMap<Supplier, SupplierLookup>();
-
-            this.CreateMap<SupplierFilterRequest, Supplier>();
 
             this.CreateMap<SaveSupplierRequest, Supplier>();
 

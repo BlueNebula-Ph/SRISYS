@@ -68,6 +68,16 @@
                     templateUrl: "/views/inventory/add-item.html",
                     controller: "addItemController",
                     controllerAs: "ctrl"
+                }).state("inventory.purchase", {
+                    url: "/purchase",
+                    templateUrl: "/views/inventory/purchase-item.html",
+                    controller: "purchaseItemController",
+                    controllerAs: "ctrl"
+                }).state("inventory.adjust", {
+                    url: "/adjust",
+                    templateUrl: "/views/inventory/adjust-item.html",
+                    controller: "adjustItemController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("activity", {

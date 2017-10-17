@@ -3,7 +3,7 @@
         <h3>Save Supplier. <small class="text-muted">Please input supplier details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addSupplierForm">
+        <form name="ctrl.addSupplierForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="name">Name</label>
@@ -28,4 +28,8 @@
             </div>
         </form>
     </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()" 
+                      save-enabled="!ctrl.addSupplierForm.$pristine && ctrl.addSupplierForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
 </add-edit-shell>

@@ -47,8 +47,7 @@ namespace Srisys.Web.Controllers
         {
             // get list of active activities (not deleted)
             var list = this.context.Activities
-                .AsNoTracking()
-                .Where(c => !c.IsDeleted);
+                .AsNoTracking();
 
             // filter
             if (filter?.ActivityStatus != null)
@@ -75,7 +74,7 @@ namespace Srisys.Web.Controllers
 
             if (!(filter?.MaterialId).IsNullOrZero())
             {
-                list = list.Where(c => c.ActivityDetails.Any(d => d.MaterialId == filter.MaterialId));
+                list = list.Where(c => c.MaterialId == filter.MaterialId);
             }
 
             // sort
@@ -102,8 +101,7 @@ namespace Srisys.Web.Controllers
         {
             var entity = await this.context.Activities
                 .AsNoTracking()
-                .Include(c => c.ActivityDetails)
-                    .ThenInclude(d => d.Material)
+                .Include(c => c.Material)
                 .SingleOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
@@ -117,7 +115,7 @@ namespace Srisys.Web.Controllers
         }
 
         /// <summary>
-        /// Creates a <see cref="Activity"/>.
+        /// Creates an <see cref="Activity"/>.
         /// </summary>
         /// <param name="entity">entity to be created</param>
         /// <returns>Activity</returns>
@@ -184,8 +182,7 @@ namespace Srisys.Web.Controllers
                 return this.NotFound(id);
             }
 
-            activity.IsDeleted = true;
-            this.context.Update(activity);
+            this.context.Remove(activity);
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();

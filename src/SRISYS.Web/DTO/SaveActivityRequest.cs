@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using BlueNebula.Common.DTOs;
-    using Srisys.Web.Common;
 
     /// <summary>
     /// View model for the SaveActivityRequest entity.

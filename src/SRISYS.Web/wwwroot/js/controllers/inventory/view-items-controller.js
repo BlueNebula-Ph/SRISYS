@@ -1,13 +1,16 @@
 ﻿(function (module) {
-    var viewItemsController = function ($q, inventoryService, loadingService) {
+    var viewItemsController = function ($q, inventoryService, loadingService, utils) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
         vm.filters = {
             sortBy: "Name",
             sortDirection: "asc",
+            pageIndex: vm.currentPage,
             searchTerm: "",
-            pageIndex: vm.currentPage
+            typeId: "0",
+            categoryId: "0",
+            subcategoryId: "0"
         };
         vm.summaryResult = {
             items: []
@@ -16,11 +19,13 @@
         // Headers
         vm.headers = [
             { text: "Name", value: "Name" },
+            { text: "(In) Qty", value: "Quantity", class: "text-center" },
             { text: "Type", value: "Type.Code" },
-            { text: "Qty", value: "Quantity", class: "text-right" },
-            { text: "Qty Unused", value: "RemainingQuantity", class: "text-right" },
+            { text: "Category", value: "Category.Code" },
+            { text: "Subcategory", value: "SubCategory.Code" },
             { text: "Brand", value: "Brand" },
             { text: "Model", value: "Model" },
+            { text: "Size", value: "Size" },
             { text: "", value: "" }
         ];
 
@@ -29,7 +34,7 @@
             loadingService.showLoading();
 
             inventoryService.searchItems(vm.filters)
-                .then(processItemList, onFetchError)
+                .then(processItemList, utils.onError)
                 .finally(hideLoading);
         };
 
@@ -41,11 +46,6 @@
 
         var processItemList = function (response) {
             angular.copy(response.data, vm.summaryResult);
-        };
-
-        var onFetchError = function (error) {
-            toastr.error("There was an error processing your requests.", "error");
-            console.log(error);
         };
 
         var hideLoading = function () {
@@ -62,7 +62,7 @@
             $q.all(requests)
                 .then((responses) => {
                     processItemList(responses.item);
-                }, onFetchError)
+                }, utils.onError)
                 .finally(hideLoading);
         };
 
@@ -73,6 +73,6 @@
         return vm;
     };
 
-    module.controller("viewItemsController", ["$q", "inventoryService", "loadingService", viewItemsController]);
+    module.controller("viewItemsController", ["$q", "inventoryService", "loadingService", "utils", viewItemsController]);
 
 })(angular.module("srisys-app"));

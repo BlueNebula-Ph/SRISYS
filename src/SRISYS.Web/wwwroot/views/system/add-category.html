@@ -3,17 +3,30 @@
         <h3>Save Category. <small class="text-muted">Please input category details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addCategoryForm">
+        <form name="ctrl.addCategoryForm">
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="category">Category</label>
-                    <input type="text" name="category" ng-model="ctrl.category.code" focus-me="ctrl.defaultFocus" />
+                    <input type="text" name="category" ng-model="ctrl.category.code" focus-me="ctrl.defaultFocus" required />
                 </div>
-                <div form-input>
-                    <label for="customerName">Subcategories</label>
-                    <textarea name="subcategories" rows="10" placeholder="One subcategory per line." ng-model="ctrl.category.name" />
-                </div>
+                <ul class="list-unstyled" ng-show="ctrl.category.children.length > 0">
+                    <li>
+                        <b>Subcategories</b>
+                    </li>
+                    <li ng-repeat="c in ctrl.category.children track by $index">
+                        <div form-input style="margin-top: 4px;">
+                            <input type="text" name="subcategory" ng-model="c.code" focus-me="c.focus" required />
+                        </div>
+                    </li>
+                </ul>
+                <button class="btn btn-sm btn-primary" ng-click="ctrl.addSubcategory()">
+                    <i class="fa fa-plus"></i> Add subcategory
+                </button>
             </div>
         </form>
     </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.addCategoryForm.$pristine && ctrl.addCategoryForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
 </add-edit-shell>

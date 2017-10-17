@@ -1,7 +1,5 @@
 ﻿(function (module) {
-
     var formControl = function () {
-
         var controller = ["$scope", function ($scope) {
             var vm = this;
 
@@ -21,7 +19,8 @@
             templateUrl: "/views/common/form-control.html?" + $.now(),
             scope: {
                 onSave: "&",
-                onReset: "&"
+                onReset: "&",
+                saveEnabled: "="
             },
             controller: controller,
             controllerAs: "ctrl"

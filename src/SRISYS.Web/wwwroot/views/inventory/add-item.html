@@ -3,7 +3,7 @@
         <h3>Save Material. <small class="text-muted">Please input material details.</small></h3>
     </shell-title>
     <shell-form>
-        <form name="addItemForm">
+        <form name="ctrl.addItemForm">
             <div form-input>
                 <label for="type">Material Type</label>
                 <div>
@@ -71,4 +71,8 @@
             </div>
         </form>
     </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.addItemForm.$pristine && ctrl.addItemForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
 </add-edit-shell>

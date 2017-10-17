@@ -20,13 +20,12 @@
                                        sort-direction="ctrl.filters.sortDirection"
                                        fetch-call-back="ctrl.fetchCategories()"></column-header>
                     </th>
-                    <th></th>
                 </tr>
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.parentCode }}</td>
                     <td>{{ c.code }}</td>
-                    <td>{{ c.subcategories }}</td>
                     <td class="text-center">
                         <summary-controls show-details="false"
                                           show-edit="true" edit-state="system.add-category({ id: {{ c.id }} })" edit-title="Edit this category."
@@ -34,7 +33,7 @@
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="2"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="3"></tr>
             </tbody>
         </table>
     </shell-table>

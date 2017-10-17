@@ -1,0 +1,31 @@
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Purchase Materials. <small class="text-muted">Please input purchase details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.addPurchaseForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="item">Material Name</label>
+                    <select name="item" ng-model="" focus-me="ctrl.defaultFocus"></select>
+                </div>
+                <div form-input>
+                    <label for="supplier">Supplier</label>
+                    <select name="supplier" ng-model=""></select>
+                </div>
+                <div form-input>
+                    <label for="quantity">Quantity</label>
+                    <input type="number" class="text-right" name="quantity" ng-model="" />
+                </div>
+                <div form-input>
+                    <label for="price">Price</label>
+                    <input type="text" name="price" ng-model="" numeric-textbox="{ currencySymbol: '₱ '}" />
+                </div>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.addPurchaseForm.$pristine && ctrl.addPurchaseForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
+</add-edit-shell>
