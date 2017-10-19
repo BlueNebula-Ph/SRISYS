@@ -87,13 +87,19 @@
                     controllerAs: "ctrl"
                 }).state("activity.log", {
                     url: "/log",
-                    template: "<div>Activities</div>"
+                    templateUrl: "/views/activity/activity-list.html",
+                    controller: "viewActivitiesController",
+                    controllerAs: "ctrl"
                 }).state("activity.borrow", {
                     url: "/borrow",
-                    template: "<div>Borrow Item</div>"
+                    templateUrl: "/views/activity/borrow-items.html",
+                    controller: "borrowItemController",
+                    controllerAs: "ctrl"
                 }).state("activity.return", {
                     url: "/return",
-                    template: "<div>Return Items</div>"
+                    templateUrl: "/views/activity/return-items.html",
+                    controller: "returnItemController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("reports", {

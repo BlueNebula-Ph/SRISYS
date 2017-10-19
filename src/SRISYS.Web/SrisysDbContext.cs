@@ -67,6 +67,7 @@
                 SeedReferences(context);
                 SeedMaterials(context);
                 SeedSuppliers(context);
+                SeedActivities(context);
 
                 context.SaveChanges();
             }
@@ -145,6 +146,19 @@
                     new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
                 };
                 context.Suppliers.AddRange(suppliers);
+            }
+        }
+
+        private static void SeedActivities(SrisysDbContext context)
+        {
+            if (!context.Activities.Any())
+            {
+                var activities = new List<Activity>
+                {
+                    new Activity { Date = DateTime.Now, MaterialId = 3, BorrowedBy = "Charterstone", QuantityBorrowed = 10, Status = Common.ActivityStatus.Pending },
+                    new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedBy = "Geddy", QuantityBorrowed = 15, ReturnedBy = "Geddy", TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
+                };
+                context.Activities.AddRange(activities);
             }
         }
     }

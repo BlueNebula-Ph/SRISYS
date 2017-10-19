@@ -1,0 +1,44 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Activity Log. <small class="text-muted">Search for stockroom activities.</small></h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span title="Search material via keyword"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search Activity..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchItems()">
+            <i class="fa fa-search"></i> Search
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchActivities()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.materialName }}</td>
+                    <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ c.quantityBorrowed }}</td>
+                    <td>{{ c.borrowedBy | noValue }}</td>
+                    <td>{{ c.latestReturnDate | date:'MM/dd/yyyy' }}</td>
+                    <td>{{ c.totalQuantityReturned | noValue }}</td>
+                    <td>{{ c.returnedBy | noValue }}</td>
+                    <td class="text-center">
+                        <summary-controls show-details="false" show-edit="false"
+                                          show-delete="true" delete-title="Delete this activity.">
+                        </summary-controls>
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="8"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

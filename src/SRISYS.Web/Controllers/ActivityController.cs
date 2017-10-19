@@ -78,7 +78,7 @@ namespace Srisys.Web.Controllers
             }
 
             // sort
-            var ordering = $"Name {Constants.DefaultSortDirection}";
+            var ordering = $"Date {Constants.SortDirectionDescending}";
             if (!string.IsNullOrEmpty(filter?.SortBy))
             {
                 ordering = $"{filter.SortBy} {filter.SortDirection}";

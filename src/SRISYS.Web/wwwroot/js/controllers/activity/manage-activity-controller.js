@@ -5,8 +5,8 @@
         vm.sidebarItems = [
             { text: "Activity Log", isHeader: true, isItem: false, icon: "fa-exchange" },
             { text: "View Log", isHeader: false, isItem: true, icon: "fa-file-text-o", link: ".log" },
-            { text: "Borrow Items", isHeader: false, isItem: true, icon: "fa-mail-forward", link: ".borrow" },
-            { text: "Return Items", isHeader: false, isItem: true, icon: "fa-undo", link: ".return" }
+            { text: "Borrow Materials", isHeader: false, isItem: true, icon: "fa-mail-forward", link: ".borrow" },
+            { text: "Return Materials", isHeader: false, isItem: true, icon: "fa-undo", link: ".return" }
         ];
 
         $(function () {

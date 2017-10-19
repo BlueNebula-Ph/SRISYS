@@ -14,7 +14,10 @@
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
     <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\controllers\activity\borrow-item-controller.js" />
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
+    <Content Include="wwwroot\js\controllers\activity\return-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\activity\view-activities-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\adjust-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
@@ -51,6 +54,10 @@
     <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
     <Content Include="wwwroot\js\services\utility-service.js" />
+    <Content Include="wwwroot\views\activity\activity-list.html" />
+    <Content Include="wwwroot\views\activity\borrow-items.html" />
+    <Content Include="wwwroot\views\activity\return-item.html" />
+    <Content Include="wwwroot\views\activity\return-items.html" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\details-shell.html" />
@@ -81,7 +88,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\views\activity\" />
   </ItemGroup>
 
   <ItemGroup>
