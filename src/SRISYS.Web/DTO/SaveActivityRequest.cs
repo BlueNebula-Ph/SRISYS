@@ -1,32 +1,24 @@
 ﻿namespace Srisys.Web.DTO
 {
-    using System;
     using System.Collections.Generic;
     using BlueNebula.Common.DTOs;
+    using Srisys.Web.Common;
 
     /// <summary>
     /// View model for the SaveActivityRequest entity.
     /// </summary>
-    public class SaveActivityRequest : DTOBase
+    public class SaveActivityRequest
     {
         /// <summary>
-        /// Gets or sets the activity date property.
+        /// Gets or sets collection of activities to save
         /// </summary>
-        public DateTime Date { get; set; }
+        public IEnumerable<ActivityRequest> Activities { get; set; }
 
         /// <summary>
-        /// Gets or sets the borrowed by property.
+        /// Gets or sets the type property.
+        /// 1 = Borrow
+        /// 2 = Return
         /// </summary>
-        public string BorrowedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the released by property.
-        /// </summary>
-        public string ReleasedBy { get; set; }
-
-        /// <summary>
-        /// Gets or sets the activity details collection.
-        /// </summary>
-        public IEnumerable<SaveActivityDetailRequest> ActivityDetails { get; set; }
+        public ActivityType Type { get; set; }
     }
 }

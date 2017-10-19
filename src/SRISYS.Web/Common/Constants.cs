@@ -19,5 +19,15 @@
         /// Sets the default sort direction
         /// </summary>
         public const string DefaultSortDirection = SortDirectionAscending;
+
+        /// <summary>
+        /// Constant for Material type Consumable
+        /// </summary>
+        public const string Consumable = "Consumable";
+
+        /// <summary>
+        /// Constant for Material type Tool
+        /// </summary>
+        public const string Tool = "Tool";
     }
 }

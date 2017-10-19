@@ -92,29 +92,6 @@ namespace Srisys.Web.Controllers
         }
 
         /// <summary>
-        /// Gets a specific <see cref="Activity"/>.
-        /// </summary>
-        /// <param name="id">id</param>
-        /// <returns>Activity</returns>
-        [HttpGet("{id}", Name = "GetActivity")]
-        public async Task<IActionResult> GetById(long id)
-        {
-            var entity = await this.context.Activities
-                .AsNoTracking()
-                .Include(c => c.Material)
-                .SingleOrDefaultAsync(c => c.Id == id);
-
-            if (entity == null)
-            {
-                return this.NotFound(id);
-            }
-
-            var mappedEntity = this.mapper.Map<ActivitySummary>(entity);
-
-            return this.Ok(mappedEntity);
-        }
-
-        /// <summary>
         /// Creates an <see cref="Activity"/>.
         /// </summary>
         /// <param name="entity">entity to be created</param>
@@ -127,42 +104,51 @@ namespace Srisys.Web.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            var activity = this.mapper.Map<Activity>(entity);
-            await this.context.Activities.AddAsync(activity);
-            await this.context.SaveChangesAsync();
-
-            return this.CreatedAtRoute("GetActivity", new { id = activity.Id }, entity);
-        }
-
-        /// <summary>
-        /// Updates a specific <see cref="Activity"/>.
-        /// </summary>
-        /// <param name="id">id</param>
-        /// <param name="entity">entity</param>
-        /// <returns>None</returns>
-        [HttpPut("{id}")]
-        public async Task<IActionResult> Update(long id, [FromBody] SaveActivityRequest entity)
-        {
-            if (entity == null || entity.Id == 0 || id == 0)
+            foreach (var activityToSave in entity.Activities)
             {
-                return this.BadRequest();
-            }
+                var activity = this.mapper.Map<Activity>(activityToSave);
 
-            var activity = await this.context.Activities.SingleOrDefaultAsync(t => t.Id == id);
-            if (activity == null)
-            {
-                return this.NotFound(id);
-            }
+                if (activityToSave.MaterialId > 0)
+                {
+                    var material = await this.context.Materials.Include(c => c.Type).SingleOrDefaultAsync(c => c.Id == activityToSave.MaterialId);
 
-            try
-            {
-                this.mapper.Map(entity, activity);
-                this.context.Update(activity);
+                    // set quantities
+                    if (entity.Type == ActivityType.Borrow)
+                    {
+                        activity.QuantityBorrowed = activityToSave.Quantity;
+                        if (material.Type != null && material.Type.Code == Constants.Consumable)
+                        {
+                            material.Quantity = material.Quantity - activityToSave.Quantity;
+                        }
+
+                        material.RemainingQuantity = material.RemainingQuantity - activityToSave.Quantity;
+                    }
+                    else if (entity.Type == ActivityType.Return)
+                    {
+                        activity.TotalQuantityReturned = activity.TotalQuantityReturned + activityToSave.Quantity;
+                        if (material.Type != null && material.Type.Code == Constants.Consumable)
+                        {
+                            material.Quantity = material.Quantity + activityToSave.Quantity;
+                        }
+
+                        material.RemainingQuantity = material.RemainingQuantity + activityToSave.Quantity;
+                        activity.LatestReturnDate = DateTime.Now;
+                    }
+
+                    // set status
+                    activity.Status = activity.QuantityBorrowed == activity.TotalQuantityReturned ? ActivityStatus.Complete : ActivityStatus.Pending;
+                }
+
+                if (activityToSave.Id == 0)
+                {
+                    await this.context.Activities.AddAsync(activity);
+                }
+                else
+                {
+                    this.context.Update(activity);
+                }
+
                 await this.context.SaveChangesAsync();
-            }
-            catch (Exception ex)
-            {
-                return this.BadRequest(ex);
             }
 
             return new NoContentResult();
