@@ -1,1 +1,64 @@
-﻿
+﻿<add-edit-shell>
+    <shell-title>
+        <h3>Borrow Materials. <small class="text-muted">Please input details.</small></h3>
+    </shell-title>
+    <shell-form>
+        <form name="ctrl.borrowForm">
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="borrower">Borrower</label>
+                    <input type="text" ng-model="ctrl.borrow.borrowedBy" focus-me="ctrl.defaultFocus" required />
+                </div>
+                <div form-input>
+                    <label for="released">Released By</label>
+                    <input type="text" ng-model="ctrl.borrow.releasedBy" />
+                </div>
+            </div>
+            <div class="col-md-3 left-padding-none">
+                <div form-input>
+                    <label for="date">Date</label>
+                    <input type="date" ng-model="ctrl.borrow.date" />
+                </div>
+            </div>
+            <div class="clearfix"></div>
+            <div class="col-md-6 left-padding-none">
+                <table class="table table-condensed input-details-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 50%;">Item</th>
+                            <th style="width: 40%;">Quantity</th>
+                            <th style="width: 10%;"></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td colspan="3">
+                                <button class="btn btn-primary btn-xs" ng-click="ctrl.addItemBorrowed()">
+                                    <i class="fa fa-plus"></i> Add material
+                                </button>
+                            </td>
+                        </tr>
+                        <tr ng-repeat="i in ctrl.borrow.activities track by $index">
+                            <td>
+                                <select name="item" focus-me="i.isFocused" class="form-control input-sm" required
+                                        ng-options="item.id as item.name for item in ctrl.itemList" ng-model="i.materialId"></select>
+                            </td>
+                            <td>
+                                <input class="form-control input-sm" type="number" ng-model="i.quantity" />
+                            </td>
+                            <td class="text-center">
+                                <button class="btn btn-danger btn-xs" style="margin-top: 3px;">
+                                    <i class="fa fa-times"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </form>
+    </shell-form>
+    <shell-controls>
+        <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                      save-enabled="!ctrl.borrowForm.$pristine && ctrl.borrowForm.$valid && ctrl.saveEnabled"></form-control>
+    </shell-controls>
+</add-edit-shell>

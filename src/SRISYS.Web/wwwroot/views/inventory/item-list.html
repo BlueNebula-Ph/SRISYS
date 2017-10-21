@@ -27,7 +27,7 @@
             <span title="Show items with low quantities"><i class="fa fa-exclamation-triangle fa-fw"></i></span>
             <input readonly value="Low stock" />
             <span class="input-group-addon" style="line-height: 0.5;">
-                <input type="checkbox" />
+                <input type="checkbox" ng-model="ctrl.filters.lowStock" />
             </span>
         </div>
         <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchItems()">

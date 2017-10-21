@@ -79,6 +79,11 @@
                 list = list.Where(c => c.SupplierId == filter.SupplierId);
             }
 
+            if (filter != null && filter.LowStock)
+            {
+                list = list.Where(c => c.Quantity < c.MinimumStock);
+            }
+
             // sort
             var ordering = $"Name {Constants.DefaultSortDirection}";
             if (!string.IsNullOrEmpty(filter?.SortBy))
