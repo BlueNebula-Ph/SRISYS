@@ -12,6 +12,7 @@
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
@@ -23,6 +24,7 @@
         private readonly SrisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Material, MaterialSummary> builder;
+        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MaterialController"/> class.
@@ -30,11 +32,12 @@
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public MaterialController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Material, MaterialSummary> builder)
+        public MaterialController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Material, MaterialSummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
@@ -208,6 +211,51 @@
 
             material.IsDeleted = true;
             this.context.Update(material);
+            await this.context.SaveChangesAsync();
+
+            return new NoContentResult();
+        }
+
+        /// <summary>
+        /// Adjusts the quantities of a material.
+        /// </summary>
+        /// <param name="saveAdjustmentRequest">The adjustment to save</param>
+        /// <returns>No content result</returns>
+        [HttpPost("adjust")]
+        public async Task<IActionResult> Adjust([FromBody]SaveAdjustmentRequest saveAdjustmentRequest)
+        {
+            if (saveAdjustmentRequest == null || !this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            // Fetch the material to be adjusted and attach it to the dbcontext.
+            var material = await this.context.Materials
+                .FindAsync(saveAdjustmentRequest.MaterialId);
+
+            if (material == null)
+            {
+                return this.NotFound();
+            }
+
+            // Perform adjustment through the adjustment service.
+            this.adjustmentService.ModifyQuantity(
+                material,
+                saveAdjustmentRequest.Quantity,
+                saveAdjustmentRequest.AdjustmentType,
+                QuantityType.Both,
+                saveAdjustmentRequest.Remarks);
+
+            // If the adjustment is a result of a purchase, update the last purchase date and price of the material.
+            if (saveAdjustmentRequest.IsPurchase)
+            {
+                material.LastPurchaseDate = saveAdjustmentRequest.PurchaseDate;
+                material.Price = saveAdjustmentRequest.UpdatePrice ?
+                    saveAdjustmentRequest.Price :
+                    material.Price;
+            }
+
+            // Add the adjustment to the context and save all changes.
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();

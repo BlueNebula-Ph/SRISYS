@@ -1,15 +1,14 @@
 ﻿(function (module) {
-    var viewCategoriesController = function ($q, referenceService, loadingService, utils) {
+    var viewCategoriesController = function ($q, referenceService, utils) {
         var vm = this;
         var refTypeId = 3;
 
         vm.focus = true;
-        vm.currentPage = 1;
         vm.filters = {
             sortBy: "ParentReference.Code",
             sortDirection: "asc",
             searchTerm: "",
-            pageIndex: vm.currentPage
+            pageIndex: 1
         };
         vm.summaryResult = {
             items: []
@@ -24,11 +23,11 @@
 
         // Methods
         vm.fetchCategories = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             referenceService.searchReferences(refTypeId, vm.filters)
                 .then(processCategoryList, utils.onError)
-                .finally(hideLoading);
+                .finally(utils.hideLoading);
         };
 
         vm.clearFilter = function () {
@@ -37,26 +36,28 @@
             vm.focus = true;
         };
 
+        vm.changePage = function () {
+            vm.fetchCategories();
+        };
+
         var processCategoryList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
 
-        var hideLoading = function () {
-            loadingService.hideLoading();
+        var processResponses = function (responses) {
+            processCategoryList(responses.category);
         };
 
         var loadAll = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             var requests = {
                 category: referenceService.searchReferences(refTypeId, vm.filters)
             };
 
             $q.all(requests)
-                .then((responses) => {
-                    processCategoryList(responses.category);
-                }, utils.onError)
-                .finally(hideLoading);
+                .then(processResponses, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -66,6 +67,6 @@
         return vm;
     };
 
-    module.controller("viewCategoriesController", ["$q", "referenceService", "loadingService", "utils", viewCategoriesController]);
+    module.controller("viewCategoriesController", ["$q", "referenceService", "utils", viewCategoriesController]);
 
 })(angular.module("srisys-app"));

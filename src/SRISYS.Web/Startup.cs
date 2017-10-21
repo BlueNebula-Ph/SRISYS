@@ -12,6 +12,8 @@
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
     using Swashbuckle.AspNetCore.Swagger;
+    using Srisys.Web.Services.Interfaces;
+    using Srisys.Web.Services;
 
     /// <summary>
     /// <see cref="Startup"/> class API configuration.
@@ -71,6 +73,7 @@
 
             // Add application services
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
+            services.AddScoped<IAdjustmentService, AdjustmentService>();
         }
 
         /// <summary>

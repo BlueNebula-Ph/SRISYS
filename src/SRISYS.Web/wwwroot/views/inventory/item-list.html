@@ -17,11 +17,11 @@
         </div>
         <div search-input>
             <span title="Search by category"><i class="fa fa-file fa-fw"></i></span>
-            <select ng-model="ctrl.filters.categoryId"></select>
+            <select ng-model="ctrl.filters.categoryId" ng-options="c.id as c.code for c in ctrl.categoryList"></select>
         </div>
         <div search-input>
             <span title="Search by subcategory"><i class="fa fa-file fa-fw"></i></span>
-            <select ng-model="ctrl.filters.subCategoryId"></select>
+            <select ng-model="ctrl.filters.subCategoryId" ng-options="c.id as c.code for c in ctrl.subcategoryList"></select>
         </div>
         <div search-input>
             <span title="Show items with low quantities"><i class="fa fa-exclamation-triangle fa-fw"></i></span>
@@ -62,7 +62,7 @@
                         </summary-controls>
                     </td>
                 </tr>
-                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="6"></tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="9"></tr>
             </tbody>
         </table>
     </shell-table>

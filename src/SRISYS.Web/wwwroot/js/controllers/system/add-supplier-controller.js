@@ -1,9 +1,9 @@
 ﻿(function (module) {
-    var addSupplierController = function (supplierService, loadingService, utils) {
+    var addSupplierController = function (supplierService, utils) {
         var vm = this;
+        var defaultSupplier = {};
 
         // Data
-        var defaultSupplier = {};
         vm.supplier = {};
 
         // Helper properties
@@ -12,7 +12,7 @@
 
         // Public methods
         vm.save = function () {
-            loadingService.showLoading();
+            utils.showLoading();
             vm.saveEnabled = false;
 
             supplierService
@@ -38,13 +38,13 @@
         };
 
         var onSaveComplete = function () {
-            loadingService.hideLoading();
+            utils.hideLoading();
             vm.saveEnabled = true;
         };
 
         return vm;
     };
 
-    module.controller("addSupplierController", ["supplierService", "loadingService", "utils", addSupplierController]);
+    module.controller("addSupplierController", ["supplierService", "utils", addSupplierController]);
 
 })(angular.module("srisys-app"));

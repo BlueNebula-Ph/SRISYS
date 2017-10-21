@@ -56,7 +56,6 @@
     <Content Include="wwwroot\js\services\utility-service.js" />
     <Content Include="wwwroot\views\activity\activity-list.html" />
     <Content Include="wwwroot\views\activity\borrow-items.html" />
-    <Content Include="wwwroot\views\activity\return-item.html" />
     <Content Include="wwwroot\views\activity\return-items.html" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />

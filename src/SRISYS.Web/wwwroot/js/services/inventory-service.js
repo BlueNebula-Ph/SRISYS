@@ -32,6 +32,11 @@
             return $http.delete(url);
         };
 
+        dataFactory.adjustQuantity = function (adjustment) {
+            var url = urlBase + "/adjust";
+            return $http.post(url, adjustment);
+        };
+
         return dataFactory;
     };
 

@@ -12,6 +12,7 @@ namespace Srisys.Web.Controllers
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="ActivityController"/> class handles ActivityLog basic add, edit, delete and get.
@@ -23,6 +24,7 @@ namespace Srisys.Web.Controllers
         private readonly SrisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Activity, ActivitySummary> builder;
+        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivityController"/> class.
@@ -30,11 +32,12 @@ namespace Srisys.Web.Controllers
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public ActivityController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Activity, ActivitySummary> builder)
+        public ActivityController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Activity, ActivitySummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
