@@ -5,7 +5,6 @@ namespace Srisys.Web.Controllers
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
@@ -32,6 +31,7 @@ namespace Srisys.Web.Controllers
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
+        /// <param name="adjustmentService">The adjustment service</param>
         public ActivityController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Activity, ActivitySummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;

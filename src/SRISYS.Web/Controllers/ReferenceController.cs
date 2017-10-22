@@ -1,6 +1,7 @@
 namespace Srisys.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
@@ -12,7 +13,6 @@ namespace Srisys.Web.Controllers
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
-    using System.Collections.Generic;
 
     /// <summary>
     /// <see cref="ReferenceController"/> class handles Reference basic add, edit, delete and get.

@@ -11,9 +11,9 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
-    using Swashbuckle.AspNetCore.Swagger;
-    using Srisys.Web.Services.Interfaces;
     using Srisys.Web.Services;
+    using Srisys.Web.Services.Interfaces;
+    using Swashbuckle.AspNetCore.Swagger;
 
     /// <summary>
     /// <see cref="Startup"/> class API configuration.

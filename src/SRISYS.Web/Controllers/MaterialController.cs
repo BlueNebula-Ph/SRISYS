@@ -32,6 +32,7 @@
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
+        /// <param name="adjustmentService">The adjustment service</param>
         public MaterialController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Material, MaterialSummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;

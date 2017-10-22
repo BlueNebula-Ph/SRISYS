@@ -1,10 +1,10 @@
 ﻿namespace Srisys.Web
 {
+    using System;
     using AutoMapper;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
-    using System;
 
     /// <summary>
     /// <see cref="MappingConfig"/> class Mapping configuration.
