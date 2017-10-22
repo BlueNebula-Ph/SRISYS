@@ -19,7 +19,7 @@
         };
 
         dataFactory.saveSupplier = function (id, supplier) {
-            if (id === 0) {
+            if (id == 0) {
                 return $http.post(urlBase, supplier);
             } else {
                 var url = urlBase + "/" + id;

@@ -9,6 +9,11 @@
     public class MaterialSummary : DTOBase
     {
         /// <summary>
+        /// Gets or sets the material type id.
+        /// </summary>
+        public int TypeId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Material Type.
         /// </summary>
         public string TypeCode { get; set; }
@@ -49,9 +54,19 @@
         public string Location { get; set; }
 
         /// <summary>
+        /// Gets or sets the category id property.
+        /// </summary>
+        public int CategoryId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Category Id.
         /// </summary>
         public string Categoryname { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subcategory id property.
+        /// </summary>
+        public int SubCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets property Subcategory Id.
@@ -67,6 +82,11 @@
         /// Gets or sets property Price.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the supplier id property.
+        /// </summary>
+        public int SupplierId { get; set; }
 
         /// <summary>
         /// Gets or sets property SupplierId.
