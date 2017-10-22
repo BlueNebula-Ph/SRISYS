@@ -1,8 +1,8 @@
 ﻿namespace Srisys.Web.DTO
 {
+    using System;
     using System.ComponentModel.DataAnnotations;
     using Srisys.Web.Common;
-    using System;
 
     /// <summary>
     /// The request body for the saving adjustments.

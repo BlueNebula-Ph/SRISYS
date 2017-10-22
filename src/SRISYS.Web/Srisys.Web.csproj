@@ -20,6 +20,7 @@
     <Content Include="wwwroot\js\controllers\activity\view-activities-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\adjust-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\item-details-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\purchase-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-items-controller.js" />
@@ -75,6 +76,7 @@
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
     <Content Include="wwwroot\views\inventory\adjust-item.html" />
+    <Content Include="wwwroot\views\inventory\item-details.html" />
     <Content Include="wwwroot\views\inventory\item-list.html" />
     <Content Include="wwwroot\views\inventory\purchase-item.html" />
     <Content Include="wwwroot\views\system\add-category.html" />

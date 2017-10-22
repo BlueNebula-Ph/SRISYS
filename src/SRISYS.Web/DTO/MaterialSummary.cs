@@ -1,6 +1,7 @@
 ﻿namespace Srisys.Web.DTO
 {
     using System;
+    using System.Collections.Generic;
     using BlueNebula.Common.DTOs;
 
     /// <summary>
@@ -107,5 +108,10 @@
         /// Gets or sets the remaining quantity property.
         /// </summary>
         public double RemainingQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adjustments made on this material.
+        /// </summary>
+        public IEnumerable<AdjustmentSummary> Adjustments { get; set; }
     }
 }

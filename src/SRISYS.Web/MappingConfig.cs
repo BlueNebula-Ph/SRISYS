@@ -34,6 +34,9 @@
 
             this.CreateMap<SaveMaterialRequest, Material>();
 
+            // Adjustment
+            this.CreateMap<Adjustment, AdjustmentSummary>();
+
             // Supplier
             this.CreateMap<Supplier, SupplierSummary>();
 

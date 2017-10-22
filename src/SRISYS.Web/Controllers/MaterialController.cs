@@ -134,6 +134,7 @@
                 .Include(c => c.Supplier)
                 .Include(c => c.Category)
                 .Include(c => c.SubCategory)
+                .Include(c => c.Adjustments)
                 .FirstOrDefaultAsync(c => c.Id == id);
 
             if (entity == null)
