@@ -67,11 +67,10 @@
         public int? SubCategoryId { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the material is used.
-        /// Applicable to Consumable type of material
+        /// Gets or sets the use property.
+        /// Used to indicate which machine the material is used.
         /// </summary>
-        [DefaultValue(false)]
-        public bool IsUsed { get; set; }
+        public string Use { get; set; }
 
         /// <summary>
         /// Gets or sets property Price. Applicable to Consumable type of material
@@ -92,5 +91,12 @@
         /// Gets or sets property MinimumStock. Applicable to Consumable type of material
         /// </summary>
         public double? MinimumStock { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reorder quantity.
+        /// Used for setting up a reorder report.
+        /// Applicable to Consumable type of material.
+        /// </summary>
+        public double? ReorderQuantity { get; set; }
     }
 }

@@ -42,6 +42,10 @@
                     <label for="size">Size</label>
                     <input type="text" name="size" ng-model="ctrl.item.size" />
                 </div>
+                <div form-input>
+                    <label for="use">Use</label>
+                    <input type="text" name="use" ng-model="ctrl.item.use" />
+                </div>
             </div>
             <div class="col-md-3 left-padding-none" ng-show="ctrl.showConsumableFields">
                 <div form-input>
@@ -67,6 +71,10 @@
                 <div form-input>
                     <label for="minimumStock">Minimum Stock</label>
                     <input type="number" name="minimumStock" ng-model="ctrl.item.minimumStock" />
+                </div>
+                <div form-input>
+                    <label for="reorderQuantity">Reorder Qty</label>
+                    <input type="number" name="reorderQuantity" ng-model="ctrl.item.reorderQuantity" />
                 </div>
             </div>
         </form>

@@ -16,6 +16,8 @@
                 <dd>{{ ctrl.item.model }}</dd>
                 <dt>Size</dt>
                 <dd>{{ ctrl.item.size }}</dd>
+                <dt>Use</dt>
+                <dd>{{ ctrl.item.use }}</dd>
             </dl>
         </div>
         <div class="col-md-6" ng-show="ctrl.item.typeId == 2">
@@ -30,6 +32,8 @@
                 <dd>{{ ctrl.item.supplierName | noValue }}</dd>
                 <dt>Minimum Quantity</dt>
                 <dd>{{ ctrl.item.minimumStock | number:0 }} {{ ctrl.item.unit }}</dd>
+                <dt>Reorder Quantity</dt>
+                <dd>{{ ctrl.item.reorderQuantity | number:0 }} {{ ctrl.item.unit }}</dd>
             </dl>
         </div>
         <div class="clearfix"></div>

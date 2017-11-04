@@ -75,9 +75,10 @@
         public string SubCategoryName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the material is used.
+        /// Gets or sets the use property.
+        /// Used to indicate which machine the material is used.
         /// </summary>
-        public bool IsUsed { get; set; }
+        public string Use { get; set; }
 
         /// <summary>
         /// Gets or sets property Price.
@@ -108,6 +109,13 @@
         /// Gets or sets the remaining quantity property.
         /// </summary>
         public double RemainingQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reorder quantity.
+        /// Used for setting up a reorder report.
+        /// Applicable to Consumable type of material.
+        /// </summary>
+        public double ReorderQuantity { get; set; }
 
         /// <summary>
         /// Gets or sets the adjustments made on this material.

@@ -1,15 +1,22 @@
 ﻿(function (module) {
-    var viewActivitiesController = function ($q, activityService, loadingService, utils) {
+    var viewActivitiesController = function ($q, activityService, inventoryService, utils) {
         var vm = this;
+
+        // Data
+        vm.summaryResult = {
+            items: []
+        };
+        vm.itemList = [];
+
+        // Helper Properties
         vm.focus = true;
         vm.currentPage = 1;
         vm.filters = {
             sortBy: "Date",
             sortDirection: "desc",
             pageIndex: vm.currentPage,
-        };
-        vm.summaryResult = {
-            items: []
+            materialId: 0,
+            borrowedBy: ""
         };
 
         // Headers
@@ -24,13 +31,19 @@
             { text: "", value: "" }
         ];
 
-        // Methods
+        // Public Methods
         vm.fetchActivities = function () {
-            loadingService.showLoading();
+            utils.showLoading();
+
+            if (vm.filters.isComplete) {
+                vm.filters.activityStatus = 2;
+            } else {
+                vm.filters.activityStatus = undefined;
+            }
 
             activityService.searchActivities(vm.filters)
                 .then(processActivityList, utils.onError)
-                .finally(hideLoading);
+                .finally(utils.hideLoading);
         };
 
         vm.clearFilter = function () {
@@ -39,26 +52,35 @@
             vm.focus = true;
         };
 
+        vm.showHideDetails = function (item) {
+            if (item.show) {
+                item.show = false;
+            } else {
+                item.show = true;
+            }
+        };
+
+        // Private Methods
         var processActivityList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
 
-        var hideLoading = function () {
-            loadingService.hideLoading();
+        var processResponses = function (responses) {
+            processActivityList(responses.activity);
+            utils.populateDropdownlist(responses.item, vm.itemList, "name", "Filter by material..");
         };
 
         var loadAll = function () {
-            loadingService.showLoading();
+            utils.showLoading();
 
             var requests = {
-                activity: activityService.searchActivities(vm.filters)
+                activity: activityService.searchActivities(vm.filters),
+                item: inventoryService.getItemLookup()
             };
 
             $q.all(requests)
-                .then((responses) => {
-                    processActivityList(responses.activity);
-                }, utils.onError)
-                .finally(hideLoading);
+                .then(processResponses, utils.onError)
+                .finally(utils.hideLoading);
         };
 
         $(function () {
@@ -68,6 +90,6 @@
         return vm;
     };
 
-    module.controller("viewActivitiesController", ["$q", "activityService", "loadingService", "utils", viewActivitiesController]);
+    module.controller("viewActivitiesController", ["$q", "activityService", "inventoryService", "utils", viewActivitiesController]);
 
 })(angular.module("srisys-app"));
