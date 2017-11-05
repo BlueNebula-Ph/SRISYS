@@ -50,10 +50,15 @@
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
+    <Content Include="wwwroot\js\services\auth-service.js" />
+    <Content Include="wwwroot\js\services\current-user.js" />
+    <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
+    <Content Include="wwwroot\js\services\login-redirect.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
+    <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\js\services\utility-service.js" />
     <Content Include="wwwroot\views\activity\activity-list.html" />
     <Content Include="wwwroot\views\activity\borrow-items.html" />
@@ -116,6 +121,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="1.0.0" />
+    <PackageReference Include="OpenIddict" Version="1.0.0-*" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-*" />
+    <PackageReference Include="OpenIddict.Mvc" Version="1.0.0-*" />
   </ItemGroup>
 
   <ItemGroup>

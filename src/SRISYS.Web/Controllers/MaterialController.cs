@@ -162,6 +162,8 @@
             }
 
             var material = this.mapper.Map<Material>(entity);
+            material.RemainingQuantity = entity.Quantity;
+
             await this.context.Materials.AddAsync(material);
             await this.context.SaveChangesAsync();
 

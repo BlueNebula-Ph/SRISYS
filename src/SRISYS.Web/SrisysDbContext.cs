@@ -53,6 +53,11 @@
         public DbSet<ReferenceType> ReferenceTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets the users db set.
+        /// </summary>
+        public DbSet<User> Users { get; set; }
+
+        /// <summary>
         /// Seeds the database with test data.
         /// </summary>
         /// <param name="app">The application builder.</param>
