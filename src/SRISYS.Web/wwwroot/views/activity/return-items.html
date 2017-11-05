@@ -1,1 +1,77 @@
-﻿
+﻿<loading-indicator loading-text="Processing"></loading-indicator>
+<div>
+    <h3>Return / Exchange Materials. <small class="text-muted">Please input details.</small></h3>
+</div>
+<div class="col-md-12 well well-sm bottom-margin-sm">
+    <div search-input class="col-md-2">
+        <span title="Search activitiy via borrower"><i class="fa fa-search fa-fw"></i></span>
+        <input placeholder="Filter by borrower..." ng-model="ctrl.filters.borrowedBy" focus-me="ctrl.focus" />
+    </div>
+    <div search-input class="col-md-2">
+        <span title="Search activitiy via material"><i class="fa fa-database fa-fw"></i></span>
+        <select ng-model="ctrl.filters.materialId" ng-options="item.id as item.name for item in ctrl.itemList"></select>
+    </div>
+    <div search-input class="col-md-2">
+        <span title="Date from"><i class="fa fa-calendar fa-fw"></i></span>
+        <input type="date" style="width: 153px;" placeholder="Search by date..." ng-model="ctrl.filters.dateFrom" />
+    </div>
+    <div search-input class="col-md-2">
+        <span title="Date to"><i class="fa fa-calendar fa-fw"></i></span>
+        <input type="date" style="width: 153px;" placeholder="Search by date..." ng-model="ctrl.filters.dateTo" />
+    </div>
+    <button class="btn btn-primary btn-sm" ng-click="ctrl.performFilter()">
+        <i class="fa fa-filter"></i> Filter
+    </button>
+</div>
+<div class="col-md-12 well well-sm bottom-margin-sm">
+    <form name="ctrl.returnForm">
+        <div class="col-md-3 left-padding-none">
+            <div form-input>
+                <label for="returnedBy">Returned By</label>
+                <input type="text" name="returnedBy" ng-model="ctrl.returns.returnedBy" focus-me="ctrl.defaultFocus" required />
+            </div>
+        </div>
+        <div class="col-md-3 left-padding-none">
+            <div form-input>
+                <label for="received">Received By</label>
+                <input type="text" name="received" ng-model="ctrl.returns.receivedBy" />
+            </div>
+        </div>
+        <div class="col-md-3 left-padding-none">
+            <div form-input>
+                <label for="date">Date</label>
+                <input type="date" ng-model="ctrl.returns.date" />
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <table class="table table-striped table-condensed table-bordered summary-table">
+            <thead>
+                <tr>
+                    <th style="width: 20%;"><span>Borrower</span></th>
+                    <th style="width: 10%;"><span>Date</span></th>
+                    <th style="width: 10%;"><span>Quantity</span></th>
+                    <th style="width: 10%;"><span>Unit</span></th>
+                    <th style="width: 30%;"><span>Item</span></th>
+                    <th style="width: 20%;"><span>Qty Returned / Exchanged</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.activities track by c.id" style="background: #fff;">
+                    <td form-input><input type="text" ng-model="c.borrowedBy" readonly /></td>
+                    <td form-input><input type="text" ng-model="c.date | date:'MM/dd/yyyy'" readonly /></td>
+                    <td form-input><input type="text" ng-model="c.balance" readonly /></td>
+                    <td form-input><input type="text" ng-model="c.unit" readonly /></td>
+                    <td form-input><input type="text" ng-model="c.materialName + ' - ' + c.brand + ' - ' + c.model + ' - ' + c.size" readonly /></td>
+                    <td>
+                        <input type="number" class="form-control input-sm" ng-model="c.quantityReturned" min="0" max="{{ c.balance }}" />
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.activities.length == 0" colspan="6"></tr>
+            </tbody>
+        </table>
+    </form>
+</div>
+<div>
+    <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
+                  save-enabled="!ctrl.returnForm.$pristine && ctrl.returnForm.$valid && ctrl.saveEnabled"></form-control>
+</div>

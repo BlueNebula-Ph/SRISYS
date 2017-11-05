@@ -8,6 +8,11 @@
             return $http.post(url, search);
         };
 
+        dataFactory.getActivities = function (filters) {
+            var url = urlBase + "/lookup";
+            return $http.post(url, filters);
+        };
+
         dataFactory.saveActivity = function (item) {
             return $http.post(urlBase, item);
         };

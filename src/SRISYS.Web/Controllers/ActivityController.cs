@@ -1,6 +1,7 @@
 namespace Srisys.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
@@ -48,8 +49,120 @@ namespace Srisys.Web.Controllers
         [HttpPost("search", Name = "GetAllActivities")]
         public async Task<IActionResult> GetAll([FromBody]ActivityFilterRequest filter)
         {
+            var list = this.FetchAndFilterActivities(filter);
+            var entities = await this.builder.BuildAsync(list, filter);
+
+            return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Returns a lookup of borrowed items.
+        /// </summary>
+        /// <param name="filter">The filter</param>
+        /// <returns>A list of borrowed items</returns>
+        [HttpPost("lookup", Name = "GetActivitiesLookup")]
+        public async Task<IActionResult> GetLookup([FromBody]ActivityFilterRequest filter)
+        {
+            var list = await Task.Run(() => this.FetchAndFilterActivities(filter));
+            var mappedList = this.mapper.Map<IEnumerable<ActivitySummary>>(list);
+
+            return this.Ok(mappedList);
+        }
+
+        /// <summary>
+        /// Creates an <see cref="Activity"/>.
+        /// </summary>
+        /// <param name="entity">entity to be created</param>
+        /// <returns>Activity</returns>
+        [HttpPost]
+        public async Task<IActionResult> Create([FromBody] SaveActivityRequest entity)
+        {
+            if (entity == null || !this.ModelState.IsValid)
+            {
+                return this.BadRequest(this.ModelState);
+            }
+
+            foreach (var activityToSave in entity.Activities)
+            {
+                var activity = activityToSave.Id == 0 ?
+                    this.mapper.Map<Activity>(activityToSave) :
+                    await this.context.Activities.FindAsync(activityToSave.Id);
+
+                if (activityToSave.MaterialId > 0)
+                {
+                    var material = await this.context.Materials.Include(c => c.Type).SingleOrDefaultAsync(c => c.Id == activityToSave.MaterialId);
+
+                    // set quantities
+                    if (entity.Type == ActivityType.Borrow)
+                    {
+                        activity.QuantityBorrowed = activityToSave.Quantity;
+                        if (material.Type != null && material.Type.Code == Constants.Consumable)
+                        {
+                            material.Quantity = material.Quantity - activityToSave.Quantity;
+                        }
+
+                        material.RemainingQuantity = material.RemainingQuantity - activityToSave.Quantity;
+                    }
+                    else if (entity.Type == ActivityType.Return)
+                    {
+                        activity.TotalQuantityReturned = activity.TotalQuantityReturned + activityToSave.Quantity;
+                        if (material.Type != null && material.Type.Code == Constants.Consumable)
+                        {
+                            material.Quantity = material.Quantity + activityToSave.Quantity;
+                        }
+
+                        material.RemainingQuantity = material.RemainingQuantity + activityToSave.Quantity;
+                        activity.LatestReturnDate = activityToSave.Date;
+                    }
+
+                    // set status
+                    activity.Status = activity.QuantityBorrowed == activity.TotalQuantityReturned ? ActivityStatus.Complete : ActivityStatus.Pending;
+                }
+
+                if (activityToSave.Id == 0)
+                {
+                    await this.context.Activities.AddAsync(activity);
+                }
+                else
+                {
+                    activity.ReturnedBy = activityToSave.ReturnedBy;
+                    activity.ReceivedBy = activityToSave.ReceivedBy;
+
+                    this.context.Update(activity);
+                }
+
+                await this.context.SaveChangesAsync();
+            }
+
+            return new NoContentResult();
+        }
+
+        /// <summary>
+        /// Deletes a specific <see cref="Activity"/>.
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>None</returns>
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(long id)
+        {
+            var activity = await this.context.Activities.SingleOrDefaultAsync(t => t.Id == id);
+            if (activity == null)
+            {
+                return this.NotFound(id);
+            }
+
+            this.context.Remove(activity);
+            await this.context.SaveChangesAsync();
+
+            return new NoContentResult();
+        }
+
+        // Private Methods
+        private IQueryable<Activity> FetchAndFilterActivities(ActivityFilterRequest filter)
+        {
             // get list of active activities (not deleted)
             var list = this.context.Activities
+                .Include(c => c.Material)
                 .AsNoTracking();
 
             // filter
@@ -89,92 +202,7 @@ namespace Srisys.Web.Controllers
 
             list = list.OrderBy(ordering);
 
-            var entities = await this.builder.BuildAsync(list, filter);
-
-            return this.Ok(entities);
-        }
-
-        /// <summary>
-        /// Creates an <see cref="Activity"/>.
-        /// </summary>
-        /// <param name="entity">entity to be created</param>
-        /// <returns>Activity</returns>
-        [HttpPost]
-        public async Task<IActionResult> Create([FromBody] SaveActivityRequest entity)
-        {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
-            foreach (var activityToSave in entity.Activities)
-            {
-                var activity = this.mapper.Map<Activity>(activityToSave);
-
-                if (activityToSave.MaterialId > 0)
-                {
-                    var material = await this.context.Materials.Include(c => c.Type).SingleOrDefaultAsync(c => c.Id == activityToSave.MaterialId);
-
-                    // set quantities
-                    if (entity.Type == ActivityType.Borrow)
-                    {
-                        activity.QuantityBorrowed = activityToSave.Quantity;
-                        if (material.Type != null && material.Type.Code == Constants.Consumable)
-                        {
-                            material.Quantity = material.Quantity - activityToSave.Quantity;
-                        }
-
-                        material.RemainingQuantity = material.RemainingQuantity - activityToSave.Quantity;
-                    }
-                    else if (entity.Type == ActivityType.Return)
-                    {
-                        activity.TotalQuantityReturned = activity.TotalQuantityReturned + activityToSave.Quantity;
-                        if (material.Type != null && material.Type.Code == Constants.Consumable)
-                        {
-                            material.Quantity = material.Quantity + activityToSave.Quantity;
-                        }
-
-                        material.RemainingQuantity = material.RemainingQuantity + activityToSave.Quantity;
-                        activity.LatestReturnDate = DateTime.Now;
-                    }
-
-                    // set status
-                    activity.Status = activity.QuantityBorrowed == activity.TotalQuantityReturned ? ActivityStatus.Complete : ActivityStatus.Pending;
-                }
-
-                if (activityToSave.Id == 0)
-                {
-                    await this.context.Activities.AddAsync(activity);
-                }
-                else
-                {
-                    this.context.Update(activity);
-                }
-
-                await this.context.SaveChangesAsync();
-            }
-
-            return new NoContentResult();
-        }
-
-        /// <summary>
-        /// Deletes a specific <see cref="Activity"/>.
-        /// </summary>
-        /// <param name="id">id</param>
-        /// <returns>None</returns>
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete(long id)
-        {
-            var activity = await this.context.Activities.SingleOrDefaultAsync(t => t.Id == id);
-            if (activity == null)
-            {
-                return this.NotFound(id);
-            }
-
-            this.context.Remove(activity);
-            await this.context.SaveChangesAsync();
-
-            return new NoContentResult();
+            return list;
         }
     }
 }

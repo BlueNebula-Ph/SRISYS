@@ -1,6 +1,6 @@
 ﻿<add-edit-shell>
     <shell-title>
-        <h3>Borrow Materials. <small class="text-muted">Please input details.</small></h3>
+        <h3>Borrow / Use Materials. <small class="text-muted">Please input details.</small></h3>
     </shell-title>
     <shell-form>
         <form name="ctrl.borrowForm">
@@ -48,16 +48,14 @@
                         <tr ng-repeat="i in ctrl.borrow.activities track by $index">
                             <td>
                                 <select name="item" focus-me="i.isFocused" class="form-control input-sm" required
-                                        ng-options="item.id as item.name for item in ctrl.itemList" ng-model="i.materialId"></select>
+                                        ng-options="item.name for item in ctrl.itemList" ng-model="i.selectedMaterial"></select>
                             </td>
-                            <td>Pcs</td>
-                            <td>Brand</td>
-                            <td>Model</td>
-                            <td>Size</td>
-                            <td>30</td>
-                            <td>
-                                <input class="form-control input-sm" type="number" ng-model="i.quantity" />
-                            </td>
+                            <td><input type="text" class="form-control input-sm" ng-model="i.unit" readonly /></td>
+                            <td><input type="text" class="form-control input-sm" ng-model="i.brand" readonly /></td>
+                            <td><input type="text" class="form-control input-sm" ng-model="i.model" readonly /></td>
+                            <td><input type="text" class="form-control input-sm" ng-model="i.size" readonly /></td>
+                            <td><input type="text" class="form-control input-sm" ng-model="i.remainingQuantity" readonly /></td>
+                            <td><input class="form-control input-sm" type="number" ng-model="i.quantity" /></td>
                             <td class="text-center">
                                 <button class="btn btn-danger btn-xs" style="margin-top: 3px;">
                                     <i class="fa fa-times"></i>

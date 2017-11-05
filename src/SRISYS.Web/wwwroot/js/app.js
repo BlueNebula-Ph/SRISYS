@@ -110,7 +110,23 @@
                 .state("reports", {
                     url: "/reports",
                     templateUrl: "/views/common/index.html",
+                    controller: "manageReportsController",
                     controllerAs: "ctrl"
+                }).state("reports.items", {
+                    url: "/reports/daily/items",
+                    template: "<div>Items Borrowed</div>"
+                }).state("reports.consumables", {
+                    url: "/reports/daily/consumables",
+                    template: "<div>Consumables</div>"
+                }).state("reports.count-sheet", {
+                    url: "/reports/countsheet",
+                    template: "<div>Count sheet</div>"
+                }).state("reports.low-stocks", {
+                    url: "/reports/lowstocks",
+                    template: "<div>Low stocks</div>"
+                }).state("reports.stocks", {
+                    url: "/reports/stocks",
+                    template: "<div>Stocks Report</div>"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",

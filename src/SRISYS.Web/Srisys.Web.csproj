@@ -24,6 +24,8 @@
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\purchase-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-items-controller.js" />
+    <Content Include="wwwroot\js\controllers\manage-reports-controller.js" />
+    <Content Include="wwwroot\js\controllers\report\manage-reports-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-category-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-supplier-controller.js" />
     <Content Include="wwwroot\js\controllers\system\manage-system-controller.js" />

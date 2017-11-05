@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var borrowItemController = function ($q, activityService, inventoryService, utils) {
+    var borrowItemController = function ($q, $scope, activityService, inventoryService, utils) {
         var vm = this;
         var defaultBorrow = {
             type: 1,
@@ -21,6 +21,12 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.saveEnabled = true;
+
+        // Watchers
+        $scope.$watch(() => { return vm.borrow.activities; },
+            function (newVal, oldVal) {
+                assignValues();
+            }, true);
 
         // Public methods
         vm.save = function () {
@@ -48,6 +54,21 @@
         };
 
         // Private methods
+        var assignValues = function () {
+            for (var i = 0, l = vm.borrow.activities.length; i < l; i++) {
+                var item = vm.borrow.activities[i];
+                var selectedMaterial = item.selectedMaterial;
+
+                if (selectedMaterial) {
+                    item.materialId = selectedMaterial.id;
+                    item.unit = selectedMaterial.unit;
+                    item.brand = selectedMaterial.brand;
+                    item.size = selectedMaterial.size;
+                    item.remainingQuantity = selectedMaterial.remainingQuantity;
+                }
+            }
+        };
+
         var clearForm = function () {
             angular.copy(defaultBorrow, vm.borrow);
             vm.defaultFocus = true;
@@ -60,6 +81,7 @@
 
         var saveSuccessful = function () {
             utils.showSuccessMessage("Materials borrowed successfully.");
+            loadAll();
             clearForm();
         };
 
@@ -69,7 +91,7 @@
         };
 
         var processItemList = function (response) {
-            utils.populateDropdownlist(response, vm.itemList, "name", "-- Select Material --");
+            utils.populateDropdownlist(response, vm.itemList, "", "");
         };
 
         var loadAll = function () {
@@ -94,6 +116,6 @@
         return vm;
     };
 
-    module.controller("borrowItemController", ["$q", "activityService", "inventoryService", "utils", borrowItemController]);
+    module.controller("borrowItemController", ["$q", "$scope", "activityService", "inventoryService", "utils", borrowItemController]);
 
 })(angular.module("srisys-app"));
