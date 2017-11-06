@@ -14,12 +14,18 @@
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
     <Content Include="wwwroot\js\app.js" />
+    <Content Include="wwwroot\js\controllers\activity\borrow-item-controller.js" />
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
+    <Content Include="wwwroot\js\controllers\activity\return-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\activity\view-activities-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\adjust-item-controller.js" />
+    <Content Include="wwwroot\js\controllers\inventory\item-details-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\purchase-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-items-controller.js" />
+    <Content Include="wwwroot\js\controllers\manage-reports-controller.js" />
+    <Content Include="wwwroot\js\controllers\report\manage-reports-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-category-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-supplier-controller.js" />
     <Content Include="wwwroot\js\controllers\system\manage-system-controller.js" />
@@ -46,11 +52,19 @@
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
+    <Content Include="wwwroot\js\services\auth-service.js" />
+    <Content Include="wwwroot\js\services\current-user.js" />
+    <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />
     <Content Include="wwwroot\js\services\loading-service.js" />
+    <Content Include="wwwroot\js\services\login-redirect.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
+    <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\js\services\utility-service.js" />
+    <Content Include="wwwroot\views\activity\activity-list.html" />
+    <Content Include="wwwroot\views\activity\borrow-items.html" />
+    <Content Include="wwwroot\views\activity\return-items.html" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\details-shell.html" />
@@ -69,6 +83,7 @@
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
     <Content Include="wwwroot\views\inventory\adjust-item.html" />
+    <Content Include="wwwroot\views\inventory\item-details.html" />
     <Content Include="wwwroot\views\inventory\item-list.html" />
     <Content Include="wwwroot\views\inventory\purchase-item.html" />
     <Content Include="wwwroot\views\system\add-category.html" />
@@ -81,7 +96,6 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\lib\" />
-    <Folder Include="wwwroot\views\activity\" />
   </ItemGroup>
 
   <ItemGroup>
@@ -109,6 +123,10 @@
     <PackageReference Include="Microsoft.VisualStudio.Web.BrowserLink" Version="1.1.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="1.1.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="1.0.0" />
+    <PackageReference Include="AspNet.Security.OAuth.Validation" Version="1.0.0" />
+    <PackageReference Include="OpenIddict" Version="1.0.0-*" />
+    <PackageReference Include="OpenIddict.EntityFrameworkCore" Version="1.0.0-*" />
+    <PackageReference Include="OpenIddict.Mvc" Version="1.0.0-*" />
   </ItemGroup>
 
   <ItemGroup>

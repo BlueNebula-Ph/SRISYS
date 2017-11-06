@@ -7,23 +7,23 @@
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="item">Material Name</label>
-                    <select name="item" ng-model="" focus-me="ctrl.defaultFocus"></select>
+                    <select name="item" focus-me="ctrl.defaultFocus" required
+                             ng-options="item.id as item.name for item in ctrl.itemList" ng-model="ctrl.adjustment.materialId"></select>
                 </div>
                 <div form-input>
                     <label for="type">Adjustment Type</label>
-                    <select name="type" ng-model="">
-                        <option value="0">Please select adjustment type..</option>
+                    <select name="type" ng-model="ctrl.adjustment.adjustmentType">
                         <option value="1">Add</option>
                         <option value="2">Deduct</option>
                     </select>
                 </div>
                 <div form-input>
                     <label for="quantity">Quantity</label>
-                    <input type="number" class="text-right" name="quantity" ng-model="" />
+                    <input type="number" name="quantity" ng-model="ctrl.adjustment.quantity" required />
                 </div>
                 <div form-input>
-                    <label for="price">Reason</label>
-                    <textarea name="reason" rows="4"></textarea>
+                    <label for="remarks">Remarks</label>
+                    <textarea name="remarks" rows="4" ng-model="ctrl.adjustment.remarks"></textarea>
                 </div>
             </div>
         </form>

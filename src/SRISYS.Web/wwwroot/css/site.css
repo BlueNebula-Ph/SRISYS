@@ -51,6 +51,11 @@ textarea {
     max-width: 300px;
 }
 
+.filter-override {
+    float: left !important;
+    padding-right: 5px !important;
+}
+
 /* Front page logo */
 .logo {
     font-size: larger;
@@ -223,4 +228,31 @@ dd {
         text-align: center;
         border-top: 1px solid #aaa;
         padding: 6px 0;
+    }
+
+/* Activities */
+.activities-container {
+    margin-top: 35px;
+}
+
+.activities-box {
+    border: 1px solid #ccc;
+    margin: 8px 0;
+    -moz-border-radius: 4px;
+    -webkit-border-radius: 4px;
+    border-radius: 4px;
+}
+
+    .activities-box .header {
+        padding: 6px 8px;
+        background: #fafafa;
+    }
+
+    .activities-box .header span {
+        display: inline-block;
+    }
+
+    .activities-box .details {
+        border-top: 1px solid #ccc;
+        padding: 6px 8px;
     }

@@ -13,6 +13,11 @@
 
         element.classList.add("input-group");
         element.classList.add("input-group-sm");
+
+        // Override for horizontal search
+        if (element.classList.contains("col-md-2")) {
+            element.classList.add("filter-override");
+        }
     };
 
     var link = function (scope, element) {

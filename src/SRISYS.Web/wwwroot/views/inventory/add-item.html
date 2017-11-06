@@ -24,7 +24,7 @@
                 </div>
                 <div form-input>
                     <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" ng-model="ctrl.item.quantity" />
+                    <input type="number" name="quantity" ng-model="ctrl.item.quantity" ng-disabled="!ctrl.quantityEnabled" />
                 </div>
                 <div form-input>
                     <label for="unit">Unit</label>
@@ -42,15 +42,19 @@
                     <label for="size">Size</label>
                     <input type="text" name="size" ng-model="ctrl.item.size" />
                 </div>
+                <div form-input>
+                    <label for="use">Use</label>
+                    <input type="text" name="use" ng-model="ctrl.item.use" />
+                </div>
             </div>
             <div class="col-md-3 left-padding-none" ng-show="ctrl.showConsumableFields">
                 <div form-input>
                     <label for="category">Category</label>
-                    <select name="category" ng-model="ctrl.item.categoryId"></select>
+                    <select name="category" ng-options="c.id as c.code for c in ctrl.categoryList " ng-model="ctrl.item.categoryId"></select>
                 </div>
                 <div form-input>
                     <label for="subcategory">Subcategory</label>
-                    <select name="subcategory" ng-model="ctrl.item.subcategoryId"></select>
+                    <select name="subcategory" ng-options="c.id as c.code for c in ctrl.subcategoryList"  ng-model="ctrl.item.subCategoryId"></select>
                 </div>
                 <div form-input>
                     <label for="location">Location</label>
@@ -58,7 +62,7 @@
                 </div>
                 <div form-input>
                     <label for="supplier">Supplier</label>
-                    <select name="supplier" ng-model="ctrl.item.supplierId"></select>
+                    <select name="supplier" ng-options="s.id as s.name for s in ctrl.supplierList" ng-model="ctrl.item.supplierId"></select>
                 </div>
                 <div form-input>
                     <label for="price">Price</label>
@@ -67,6 +71,10 @@
                 <div form-input>
                     <label for="minimumStock">Minimum Stock</label>
                     <input type="number" name="minimumStock" ng-model="ctrl.item.minimumStock" />
+                </div>
+                <div form-input>
+                    <label for="reorderQuantity">Reorder Qty</label>
+                    <input type="number" name="reorderQuantity" ng-model="ctrl.item.reorderQuantity" />
                 </div>
             </div>
         </form>

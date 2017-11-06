@@ -1,17 +1,18 @@
 namespace Srisys.Web.Controllers
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
-    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="ActivityController"/> class handles ActivityLog basic add, edit, delete and get.
@@ -23,6 +24,7 @@ namespace Srisys.Web.Controllers
         private readonly SrisysDbContext context;
         private readonly IMapper mapper;
         private readonly ISummaryListBuilder<Activity, ActivitySummary> builder;
+        private readonly IAdjustmentService adjustmentService;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ActivityController"/> class.
@@ -30,11 +32,13 @@ namespace Srisys.Web.Controllers
         /// <param name="context">DbContext</param>
         /// <param name="mapper">Automapper</param>
         /// <param name="builder">Builder</param>
-        public ActivityController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Activity, ActivitySummary> builder)
+        /// <param name="adjustmentService">The adjustment service</param>
+        public ActivityController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<Activity, ActivitySummary> builder, IAdjustmentService adjustmentService)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.adjustmentService = adjustmentService;
         }
 
         /// <summary>
@@ -45,50 +49,24 @@ namespace Srisys.Web.Controllers
         [HttpPost("search", Name = "GetAllActivities")]
         public async Task<IActionResult> GetAll([FromBody]ActivityFilterRequest filter)
         {
-            // get list of active activities (not deleted)
-            var list = this.context.Activities
-                .AsNoTracking();
-
-            // filter
-            if (filter?.ActivityStatus != null)
-            {
-                list = list.Where(c => c.Status == filter.ActivityStatus);
-            }
-
-            if (filter?.DateFrom != null || filter?.DateTo != null)
-            {
-                filter.DateFrom = filter.DateFrom == null || filter.DateFrom == DateTime.MinValue ? DateTime.Today : filter.DateFrom;
-                filter.DateTo = filter.DateTo == null || filter.DateTo == DateTime.MinValue ? DateTime.Today : filter.DateTo;
-                list = list.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
-            }
-
-            if (!string.IsNullOrEmpty(filter?.BorrowedBy))
-            {
-                list = list.Where(c => c.BorrowedBy.ToLower().Contains(filter.BorrowedBy.ToLower()));
-            }
-
-            if (!string.IsNullOrEmpty(filter?.ReleasedBy))
-            {
-                list = list.Where(c => c.ReleasedBy.ToLower().Contains(filter.ReleasedBy.ToLower()));
-            }
-
-            if (!(filter?.MaterialId).IsNullOrZero())
-            {
-                list = list.Where(c => c.MaterialId == filter.MaterialId);
-            }
-
-            // sort
-            var ordering = $"Name {Constants.DefaultSortDirection}";
-            if (!string.IsNullOrEmpty(filter?.SortBy))
-            {
-                ordering = $"{filter.SortBy} {filter.SortDirection}";
-            }
-
-            list = list.OrderBy(ordering);
-
+            var list = this.FetchAndFilterActivities(filter);
             var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Returns a lookup of borrowed items.
+        /// </summary>
+        /// <param name="filter">The filter</param>
+        /// <returns>A list of borrowed items</returns>
+        [HttpPost("lookup", Name = "GetActivitiesLookup")]
+        public async Task<IActionResult> GetLookup([FromBody]ActivityFilterRequest filter)
+        {
+            var list = await Task.Run(() => this.FetchAndFilterActivities(filter));
+            var mappedList = this.mapper.Map<IEnumerable<ActivitySummary>>(list);
+
+            return this.Ok(mappedList);
         }
 
         /// <summary>
@@ -106,7 +84,9 @@ namespace Srisys.Web.Controllers
 
             foreach (var activityToSave in entity.Activities)
             {
-                var activity = this.mapper.Map<Activity>(activityToSave);
+                var activity = activityToSave.Id == 0 ?
+                    this.mapper.Map<Activity>(activityToSave) :
+                    await this.context.Activities.FindAsync(activityToSave.Id);
 
                 if (activityToSave.MaterialId > 0)
                 {
@@ -132,7 +112,7 @@ namespace Srisys.Web.Controllers
                         }
 
                         material.RemainingQuantity = material.RemainingQuantity + activityToSave.Quantity;
-                        activity.LatestReturnDate = DateTime.Now;
+                        activity.LatestReturnDate = activityToSave.Date;
                     }
 
                     // set status
@@ -145,6 +125,9 @@ namespace Srisys.Web.Controllers
                 }
                 else
                 {
+                    activity.ReturnedBy = activityToSave.ReturnedBy;
+                    activity.ReceivedBy = activityToSave.ReceivedBy;
+
                     this.context.Update(activity);
                 }
 
@@ -177,6 +160,54 @@ namespace Srisys.Web.Controllers
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();
+        }
+
+        // Private Methods
+        private IQueryable<Activity> FetchAndFilterActivities(ActivityFilterRequest filter)
+        {
+            // get list of active activities (not deleted)
+            var list = this.context.Activities
+                .Include(c => c.Material)
+                .AsNoTracking();
+
+            // filter
+            if (filter?.ActivityStatus != null)
+            {
+                list = list.Where(c => c.Status == filter.ActivityStatus);
+            }
+
+            if (filter?.DateFrom != null || filter?.DateTo != null)
+            {
+                filter.DateFrom = filter.DateFrom == null || filter.DateFrom == DateTime.MinValue ? DateTime.Today : filter.DateFrom;
+                filter.DateTo = filter.DateTo == null || filter.DateTo == DateTime.MinValue ? DateTime.Today : filter.DateTo;
+                list = list.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
+            }
+
+            if (!string.IsNullOrEmpty(filter?.BorrowedBy))
+            {
+                list = list.Where(c => c.BorrowedBy.ToLower().Contains(filter.BorrowedBy.ToLower()));
+            }
+
+            if (!string.IsNullOrEmpty(filter?.ReleasedBy))
+            {
+                list = list.Where(c => c.ReleasedBy.ToLower().Contains(filter.ReleasedBy.ToLower()));
+            }
+
+            if (!(filter?.MaterialId).IsNullOrZero())
+            {
+                list = list.Where(c => c.MaterialId == filter.MaterialId);
+            }
+
+            // sort
+            var ordering = $"Date {Constants.SortDirectionDescending}";
+            if (!string.IsNullOrEmpty(filter?.SortBy))
+            {
+                ordering = $"{filter.SortBy} {filter.SortDirection}";
+            }
+
+            list = list.OrderBy(ordering);
+
+            return list;
         }
     }
 }

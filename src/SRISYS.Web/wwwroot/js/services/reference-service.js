@@ -3,8 +3,13 @@
         var urlBase = env.baseUrl + "/api/reference";
         var dataFactory = {};
 
-        dataFactory.getReferenceLookup = function (referenceTypeId) {
+        dataFactory.getReferenceLookup = function (referenceTypeId, parentId) {
             var url = urlBase + "/" + referenceTypeId + "/lookup";
+
+            if (parentId) {
+                url = url + "/" + parentId;
+            }
+
             return $http.get(url);
         };
 

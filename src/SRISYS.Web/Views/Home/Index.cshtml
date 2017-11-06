@@ -49,11 +49,18 @@
         <script src="~/js/directives/discount-control.js"></script>
         <script src="~/js/directives/search-input.js"></script>
 
+        <script src="~/js/services/auth-service.js"></script>
+        <script src="~/js/services/current-user.js"></script>
+        <script src="~/js/services/form-encode.js"></script>
+        <script src="~/js/services/login-redirect.js"></script>
+        <script src="~/js/services/token-service.js"></script>
+
         <script src="~/js/services/loading-service.js"></script>
         <script src="~/js/services/supplier-service.js"></script>
         <script src="~/js/services/inventory-service.js"></script>
         <script src="~/js/services/reference-service.js"></script>
         <script src="~/js/services/utility-service.js"></script>
+        <script src="~/js/services/activity-service.js"></script>
 
         <script src="~/js/filters/no-value-filter.js"></script>
 
@@ -64,12 +71,18 @@
         <script src="~/js/controllers/system/view-suppliers-controller.js"></script>
 
         <script src="~/js/controllers/activity/manage-activity-controller.js"></script>
+        <script src="~/js/controllers/activity/view-activities-controller.js"></script>
+        <script src="~/js/controllers/activity/borrow-item-controller.js"></script>
+        <script src="~/js/controllers/activity/return-item-controller.js"></script>
 
         <script src="~/js/controllers/inventory/manage-inventory-controller.js"></script>
         <script src="~/js/controllers/inventory/add-item-controller.js"></script>
         <script src="~/js/controllers/inventory/view-items-controller.js"></script>
         <script src="~/js/controllers/inventory/adjust-item-controller.js"></script>
         <script src="~/js/controllers/inventory/purchase-item-controller.js"></script>
+        <script src="~/js/controllers/inventory/item-details-controller.js"></script>
+
+        <script src="~/js/controllers/report/manage-reports-controller.js"></script>
     </environment>
     <environment names="Production">
         <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -53,6 +53,11 @@
         public DbSet<ReferenceType> ReferenceTypes { get; set; }
 
         /// <summary>
+        /// Gets or sets the users db set.
+        /// </summary>
+        public DbSet<User> Users { get; set; }
+
+        /// <summary>
         /// Seeds the database with test data.
         /// </summary>
         /// <param name="app">The application builder.</param>
@@ -67,6 +72,7 @@
                 SeedReferences(context);
                 SeedMaterials(context);
                 SeedSuppliers(context);
+                SeedActivities(context);
 
                 context.SaveChanges();
             }
@@ -127,9 +133,9 @@
             {
                 var materials = new List<Material>
                 {
-                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 1, SubCategoryId = 4, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
-                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 2, SubCategoryId = 4, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
-                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
+                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, RemainingQuantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 3, SubCategoryId = 6, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
+                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, RemainingQuantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 4, SubCategoryId = 8, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
+                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, RemainingQuantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
                 };
                 context.Materials.AddRange(materials);
             }
@@ -145,6 +151,19 @@
                     new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
                 };
                 context.Suppliers.AddRange(suppliers);
+            }
+        }
+
+        private static void SeedActivities(SrisysDbContext context)
+        {
+            if (!context.Activities.Any())
+            {
+                var activities = new List<Activity>
+                {
+                    new Activity { Date = DateTime.Now, MaterialId = 3, BorrowedBy = "Charterstone", QuantityBorrowed = 10, Status = Common.ActivityStatus.Pending },
+                    new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedBy = "Geddy", QuantityBorrowed = 15, ReturnedBy = "Geddy", TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
+                };
+                context.Activities.AddRange(activities);
             }
         }
     }

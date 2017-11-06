@@ -51,27 +51,42 @@
         /// <param name="material"><see cref="Material"/></param>
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
+        /// <param name="quantityType">The quantity to be adjusted</param>
         /// <param name="remarks">Remarks</param>
-        public void ModifyQuantity(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, string remarks)
+        public void ModifyQuantity(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, QuantityType quantityType, string remarks)
         {
             if (material != null)
             {
-                switch (adjustmentType)
+                switch (quantityType)
                 {
-                    case AdjustmentType.Add:
-                        material.Quantity = material.Quantity + adjustmentQuantity;
-                        material.RemainingQuantity = material.RemainingQuantity + adjustmentQuantity;
+                    case QuantityType.Quantity:
+                        this.AdjustQuantity(material, adjustmentType, adjustmentQuantity);
                         break;
-                    case AdjustmentType.Deduct:
-                        material.Quantity = material.Quantity - adjustmentQuantity;
-                        material.RemainingQuantity = material.RemainingQuantity - adjustmentQuantity;
+                    case QuantityType.RemainingQuantity:
+                        this.AdjustRemainingQuantity(material, adjustmentType, adjustmentQuantity);
                         break;
                     default:
+                        this.AdjustQuantity(material, adjustmentType, adjustmentQuantity);
+                        this.AdjustRemainingQuantity(material, adjustmentType, adjustmentQuantity);
                         break;
                 }
 
                 this.SaveAdjustment(material, adjustmentQuantity, adjustmentType, remarks);
             }
+        }
+
+        private void AdjustQuantity(Material material, AdjustmentType adjustmentType, double adjustmentQuantity)
+        {
+            material.Quantity = adjustmentType == AdjustmentType.Add ?
+                            material.Quantity + adjustmentQuantity :
+                            material.Quantity - adjustmentQuantity;
+        }
+
+        private void AdjustRemainingQuantity(Material material, AdjustmentType adjustmentType, double adjustmentQuantity)
+        {
+            material.RemainingQuantity = adjustmentType == AdjustmentType.Add ?
+                            material.RemainingQuantity + adjustmentQuantity :
+                            material.RemainingQuantity - adjustmentQuantity;
         }
 
         private void SaveAdjustment(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, string remarks)

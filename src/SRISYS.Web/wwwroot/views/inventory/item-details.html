@@ -1,0 +1,87 @@
+﻿<details-shell>
+    <shell-title>
+        <h3>Material Details.</h3>
+    </shell-title>
+    <shell-details>
+        <h4>Material Information.</h4>
+        <div class="col-md-6">
+            <dl class="dl-horizontal">
+                <dt>Material Name</dt>
+                <dd>{{ ctrl.item.name }}</dd>
+                <dt>Material Type</dt>
+                <dd>{{ ctrl.item.typeCode }}</dd>
+                <dt>Brand</dt>
+                <dd>{{ ctrl.item.brand }}</dd>
+                <dt>Model</dt>
+                <dd>{{ ctrl.item.model }}</dd>
+                <dt>Size</dt>
+                <dd>{{ ctrl.item.size }}</dd>
+                <dt>Use</dt>
+                <dd>{{ ctrl.item.use }}</dd>
+            </dl>
+        </div>
+        <div class="col-md-6" ng-show="ctrl.item.typeId == 2">
+            <dl class="dl-horizontal">
+                <dt>Category</dt>
+                <dd>{{ ctrl.item.categoryname }}</dd>
+                <dt>Subcategory</dt>
+                <dd>{{ ctrl.item.subCategoryName }}</dd>
+                <dt>Location</dt>
+                <dd>{{ ctrl.item.location | noValue }}</dd>
+                <dt>Supplier</dt>
+                <dd>{{ ctrl.item.supplierName | noValue }}</dd>
+                <dt>Minimum Quantity</dt>
+                <dd>{{ ctrl.item.minimumStock | number:0 }} {{ ctrl.item.unit }}</dd>
+                <dt>Reorder Quantity</dt>
+                <dd>{{ ctrl.item.reorderQuantity | number:0 }} {{ ctrl.item.unit }}</dd>
+            </dl>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Quantities and Price.</h4>
+        <div class="col-md-3">
+            <div class="details-box">
+                <div class="top">Total Quantity</div>
+                <div class="bottom">{{ ctrl.item.quantity | number: 0 }} {{ ctrl.item.unit }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="details-box">
+                <div class="top">In Stockroom</div>
+                <div class="bottom">{{ ctrl.item.remainingQuantity | number: 0 }} {{ ctrl.item.unit }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="details-box">
+                <div class="top">Price</div>
+                <div class="bottom">₱ {{ ctrl.item.price | number:2 }}</div>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="details-box">
+                <div class="top">Last Purchase Date</div>
+                <div class="bottom">{{ ctrl.item.lastPurchaseDate | noValue | date:'MM/dd/yyyy' }}</div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+        <h4>Transactions.</h4>
+        <table class="table table-condensed table-bordered table-striped details-table">
+            <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th class="text-right">Quantity</th>
+                    <th>Type</th>
+                    <th>Remarks</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tr in ctrl.item.adjustments track by $index">
+                    <td class="text-center">{{ tr.date | date:'MM/dd/yyyy' }}</td>
+                    <td class="text-right">{{ tr.quantity | number:0 }}</td>
+                    <td>{{ tr.adjustmentType }}</td>
+                    <td>{{ tr.remarks }}</td>
+                </tr>
+                <tr no-records ng-if="ctrl.item.adjustments.length == 0" colspan="5"></tr>
+            </tbody>
+        </table>
+    </shell-details>
+</details-shell>

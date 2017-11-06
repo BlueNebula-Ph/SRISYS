@@ -7,19 +7,30 @@
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="item">Material Name</label>
-                    <select name="item" ng-model="" focus-me="ctrl.defaultFocus"></select>
+                    <select name="item" focus-me="ctrl.defaultFocus" required
+                            ng-options="item.id as item.name for item in ctrl.itemList" ng-model="ctrl.purchase.materialId"></select>
+                </div>
+                <div form-input>
+                    <label for="purchaseDate">Purchase Date</label>
+                    <input type="date" ng-model="ctrl.purchase.purchaseDate" />
                 </div>
                 <div form-input>
                     <label for="supplier">Supplier</label>
-                    <select name="supplier" ng-model=""></select>
+                    <select name="supplier" ng-options="s as s.name for s in ctrl.supplierList" ng-model="ctrl.purchase.supplier"></select>
                 </div>
                 <div form-input>
                     <label for="quantity">Quantity</label>
-                    <input type="number" class="text-right" name="quantity" ng-model="" />
+                    <input type="number" name="quantity" ng-model="ctrl.purchase.quantity" />
                 </div>
                 <div form-input>
                     <label for="price">Price</label>
-                    <input type="text" name="price" ng-model="" numeric-textbox="{ currencySymbol: '₱ '}" />
+                    <input type="text" name="price" ng-model="ctrl.purchase.price" numeric-textbox="{ currencySymbol: '₱ '}" />
+                </div>
+                <div>
+                    <label>
+                        <input type="checkbox" ng-model="ctrl.purchase.updatePrice" />
+                        <span>Update Price</span>
+                    </label>
                 </div>
             </div>
         </form>

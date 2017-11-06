@@ -14,8 +14,9 @@
         /// <param name="material"><see cref="Material"/></param>
         /// <param name="adjustmentQuantity">Adjustment Quantity</param>
         /// <param name="adjustmentType">Adjustment Type</param>
+        /// <param name="quantityType">The quantity to adjust</param>
         /// <param name="remarks">Remarks</param>
-        void ModifyQuantity(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, string remarks);
+        void ModifyQuantity(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, QuantityType quantityType, string remarks);
 
         /// <summary>
         /// Method to adjust activity quantity

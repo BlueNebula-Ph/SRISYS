@@ -78,6 +78,11 @@
                     templateUrl: "/views/inventory/adjust-item.html",
                     controller: "adjustItemController",
                     controllerAs: "ctrl"
+                }).state("inventory.details", {
+                    url: "/details/{id}",
+                    templateUrl: "/views/inventory/item-details.html",
+                    controller: "itemDetailsController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("activity", {
@@ -87,19 +92,41 @@
                     controllerAs: "ctrl"
                 }).state("activity.log", {
                     url: "/log",
-                    template: "<div>Activities</div>"
+                    templateUrl: "/views/activity/activity-list.html",
+                    controller: "viewActivitiesController",
+                    controllerAs: "ctrl"
                 }).state("activity.borrow", {
                     url: "/borrow",
-                    template: "<div>Borrow Item</div>"
+                    templateUrl: "/views/activity/borrow-items.html",
+                    controller: "borrowItemController",
+                    controllerAs: "ctrl"
                 }).state("activity.return", {
                     url: "/return",
-                    template: "<div>Return Items</div>"
+                    templateUrl: "/views/activity/return-items.html",
+                    controller: "returnItemController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("reports", {
                     url: "/reports",
                     templateUrl: "/views/common/index.html",
+                    controller: "manageReportsController",
                     controllerAs: "ctrl"
+                }).state("reports.items", {
+                    url: "/reports/daily/items",
+                    template: "<div>Items Borrowed</div>"
+                }).state("reports.consumables", {
+                    url: "/reports/daily/consumables",
+                    template: "<div>Consumables</div>"
+                }).state("reports.count-sheet", {
+                    url: "/reports/countsheet",
+                    template: "<div>Count sheet</div>"
+                }).state("reports.low-stocks", {
+                    url: "/reports/lowstocks",
+                    template: "<div>Low stocks</div>"
+                }).state("reports.stocks", {
+                    url: "/reports/stocks",
+                    template: "<div>Stocks Report</div>"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",

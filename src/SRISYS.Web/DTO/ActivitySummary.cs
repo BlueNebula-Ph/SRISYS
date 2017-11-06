@@ -1,7 +1,6 @@
 ﻿namespace Srisys.Web.DTO
 {
     using System;
-    using System.Collections.Generic;
     using BlueNebula.Common.DTOs;
 
     /// <summary>
@@ -15,24 +14,39 @@
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets the material name of the item borrowed.
+        /// Gets or sets the material id property.
+        /// </summary>
+        public int MaterialId { get; set; }
+
+        /// <summary>
+        /// Gets or sets the material id of the item borrowed.
         /// </summary>
         public string MaterialName { get; set; }
 
         /// <summary>
-        /// Gets or sets the material size of the item borrowed.
+        /// Gets or sets the unit property.
         /// </summary>
-        public string Size { get; set; }
+        public string Unit { get; set; }
 
         /// <summary>
-        /// Gets or sets the material model of the item borrowed.
+        /// Gets or sets the brand property.
+        /// </summary>
+        public string Brand { get; set; }
+
+        /// <summary>
+        /// Gets or sets the model property.
         /// </summary>
         public string Model { get; set; }
 
         /// <summary>
-        /// Gets or sets the brand of the item borrowed.
+        /// Gets or sets the size property.
         /// </summary>
-        public string Brand { get; set; }
+        public string Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the use property.
+        /// </summary>
+        public string Use { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity borrowed property.
@@ -75,5 +89,10 @@
         /// 2 = Complete - if all items are returned.
         /// </summary>
         public string Status { get; set; }
+
+        /// <summary>
+        /// Gets or sets the balance of the item borrowed.
+        /// </summary>
+        public double Balance { get; set; }
     }
 }
