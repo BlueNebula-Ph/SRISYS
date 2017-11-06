@@ -19,7 +19,10 @@
             // Activity
             this.CreateMap<Activity, ActivitySummary>()
                 .ForMember(d => d.MaterialName, s => s.MapFrom(o => o.Material.Name))
-                .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)));
+                .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
+                .ForMember(d => d.Size, s => s.MapFrom(o => o.Material.Size))
+                .ForMember(d => d.Model, s => s.MapFrom(o => o.Material.Model))
+                .ForMember(d => d.Brand, s => s.MapFrom(o => o.Material.Brand));
 
             this.CreateMap<ActivityRequest, Activity>();
 

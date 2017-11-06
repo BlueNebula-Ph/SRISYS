@@ -15,9 +15,24 @@
         public DateTime Date { get; set; }
 
         /// <summary>
-        /// Gets or sets the material id of the item borrowed.
+        /// Gets or sets the material name of the item borrowed.
         /// </summary>
         public string MaterialName { get; set; }
+
+        /// <summary>
+        /// Gets or sets the material size of the item borrowed.
+        /// </summary>
+        public string Size { get; set; }
+
+        /// <summary>
+        /// Gets or sets the material model of the item borrowed.
+        /// </summary>
+        public string Model { get; set; }
+
+        /// <summary>
+        /// Gets or sets the brand of the item borrowed.
+        /// </summary>
+        public string Brand { get; set; }
 
         /// <summary>
         /// Gets or sets the quantity borrowed property.
