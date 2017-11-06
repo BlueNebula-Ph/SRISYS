@@ -1,7 +1,6 @@
 ﻿namespace Srisys.Web.DTO
 {
     using System.Collections.Generic;
-    using BlueNebula.Common.DTOs;
     using Srisys.Web.Common;
 
     /// <summary>

@@ -1,10 +1,10 @@
 ﻿namespace Srisys.Web
 {
+    using System;
     using AutoMapper;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
-    using System;
 
     /// <summary>
     /// <see cref="MappingConfig"/> class Mapping configuration.
@@ -19,7 +19,13 @@
             // Activity
             this.CreateMap<Activity, ActivitySummary>()
                 .ForMember(d => d.MaterialName, s => s.MapFrom(o => o.Material.Name))
-                .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)));
+                .ForMember(d => d.Unit, s => s.MapFrom(o => o.Material.Unit))
+                .ForMember(d => d.Brand, s => s.MapFrom(o => o.Material.Brand))
+                .ForMember(d => d.Model, s => s.MapFrom(o => o.Material.Model))
+                .ForMember(d => d.Size, s => s.MapFrom(o => o.Material.Size))
+                .ForMember(d => d.Use, s => s.MapFrom(o => o.Material.Use))
+                .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
+                .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned));
 
             this.CreateMap<ActivityRequest, Activity>();
 
@@ -33,6 +39,9 @@
             this.CreateMap<Material, MaterialLookup>();
 
             this.CreateMap<SaveMaterialRequest, Material>();
+
+            // Adjustment
+            this.CreateMap<Adjustment, AdjustmentSummary>();
 
             // Supplier
             this.CreateMap<Supplier, SupplierSummary>();

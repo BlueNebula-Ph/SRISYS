@@ -1,9 +1,9 @@
 ﻿(function (module) {
-    var addSupplierController = function (supplierService, loadingService, utils) {
+    var addSupplierController = function ($stateParams, supplierService, utils) {
         var vm = this;
+        var defaultSupplier = {};
 
         // Data
-        var defaultSupplier = {};
         vm.supplier = {};
 
         // Helper properties
@@ -12,39 +12,68 @@
 
         // Public methods
         vm.save = function () {
-            loadingService.showLoading();
+            utils.showLoading();
             vm.saveEnabled = false;
 
             supplierService
-                .saveSupplier(0, vm.supplier)
+                .saveSupplier($stateParams.id, vm.supplier)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
         };
 
         vm.reset = function () {
-            clearForm();
+            resetForm();
         };
 
         // Private methods
-        var clearForm = function () {
+        var resetForm = function () {
             angular.copy(defaultSupplier, vm.supplier);
-            vm.addSupplierForm.$setPristine();
             vm.defaultFocus = true;
+
+            if (vm.addSupplierForm) {
+                vm.addSupplierForm.$setPristine();
+            }
         };
 
         var saveSuccessful = function (respose) {
             utils.showSuccessMessage("Supplier saved successfully.");
-            clearForm();
+
+            // If edit, set defaultItem to newly saved item
+            if ($stateParams.id != 0) {
+                angular.copy(vm.supplier, defaultSupplier);
+            }
+
+            resetForm();
         };
 
         var onSaveComplete = function () {
-            loadingService.hideLoading();
+            utils.hideLoading();
             vm.saveEnabled = true;
         };
+
+        var processSupplier = function (response) {
+            angular.copy(response.data, defaultSupplier);
+            resetForm();
+        };
+
+        var loadSupplier = function () {
+            if ($stateParams.id != 0) {
+                utils.showLoading();
+
+                supplierService.getSupplierById($stateParams.id)
+                    .then(processSupplier, utils.onError)
+                    .finally(utils.hideLoading);
+            }
+        };
+
+        // Initialize
+        $(function () {
+            loadSupplier();
+        });
 
         return vm;
     };
 
-    module.controller("addSupplierController", ["supplierService", "loadingService", "utils", addSupplierController]);
+    module.controller("addSupplierController", ["$stateParams", "supplierService", "utils", addSupplierController]);
 
 })(angular.module("srisys-app"));

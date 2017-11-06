@@ -1,0 +1,93 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Activity Log. <small class="text-muted">Search for stockroom activities.</small></h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span title="Search activitiy via borrower"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search by borrower..." ng-model="ctrl.filters.borrowedBy" focus-me="ctrl.focus" />
+        </div>
+        <div search-input>
+            <span title="Search activitiy via material"><i class="fa fa-database fa-fw"></i></span>
+            <select ng-model="ctrl.filters.materialId" ng-options="item.id as item.name for item in ctrl.itemList"></select>
+        </div>
+        <div search-input>
+            <span title="Date from"><i class="fa fa-calendar fa-fw"></i></span>
+            <input type="date" style="width: 153px;" placeholder="Search by date..." ng-model="ctrl.filters.dateFrom" />
+        </div>
+        <div search-input>
+            <span title="Date to"><i class="fa fa-calendar fa-fw"></i></span>
+            <input type="date" style="width: 153px;" placeholder="Search by date..." ng-model="ctrl.filters.dateTo" />
+        </div>
+        <div search-input>
+            <span title="Show complete activities"><i class="fa fa-check fa-fw"></i></span>
+            <input readonly value="Items Returned" />
+            <span class="input-group-addon" style="line-height: 0.5;">
+                <input type="checkbox" ng-model="ctrl.filters.isComplete" />
+            </span>
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchActivities()">
+            <i class="fa fa-search"></i> Search
+        </button>
+    </shell-search>
+    <shell-table>
+        <div class="activities-container">
+            <div class="activities-box" ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                <div class="header">
+                    <span style="width: 2%;">
+                        <i ng-show="c.status == 'Complete'" class="text-success fa fa-check"></i>
+                    </span>
+                    <span style="width: 10%;">
+                        <em>{{ c.date | date: 'MMM dd, yyyy' }}</em>
+                    </span>
+                    <span style="width: 50%;">
+                        <b>{{ c.borrowedBy }}</b> borrowed <b>{{ c.quantityBorrowed }}</b> pcs of <b>{{ c.materialName }}</b>.
+                    </span>
+                    <span style="width: 25%;">
+                        Released by: <b>{{ c.releasedBy }}</b>
+                    </span>
+                    <span class="pull-right">
+                        <button class="btn btn-xs btn-primary" title="Show more." ng-click="ctrl.showHideDetails(c)">
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <button class="btn btn-xs btn-danger" title="Delete this activity.">
+                            <i class="fa fa-trash"></i>
+                        </button>
+                    </span>
+                </div>
+                <div class="details" ng-show="c.show">
+                    <div class="col-md-6">
+                        <h4>Item Details</h4>
+                        <dl class="dl-horizontal">
+                            <dt>Brand</dt>
+                            <dd>{{ c.brand | noValue }}</dd>
+                            <dt>Model</dt>
+                            <dd>{{ c.model | noValue }}</dd>
+                            <dt>Size</dt>
+                            <dd>{{ c.size | noValue }}</dd>
+                            <dt>Use</dt>
+                            <dd>{{ c.use | noValue }}</dd>
+                        </dl>
+                    </div>
+                    <div class="col-md-6">
+                        <h4>Return Details</h4>
+                        <dl class="dl-horizontal">
+                            <dt>Quantity Returned</dt>
+                            <dd>{{ c.totalQuantityReturned | number: 0 }}</dd>
+                            <dt>Date Returned</dt>
+                            <dd>{{ c.latestReturnDate | noValue | date: 'MMM dd, yyyy' }}</dd>
+                            <dt>Returned By</dt>
+                            <dd>{{ c.returnedBy | noValue }}</dd>
+                            <dt>Received By</dt>
+                            <dd>{{ c.receivedBy | noValue }}</dd>
+                        </dl>
+                    </div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+            <div class="activities-box" ng-show="ctrl.summaryResult.items.length == 0">
+                <div class="header">No records found.</div>
+            </div>
+        </div>
+    </shell-table>
+</summary-shell>

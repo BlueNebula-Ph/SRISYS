@@ -19,7 +19,7 @@
         };
 
         dataFactory.saveItem = function (id, item) {
-            if (id === 0) {
+            if (id == 0) {
                 return $http.post(urlBase, item);
             } else {
                 var url = urlBase + "/" + id;
@@ -30,6 +30,11 @@
         dataFactory.deleteItem = function (id) {
             var url = urlBase + "/" + id;
             return $http.delete(url);
+        };
+
+        dataFactory.adjustQuantity = function (adjustment) {
+            var url = urlBase + "/adjust";
+            return $http.post(url, adjustment);
         };
 
         return dataFactory;

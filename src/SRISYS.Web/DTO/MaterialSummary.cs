@@ -1,6 +1,7 @@
 ﻿namespace Srisys.Web.DTO
 {
     using System;
+    using System.Collections.Generic;
     using BlueNebula.Common.DTOs;
 
     /// <summary>
@@ -8,6 +9,11 @@
     /// </summary>
     public class MaterialSummary : DTOBase
     {
+        /// <summary>
+        /// Gets or sets the material type id.
+        /// </summary>
+        public int TypeId { get; set; }
+
         /// <summary>
         /// Gets or sets property Material Type.
         /// </summary>
@@ -49,9 +55,19 @@
         public string Location { get; set; }
 
         /// <summary>
+        /// Gets or sets the category id property.
+        /// </summary>
+        public int CategoryId { get; set; }
+
+        /// <summary>
         /// Gets or sets property Category Id.
         /// </summary>
         public string Categoryname { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subcategory id property.
+        /// </summary>
+        public int SubCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets property Subcategory Id.
@@ -59,14 +75,20 @@
         public string SubCategoryName { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether the material is used.
+        /// Gets or sets the use property.
+        /// Used to indicate which machine the material is used.
         /// </summary>
-        public bool IsUsed { get; set; }
+        public string Use { get; set; }
 
         /// <summary>
         /// Gets or sets property Price.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the supplier id property.
+        /// </summary>
+        public int SupplierId { get; set; }
 
         /// <summary>
         /// Gets or sets property SupplierId.
@@ -87,5 +109,17 @@
         /// Gets or sets the remaining quantity property.
         /// </summary>
         public double RemainingQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the reorder quantity.
+        /// Used for setting up a reorder report.
+        /// Applicable to Consumable type of material.
+        /// </summary>
+        public double ReorderQuantity { get; set; }
+
+        /// <summary>
+        /// Gets or sets the adjustments made on this material.
+        /// </summary>
+        public IEnumerable<AdjustmentSummary> Adjustments { get; set; }
     }
 }

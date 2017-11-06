@@ -176,14 +176,14 @@ namespace Srisys.Web.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(long id)
         {
-            var material = await this.context.Suppliers.SingleOrDefaultAsync(t => t.Id == id);
-            if (material == null)
+            var supplier = await this.context.Suppliers.SingleOrDefaultAsync(t => t.Id == id);
+            if (supplier == null)
             {
                 return this.NotFound(id);
             }
 
-            material.IsDeleted = true;
-            this.context.Update(material);
+            supplier.IsDeleted = true;
+            this.context.Update(supplier);
             await this.context.SaveChangesAsync();
 
             return new NoContentResult();

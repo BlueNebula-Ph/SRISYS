@@ -11,6 +11,8 @@
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
     using Newtonsoft.Json.Serialization;
+    using Srisys.Web.Services;
+    using Srisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
 
     /// <summary>
@@ -43,6 +45,17 @@
         /// <param name="services">Services</param>
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add CORS policy
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "SrisysCorsPolicy",
+                    builder => builder.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials());
+            });
+
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(opt =>
@@ -57,6 +70,31 @@
             services.AddDbContext<SrisysDbContext>(opt =>
             {
                 opt.UseInMemoryDatabase();
+
+                opt.UseOpenIddict();
+            });
+
+            services.AddOpenIddict(options =>
+            {
+                // Register the Entity Framework stores.
+                options.AddEntityFrameworkCoreStores<SrisysDbContext>();
+
+                // Register the ASP.NET Core MVC binder used by OpenIddict.
+                // Note: if you don't call this method, you won't be able to
+                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                options.AddMvcBinders();
+
+                // Enable the token endpoint.
+                options.EnableTokenEndpoint("/connect/token");
+
+                // Enable the password flow.
+                options.AllowPasswordFlow();
+
+                // Enable the use of refresh tokens();
+                options.AllowRefreshTokenFlow();
+
+                // During development, you can disable the HTTPS requirement.
+                options.DisableHttpsRequirement();
             });
 
             services.AddSwaggerGen(opt =>
@@ -71,6 +109,7 @@
 
             // Add application services
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
+            services.AddScoped<IAdjustmentService, AdjustmentService>();
         }
 
         /// <summary>
@@ -83,6 +122,16 @@
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
+
+            // Register the CORS middleware.
+            app.UseCors("SrisysCorsPolicy");
+
+            // Register the validation middleware, that is used to decrypt
+            // the access tokens and populate the HttpContext.User property.
+            app.UseOAuthValidation();
+
+            // Register the openiddict middleware.
+            app.UseOpenIddict();
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

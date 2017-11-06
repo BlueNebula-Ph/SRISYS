@@ -1,8 +1,8 @@
 ﻿namespace Srisys.Web.DTO
 {
+    using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
-    using System.Collections.Generic;
 
     /// <summary>
     /// <see cref="SaveReferenceRequest"/> class Create/Update Reference object.
