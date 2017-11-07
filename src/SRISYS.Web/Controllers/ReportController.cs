@@ -1,17 +1,20 @@
 namespace Srisys.Web.Controllers
 {
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
+    using LinqKit;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Models;
 
     /// <summary>
-    /// <see cref="ReportController"/> class handles Activity reports.
+    /// <see cref="ReportController"/> class handles processing reports.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
@@ -35,27 +38,80 @@ namespace Srisys.Web.Controllers
         /// Returns a list of borrowed/returned items.
         /// </summary>
         /// <param name="filter">The filter</param>
-        /// <returns>Returns a list of borrowed/returned items.</returns>
+        /// <returns>Returns a list of activities.</returns>
         [HttpPost("daily-activity")]
         public async Task<IActionResult> GetDailyActivityReport([FromBody]ActivityReportFilterRequest filter)
         {
-            // get list of active activities (not deleted)
+            // Get list of active activities (not deleted)
             var list = this.context.Activities
-                .Include(c => c.Material)
                 .AsNoTracking();
 
-            // filter
+            // To build the predicate
+            var predicate = PredicateBuilder.New<Activity>(false);
+
+            // Filter
             if (filter?.ReportDate != null)
             {
-                list = list.Where(c => c.Date >= filter.ReportDate && c.Date < filter.ReportDate.Value.AddDays(1));
+                predicate = predicate.And(c => c.Date >= filter.ReportDate && c.Date < filter.ReportDate.Value.AddDays(1));
             }
 
             if (!(filter?.MaterialTypeId).IsNullOrZero())
             {
-                list = list.Where(c => c.Material.TypeId == filter.MaterialTypeId);
+                predicate = predicate.And(c => c.Material.TypeId == filter.MaterialTypeId);
+
+                // If material type is tool, add in unreturned materials
+                if (filter.MaterialTypeId == (int)MaterialType.Tool)
+                {
+                    predicate.Or(c => c.Status != ActivityStatus.Complete);
+                }
             }
 
-            var mappedList = this.mapper.Map<IEnumerable<ActivitySummary>>(list);
+            list = list.Where(predicate);
+
+            // Sort by date, then by borrower then by item
+            list = list.OrderByDescending(c => c.Date)
+                .ThenBy(c => c.BorrowedBy)
+                .ThenBy(c => c.Material.Name);
+
+            var mappedList = await list.ProjectTo<ActivitySummary>().ToListAsync();
+
+            return this.Ok(mappedList);
+        }
+
+        /// <summary>
+        /// Returns a list of materials low in quantity.
+        /// </summary>
+        /// <returns>List of materials low in quantity</returns>
+        [HttpGet("low-stock")]
+        public async Task<IActionResult> GetLowStockReport()
+        {
+            // Get a list of materials.
+            // Filter to get the ones low in quantity.
+            // Only applicable to cosumables.
+            var list = this.context.Materials
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted &&
+                    c.TypeId == (int)MaterialType.Consumable &&
+                    c.Quantity < c.MinimumStock);
+
+            var mappedList = await list.ProjectTo<MaterialSummary>().ToListAsync();
+
+            return this.Ok(mappedList);
+        }
+
+        /// <summary>
+        /// Returns a list of materials for reporting.
+        /// </summary>
+        /// <returns>List of materials.</returns>
+        [HttpGet("stocks")]
+        public async Task<IActionResult> GetStockList()
+        {
+            // Get a list of materials.
+            var list = this.context.Materials
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted);
+
+            var mappedList = await list.ProjectTo<MaterialSummary>().ToListAsync();
 
             return this.Ok(mappedList);
         }
