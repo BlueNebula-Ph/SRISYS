@@ -1,1 +1,66 @@
 ﻿<navigation></navigation>
+<loading-indicator></loading-indicator>
+<div class="main">
+    <sidebar items="ctrl.sidebarItems"></sidebar>
+    <div class="main-content">
+        <div class="col-md-8 side-padding-none">
+            <h3>Recent Activities.</h3>
+            <div class="top-margin-sm">
+                <div class="activities-box" ng-repeat="c in ctrl.recentActivities track by c.id">
+                    <div class="header">
+                        <span style="width: 2%;">
+                            <i ng-show="c.status == 'Complete'" class="text-success fa fa-check"></i>
+                        </span>
+                        <span style="width: 20%;">
+                            <em>{{ c.date | date: 'MMM dd, yyyy' }}</em>
+                        </span>
+                        <span style="width: 50%;">
+                            <b>{{ c.borrowedBy }}</b> borrowed <b>{{ c.quantityBorrowed }}</b> {{ c.unit }} of <b>{{ c.materialName }}</b>.
+                        </span>
+                        <span style="width: 25%;">
+                            Released by: <b>{{ c.releasedBy }}</b>
+                        </span>
+                    </div>
+                </div>
+                <div class="activities-box" ng-show="ctrl.recentActivities.length == 0">
+                    <div class="header">No records found.</div>
+                </div>
+            </div>
+            <div><a ui-sref="activity.log">View all activities</a></div>
+        </div>
+        <div class="col-md-3 col-md-offset-1">
+            <div class="panel panel-default top-margin-md">
+                <div class="panel-heading">
+                    <strong class="text-info"><i class="fa fa-exclamation-triangle"></i> Low stock</strong>
+                </div>
+                <div class="panel-body side-padding-none top-padding-none">
+                    <table class="table table-condensed table-striped">
+                        <thead>
+                            <tr>
+                                <th>Material</th>
+                                <th>Quantity</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="c in ctrl.lowStock track by c.id">
+                                <td>{{ c.name }}</td>
+                                <td>{{ c.quantity | number:0 }}</td>
+                            </tr>
+                            <tr ng-show="ctrl.lowStock.length == 0">
+                                <td colspan="2" class="text-success">
+                                   <i class="fa fa-thumbs-up"></i> Quantities are sufficient.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <hr />
+                    <ul class="list-unstyled left-margin-sm">
+                        <li><a ui-sref="reports.low-stocks">View the report</a></li>
+                        <li><a ui-sref="inventory.purchase">Purchase materials</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="clearfix"></div>
+    </div>
+</div>

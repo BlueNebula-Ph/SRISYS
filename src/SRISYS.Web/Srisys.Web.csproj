@@ -18,6 +18,7 @@
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
     <Content Include="wwwroot\js\controllers\activity\return-item-controller.js" />
     <Content Include="wwwroot\js\controllers\activity\view-activities-controller.js" />
+    <Content Include="wwwroot\js\controllers\home\home-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\add-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\adjust-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\item-details-controller.js" />

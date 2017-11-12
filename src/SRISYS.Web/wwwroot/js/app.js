@@ -17,7 +17,9 @@
             $stateProvider
                 .state("home", {
                     url: "/home",
-                    templateUrl: "/views/home/index.html"
+                    templateUrl: "/views/home/index.html",
+                    controller: "homeController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("system", {
