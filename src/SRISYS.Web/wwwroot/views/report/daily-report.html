@@ -1,0 +1,63 @@
+﻿<loading-indicator></loading-indicator>
+<h3>Daily {{ ctrl.type }} Report.</h3>
+<div class="form-inline well well-sm">
+    <em>Report date:</em>
+    <input type="date" class="form-control input-xs" ng-model="ctrl.filters.selectedDate" />
+    <button class="btn btn-primary btn-xs" ng-click="ctrl.fetchReport()" focus-me="true">
+        <i class="fa fa-clone"></i> Generate
+    </button>
+    <a target="_blank" href="http://www.google.com" class="btn btn-default btn-xs pull-right">
+        <i class="fa fa-print"></i> Print
+    </a>
+</div>
+<table ng-show="ctrl.type == 'Tools'" class="table table-condensed table-striped reports-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Qty</th>
+            <th>Item</th>
+            <th>Size</th>
+            <th>Model</th>
+            <th>Brand</th>
+            <th>Borrowed By</th>
+            <th>Returned By</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="c in ctrl.activities track by c.id">
+            <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
+            <td>{{ c.quantityBorrowed | number:0 }} {{ c.unit }}</td>
+            <td>{{ c.materialName }}</td>
+            <td>{{ c.size | noValue }}</td>
+            <td>{{ c.model | noValue }}</td>
+            <td>{{ c.brand | noValue }}</td>
+            <td>{{ c.borrowedBy }}</td>
+            <td>{{ c.returnedBy | noValue }}</td>
+        </tr>
+        <tr no-records ng-if="ctrl.activities.length == 0" colspan="8"></tr>
+    </tbody>
+</table>
+<table ng-show="ctrl.type == 'Consumables'" class="table table-condensed table-striped reports-table">
+    <thead>
+        <tr>
+            <th>Date</th>
+            <th>Qty</th>
+            <th>Item</th>
+            <th>Taken By</th>
+            <th>Exchanged</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="c in ctrl.activities track by c.id">
+            <td>{{ c.date | date:'MM/dd/yyyy' }}</td>
+            <td>{{ c.quantityBorrowed | number:0 }} {{ c.unit }}</td>
+            <td>{{ c.materialName }}</td>
+            <td>{{ c.borrowedBy }}</td>
+            <td>
+                <i ng-show="c.status == 'Complete'" class="fa fa-check text-success"></i>
+                <i ng-show="c.status == 'Pending'" class="fa fa-times text-danger"></i>
+            </td>
+        </tr>
+        <tr no-records ng-if="ctrl.activities.length == 0" colspan="5"></tr>
+    </tbody>
+</table>

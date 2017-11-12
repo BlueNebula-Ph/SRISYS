@@ -1,5 +1,6 @@
 namespace Srisys.Web.Controllers
 {
+    using System;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
@@ -46,14 +47,14 @@ namespace Srisys.Web.Controllers
             var list = this.context.Activities
                 .AsNoTracking();
 
+            var reportDate = filter?.ReportDate ?? DateTime.Now;
+            var nextDate = reportDate.AddDays(1);
+
             // To build the predicate
             var predicate = PredicateBuilder.New<Activity>(false);
 
             // Filter
-            if (filter?.ReportDate != null)
-            {
-                predicate = predicate.And(c => c.Date >= filter.ReportDate && c.Date < filter.ReportDate.Value.AddDays(1));
-            }
+            predicate = predicate.And(c => c.Date >= reportDate && c.Date < nextDate);
 
             if (!(filter?.MaterialTypeId).IsNullOrZero())
             {
@@ -62,7 +63,7 @@ namespace Srisys.Web.Controllers
                 // If material type is tool, add in unreturned materials
                 if (filter.MaterialTypeId == (int)MaterialType.Tool)
                 {
-                    predicate.Or(c => c.Status != ActivityStatus.Complete);
+                    predicate.Or(c => c.Date < nextDate && c.Status != ActivityStatus.Complete && c.Material.TypeId == filter.MaterialTypeId);
                 }
             }
 

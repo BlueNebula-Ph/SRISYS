@@ -24,8 +24,10 @@
     <Content Include="wwwroot\js\controllers\inventory\manage-inventory-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\purchase-item-controller.js" />
     <Content Include="wwwroot\js\controllers\inventory\view-items-controller.js" />
-    <Content Include="wwwroot\js\controllers\manage-reports-controller.js" />
+    <Content Include="wwwroot\js\controllers\report\daily-report-controller.js" />
+    <Content Include="wwwroot\js\controllers\report\low-stocks-report-controller.js" />
     <Content Include="wwwroot\js\controllers\report\manage-reports-controller.js" />
+    <Content Include="wwwroot\js\controllers\report\stocks-report-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-category-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-supplier-controller.js" />
     <Content Include="wwwroot\js\controllers\system\manage-system-controller.js" />
@@ -59,6 +61,7 @@
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\login-redirect.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />
+    <Content Include="wwwroot\js\services\report-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
     <Content Include="wwwroot\js\services\token-service.js" />
     <Content Include="wwwroot\js\services\utility-service.js" />
@@ -86,6 +89,10 @@
     <Content Include="wwwroot\views\inventory\item-details.html" />
     <Content Include="wwwroot\views\inventory\item-list.html" />
     <Content Include="wwwroot\views\inventory\purchase-item.html" />
+    <Content Include="wwwroot\views\report\count-sheet-report.html" />
+    <Content Include="wwwroot\views\report\daily-report.html" />
+    <Content Include="wwwroot\views\report\low-stocks-report.html" />
+    <Content Include="wwwroot\views\report\stocks-report.html" />
     <Content Include="wwwroot\views\system\add-category.html" />
     <Content Include="wwwroot\views\system\add-supplier.html" />
     <Content Include="wwwroot\views\system\add-user.html" />
