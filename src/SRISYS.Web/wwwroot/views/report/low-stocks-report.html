@@ -1,0 +1,31 @@
+﻿<loading-indicator></loading-indicator>
+<h3>Low Stocks Report.</h3>
+<div class="well well-sm">
+    <em>Report generated on: {{ ctrl.date }}</em>
+    <a target="_blank" href="http://www.google.com" class="btn btn-default btn-xs pull-right">
+        <i class="fa fa-print"></i> Print
+    </a>
+</div>
+<table class="table table-condensed table-striped reports-table">
+    <thead>
+        <tr>
+            <th>Item</th>
+            <th>Brand</th>
+            <th>Model</th>
+            <th>Size</th>
+            <th>Quantity</th>
+            <th>Reorder Quantity</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr ng-repeat="c in ctrl.items track by c.id">
+            <td>{{ c.name }}</td>
+            <td>{{ c.brand | noValue }}</td>
+            <td>{{ c.model | noValue }}</td>
+            <td>{{ c.size | noValue }}</td>
+            <td>{{ c.quantity | number:0 }}</td>
+            <td>{{ c.reorderQuantity - c.quantity | number:0 }}</td>
+        </tr>
+        <tr no-records ng-if="ctrl.items.length == 0" colspan="6"></tr>
+    </tbody>
+</table>

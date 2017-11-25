@@ -17,7 +17,9 @@
             $stateProvider
                 .state("home", {
                     url: "/home",
-                    templateUrl: "/views/home/index.html"
+                    templateUrl: "/views/home/index.html",
+                    controller: "homeController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("system", {
@@ -113,20 +115,36 @@
                     controller: "manageReportsController",
                     controllerAs: "ctrl"
                 }).state("reports.items", {
-                    url: "/reports/daily/items",
-                    template: "<div>Items Borrowed</div>"
+                    url: "/daily/items",
+                    templateUrl: "/views/report/daily-report.html",
+                    controller: "dailyReportController",
+                    controllerAs: "ctrl",
+                    data: {
+                        type: "Tools"
+                    }
                 }).state("reports.consumables", {
-                    url: "/reports/daily/consumables",
-                    template: "<div>Consumables</div>"
+                    url: "/daily/consumables",
+                    templateUrl: "/views/report/daily-report.html",
+                    controller: "dailyReportController",
+                    controllerAs: "ctrl",
+                    data: {
+                        type: "Consumables"
+                    }
                 }).state("reports.count-sheet", {
-                    url: "/reports/countsheet",
-                    template: "<div>Count sheet</div>"
+                    url: "/countsheet",
+                    templateUrl: "/views/report/count-sheet-report.html",
+                    controller: "stocksReportController",
+                    controllerAs: "ctrl",
                 }).state("reports.low-stocks", {
-                    url: "/reports/lowstocks",
-                    template: "<div>Low stocks</div>"
+                    url: "/lowstocks",
+                    templateUrl: "/views/report/low-stocks-report.html",
+                    controller: "lowStocksReportController",
+                    controllerAs: "ctrl"
                 }).state("reports.stocks", {
-                    url: "/reports/stocks",
-                    template: "<div>Stocks Report</div>"
+                    url: "/stocks",
+                    templateUrl: "/views/report/stocks-report.html",
+                    controller: "stocksReportController",
+                    controllerAs: "ctrl"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams",
