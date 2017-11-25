@@ -43,6 +43,16 @@
         public DbSet<Borrower> Borrowers { get; set; }
 
         /// <summary>
+        /// Gets or sets the categories db set.
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subcategories db set.
+        /// </summary>
+        public DbSet<Subcategory> Subcategories { get; set; }
+
+        /// <summary>
         /// Gets or sets the suppliers db set.
         /// </summary>
         public DbSet<Supplier> Suppliers { get; set; }
@@ -105,8 +115,6 @@
                 var referenceTypes = new List<ReferenceType>
                 {
                     new ReferenceType { Code = "MaterialType" },
-                    new ReferenceType { Code = "Category" },
-                    new ReferenceType { Code = "SubCategory" },
                 };
                 context.ReferenceTypes.AddRange(referenceTypes);
             }
@@ -120,15 +128,37 @@
                 {
                     new Reference { ReferenceTypeId = 1, Code = "Tool" },
                     new Reference { ReferenceTypeId = 1, Code = "Consumable" },
-                    new Reference { ReferenceTypeId = 2, Code = "CAT-001" },
-                    new Reference { ReferenceTypeId = 2, Code = "CAT-002" },
-                    new Reference { ReferenceTypeId = 2, Code = "CAT-003" },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-001", ParentReferenceId = 3 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-021", ParentReferenceId = 3 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-003", ParentReferenceId = 4 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-004", ParentReferenceId = 5 },
                 };
                 context.References.AddRange(references);
+            }
+        }
+
+        private static void SeedCategories(SrisysDbContext context)
+        {
+            if (!context.Categories.Any())
+            {
+                var categories = new List<Category>
+                {
+                    new Category { Name = "CAT-001" },
+                    new Category { Name = "CAT-002" },
+                    new Category { Name = "CAT-003" },
+                };
+                context.Categories.AddRange(categories);
+            }
+        }
+
+        private static void SeedSubcategories(SrisysDbContext context)
+        {
+            if (!context.Subcategories.Any())
+            {
+                var subcategories = new List<Subcategory>
+                {
+                    new Subcategory { Name = "SUBCAT-001", CategoryId = 1 },
+                    new Subcategory { Name = "SUBCAT-021", CategoryId = 1 },
+                    new Subcategory { Name = "SUBCAT-003", CategoryId = 2 },
+                    new Subcategory { Name = "SUBCAT-004", CategoryId = 3 },
+                };
+                context.Subcategories.AddRange(subcategories);
             }
         }
 
