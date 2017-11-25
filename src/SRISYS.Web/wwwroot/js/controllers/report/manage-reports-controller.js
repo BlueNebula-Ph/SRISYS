@@ -4,7 +4,7 @@
 
         vm.sidebarItems = [
             { text: "Daily Reports", isHeader: true, isItem: false, icon: "fa-line-chart" },
-            { text: "Items Borrowed", isHeader: false, isItem: true, icon: "fa-area-chart", link: ".items" },
+            { text: "Tools", isHeader: false, isItem: true, icon: "fa-area-chart", link: ".items" },
             { text: "Consumables", isHeader: false, isItem: true, icon: "fa-area-chart", link: ".consumables" },
             { text: "View Reports", isHeader: true, isItem: false, icon: "fa-bar-chart-o" },
             { text: "Count Sheet", isHeader: false, isItem: true, icon: "fa-pie-chart", link: ".count-sheet" },

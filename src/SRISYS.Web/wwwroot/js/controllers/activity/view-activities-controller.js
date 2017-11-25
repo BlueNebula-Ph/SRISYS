@@ -19,18 +19,6 @@
             borrowedBy: ""
         };
 
-        // Headers
-        vm.headers = [
-            { text: "Material", value: "Material.Name" },
-            { text: "Date Borrowed", value: "Date" },
-            { text: "Qty Borrowed", value: "QuantityBorrowed" },
-            { text: "Borrower", value: "BorrowedBy" },
-            { text: "Date Returned", value: "LastDateReturned" },
-            { text: "Qty Returned", value: "TotalQuantityReturned" },
-            { text: "Returned By", value: "ReturnedBy" },
-            { text: "", value: "" }
-        ];
-
         // Public Methods
         vm.fetchActivities = function () {
             utils.showLoading();

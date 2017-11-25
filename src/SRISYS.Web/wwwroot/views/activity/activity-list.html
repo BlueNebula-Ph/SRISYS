@@ -41,7 +41,7 @@
                         <em>{{ c.date | date: 'MMM dd, yyyy' }}</em>
                     </span>
                     <span style="width: 50%;">
-                        <b>{{ c.borrowedBy }}</b> borrowed <b>{{ c.quantityBorrowed }}</b> pcs of <b>{{ c.materialName }}</b>.
+                        <b>{{ c.borrowedBy }}</b> borrowed <b>{{ c.quantityBorrowed }}</b> {{ c.unit }} of <b>{{ c.materialName }}</b>.
                     </span>
                     <span style="width: 25%;">
                         Released by: <b>{{ c.releasedBy }}</b>

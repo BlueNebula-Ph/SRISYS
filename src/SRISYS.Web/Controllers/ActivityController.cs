@@ -151,6 +151,11 @@ namespace Srisys.Web.Controllers
                 return this.NotFound(id);
             }
 
+            if (activity.Status == ActivityStatus.Complete)
+            {
+                return this.BadRequest();
+            }
+
             this.context.Remove(activity);
             await this.context.SaveChangesAsync();
 
