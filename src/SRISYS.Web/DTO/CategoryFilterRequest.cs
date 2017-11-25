@@ -3,9 +3,9 @@
     using BlueNebula.Common.DTOs;
 
     /// <summary>
-    /// View model for the BorrowerFilterRequest entity.
+    /// View model for the CategoryFilterRequest entity.
     /// </summary>
-    public class BorrowerFilterRequest : FilterRequestBase
+    public class CategoryFilterRequest : FilterRequestBase
     {
     }
 }

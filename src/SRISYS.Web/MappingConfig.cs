@@ -38,11 +38,17 @@
 
             this.CreateMap<SaveBorrowerRequest, Borrower>();
 
+            // Category
+            this.CreateMap<Category, CategorySummary>();
+
+            this.CreateMap<SaveCategoryRequest, Category>();
+
+
             // Material
             this.CreateMap<Material, MaterialSummary>()
                 .ForMember(d => d.TypeCode, s => s.MapFrom(o => o.Type.Code))
-                .ForMember(d => d.Categoryname, s => s.MapFrom(o => o.Category.Code))
-                .ForMember(d => d.SubCategoryName, s => s.MapFrom(o => o.SubCategory.Code))
+                .ForMember(d => d.Categoryname, s => s.MapFrom(o => o.Category.Name))
+                .ForMember(d => d.SubCategoryName, s => s.MapFrom(o => o.SubCategory.Name))
                 .ForMember(d => d.SupplierName, s => s.MapFrom(o => o.Supplier.Name));
 
             this.CreateMap<Material, MaterialLookup>();
@@ -51,6 +57,11 @@
 
             // Adjustment
             this.CreateMap<Adjustment, AdjustmentSummary>();
+
+            // Subcategory
+            this.CreateMap<Subcategory, SubcategorySummary>();
+
+            this.CreateMap<SaveSubcategoryRequest, Subcategory>();
 
             // Supplier
             this.CreateMap<Supplier, SupplierSummary>();
