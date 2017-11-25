@@ -24,10 +24,19 @@
                 .ForMember(d => d.Model, s => s.MapFrom(o => o.Material.Model))
                 .ForMember(d => d.Size, s => s.MapFrom(o => o.Material.Size))
                 .ForMember(d => d.Use, s => s.MapFrom(o => o.Material.Use))
+                .ForMember(d => d.BorrowedBy, s => s.MapFrom(o => o.BorrowedBy.Name))
+                .ForMember(d => d.ReturnedBy, s => s.MapFrom(o => o.ReturnedBy.Name))
+                .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => o.ReleasedBy.Username))
+                .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => o.ReceivedBy.Username))
                 .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
                 .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned));
 
             this.CreateMap<ActivityRequest, Activity>();
+
+            // Borrower
+            this.CreateMap<Borrower, BorrowerSummary>();
+
+            this.CreateMap<SaveBorrowerRequest, Borrower>();
 
             // Material
             this.CreateMap<Material, MaterialSummary>()

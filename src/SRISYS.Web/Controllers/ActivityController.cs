@@ -125,8 +125,8 @@ namespace Srisys.Web.Controllers
                 }
                 else
                 {
-                    activity.ReturnedBy = activityToSave.ReturnedBy;
-                    activity.ReceivedBy = activityToSave.ReceivedBy;
+                    activity.ReturnedById = activityToSave.ReturnedById;
+                    activity.ReceivedById = activityToSave.ReceivedById;
 
                     this.context.Update(activity);
                 }
@@ -183,14 +183,14 @@ namespace Srisys.Web.Controllers
                 list = list.Where(c => c.Date >= filter.DateFrom && c.Date < filter.DateTo.Value.AddDays(1));
             }
 
-            if (!string.IsNullOrEmpty(filter?.BorrowedBy))
+            if (!(filter?.BorrowedById).IsNullOrZero())
             {
-                list = list.Where(c => c.BorrowedBy.ToLower().Contains(filter.BorrowedBy.ToLower()));
+                list = list.Where(c => c.BorrowedById == filter.BorrowedById);
             }
 
-            if (!string.IsNullOrEmpty(filter?.ReleasedBy))
+            if (!(filter?.ReleasedById).IsNullOrZero())
             {
-                list = list.Where(c => c.ReleasedBy.ToLower().Contains(filter.ReleasedBy.ToLower()));
+                list = list.Where(c => c.ReleasedById == filter.ReleasedById);
             }
 
             if (!(filter?.MaterialId).IsNullOrZero())

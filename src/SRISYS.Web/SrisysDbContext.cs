@@ -38,6 +38,11 @@
         public DbSet<Adjustment> Adjustments { get; set; }
 
         /// <summary>
+        /// Gets or sets the borrowers db set.
+        /// </summary>
+        public DbSet<Borrower> Borrowers { get; set; }
+
+        /// <summary>
         /// Gets or sets the suppliers db set.
         /// </summary>
         public DbSet<Supplier> Suppliers { get; set; }
@@ -154,14 +159,27 @@
             }
         }
 
+        private static void SeedBorrowers(SrisysDbContext context)
+        {
+            if (!context.Borrowers.Any())
+            {
+                var borrowers = new List<Borrower>
+                {
+                    new Borrower { Name = "Charterstone" },
+                    new Borrower { Name = "Geddy" },
+                };
+                context.Borrowers.AddRange(borrowers);
+            }
+        }
+
         private static void SeedActivities(SrisysDbContext context)
         {
             if (!context.Activities.Any())
             {
                 var activities = new List<Activity>
                 {
-                    new Activity { Date = DateTime.Now, MaterialId = 3, BorrowedBy = "Charterstone", QuantityBorrowed = 10, Status = Common.ActivityStatus.Pending },
-                    new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedBy = "Geddy", QuantityBorrowed = 15, ReturnedBy = "Geddy", TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
+                    new Activity { Date = DateTime.Now, MaterialId = 3, BorrowedById = 1, QuantityBorrowed = 10, Status = Common.ActivityStatus.Pending },
+                    new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedById = 2, QuantityBorrowed = 15, TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
                 };
                 context.Activities.AddRange(activities);
             }

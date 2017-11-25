@@ -90,6 +90,7 @@
     <Content Include="wwwroot\views\inventory\item-details.html" />
     <Content Include="wwwroot\views\inventory\item-list.html" />
     <Content Include="wwwroot\views\inventory\purchase-item.html" />
+    <Content Include="wwwroot\views\login\login.html" />
     <Content Include="wwwroot\views\report\count-sheet-report.html" />
     <Content Include="wwwroot\views\report\daily-report.html" />
     <Content Include="wwwroot\views\report\low-stocks-report.html" />
