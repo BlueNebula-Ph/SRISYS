@@ -22,12 +22,12 @@
         /// <summary>
         /// Gets or sets the borrowed by property.
         /// </summary>
-        public string BorrowedBy { get; set; }
+        public int BorrowedById { get; set; }
 
         /// <summary>
         /// Gets or sets the released by property.
         /// </summary>
-        public string ReleasedBy { get; set; }
+        public int ReleasedById { get; set; }
 
         /// <summary>
         /// Gets or sets the material id property.
