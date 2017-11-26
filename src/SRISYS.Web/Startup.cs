@@ -69,8 +69,9 @@
 
             services.AddDbContext<SrisysDbContext>(opt =>
             {
-                opt.UseInMemoryDatabase();
+                opt.UseSqlServer(this.Configuration.GetConnectionString("MaterialDatabase"));
 
+                // opt.UseInMemoryDatabase();
                 opt.UseOpenIddict();
             });
 

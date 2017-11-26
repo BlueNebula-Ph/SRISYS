@@ -25,7 +25,7 @@
         /// </summary>
         [Required]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Gets or sets property Last Updated By.
@@ -38,6 +38,6 @@
         /// </summary>
         [Required]
         [DisplayFormat(DataFormatString = "{0:MM-dd-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime LastUpdatedDate { get; set; }
+        public DateTime LastUpdatedDate { get; set; } = DateTime.Now;
     }
 }
