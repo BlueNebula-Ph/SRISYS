@@ -26,12 +26,12 @@
         /// <summary>
         /// Gets or sets the borrowed by property.
         /// </summary>
-        public int BorrowedById { get; set; }
+        public int? BorrowedById { get; set; }
 
         /// <summary>
         /// Gets or sets the released by property.
         /// </summary>
-        public int ReleasedById { get; set; }
+        public int? ReleasedById { get; set; }
 
         /// <summary>
         /// Gets or sets the latest return date property.
@@ -46,12 +46,12 @@
         /// <summary>
         /// Gets or sets the returned by property.
         /// </summary>
-        public int ReturnedById { get; set; }
+        public int? ReturnedById { get; set; }
 
         /// <summary>
         /// Gets or sets the received by property.
         /// </summary>
-        public int ReceivedById { get; set; }
+        public int? ReceivedById { get; set; }
 
         /// <summary>
         /// Gets or sets the status property.

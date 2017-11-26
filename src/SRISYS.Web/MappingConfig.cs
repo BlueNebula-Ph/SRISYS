@@ -43,7 +43,6 @@
 
             this.CreateMap<SaveCategoryRequest, Category>();
 
-
             // Material
             this.CreateMap<Material, MaterialSummary>()
                 .ForMember(d => d.TypeCode, s => s.MapFrom(o => o.Type.Code))

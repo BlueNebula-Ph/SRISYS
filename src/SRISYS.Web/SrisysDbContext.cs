@@ -85,10 +85,12 @@
 
                 SeedReferenceTypes(context);
                 SeedReferences(context);
-                SeedMaterials(context);
-                SeedSuppliers(context);
-                SeedActivities(context);
 
+                // SeedCategories(context);
+                // SeedSubcategories(context);
+                // SeedMaterials(context);
+                // SeedSuppliers(context);
+                // SeedActivities(context);
                 context.SaveChanges();
             }
         }
@@ -106,6 +108,12 @@
                 .HasOne(a => a.Material)
                 .WithMany(a => a.Adjustments)
                 .HasForeignKey(a => a.MaterialId);
+
+            // Categories
+            modelBuilder.Entity<Subcategory>()
+                .HasOne(a => a.Category)
+                .WithMany(a => a.Subcategories)
+                .HasForeignKey(a => a.CategoryId);
         }
 
         private static void SeedReferenceTypes(SrisysDbContext context)
@@ -168,9 +176,9 @@
             {
                 var materials = new List<Material>
                 {
-                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, RemainingQuantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 3, SubCategoryId = 6, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
-                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, RemainingQuantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 4, SubCategoryId = 8, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
-                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, RemainingQuantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
+                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, RemainingQuantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 1, SubCategoryId = 1, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
+                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, RemainingQuantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 2, SubCategoryId = 3, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
+                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, RemainingQuantity = 150, Size = "1", Model = "Model 5", Brand = "B-001", CategoryId = 1, SubCategoryId = 1 },
                 };
                 context.Materials.AddRange(materials);
             }
