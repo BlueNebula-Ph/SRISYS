@@ -1,9 +1,11 @@
 ﻿namespace Srisys.Web.Models
 {
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+
     /// <summary>
     /// View model for the user entity.
     /// </summary>
-    public class User : ModelBase
+    public class ApplicationUser : IdentityUser
     {
         /// <summary>
         /// Gets or sets the username.

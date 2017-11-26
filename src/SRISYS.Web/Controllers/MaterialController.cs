@@ -4,9 +4,11 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
+    using AspNet.Security.OAuth.Validation;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -17,6 +19,7 @@
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
     /// </summary>
+    [Authorize]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class MaterialController : Controller

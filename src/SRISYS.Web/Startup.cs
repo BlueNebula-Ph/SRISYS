@@ -1,16 +1,22 @@
 ﻿namespace Srisys.Web
 {
+    using System.IdentityModel.Tokens.Jwt;
     using System.IO;
+    using AspNet.Security.OpenIdConnect.Primitives;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
     using Microsoft.Extensions.PlatformAbstractions;
+    using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Srisys.Web.Models;
     using Srisys.Web.Services;
     using Srisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
@@ -61,6 +67,7 @@
                 .AddJsonOptions(opt =>
                 {
                     opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
             services.AddLogging();
@@ -74,28 +81,47 @@
                 opt.UseOpenIddict();
             });
 
-            services.AddOpenIddict(options =>
+            // Register the Identity services.
+            services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<SrisysDbContext>()
+                .AddDefaultTokenProviders();
+
+            // Configure Identity to use the same JWT claims as OpenIddict instead
+            // of the legacy WS-Federation claims it uses by default (ClaimTypes),
+            // which saves you from doing the mapping in your authorization controller.
+            services.Configure<IdentityOptions>(options =>
             {
-                // Register the Entity Framework stores.
-                options.AddEntityFrameworkCoreStores<SrisysDbContext>();
-
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                options.AddMvcBinders();
-
-                // Enable the token endpoint.
-                options.EnableTokenEndpoint("/connect/token");
-
-                // Enable the password flow.
-                options.AllowPasswordFlow();
-
-                // Enable the use of refresh tokens();
-                options.AllowRefreshTokenFlow();
-
-                // During development, you can disable the HTTPS requirement.
-                options.DisableHttpsRequirement();
+                options.ClaimsIdentity.UserNameClaimType = OpenIdConnectConstants.Claims.Name;
+                options.ClaimsIdentity.UserIdClaimType = OpenIdConnectConstants.Claims.Subject;
+                options.ClaimsIdentity.RoleClaimType = OpenIdConnectConstants.Claims.Role;
             });
+
+            services.AddOpenIddict(options =>
+                {
+                    // Register the Entity Framework stores.
+                    options.AddEntityFrameworkCoreStores<SrisysDbContext>();
+
+                    // Register the ASP.NET Core MVC binder used by OpenIddict.
+                    // Note: if you don't call this method, you won't be able to
+                    // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
+                    options.AddMvcBinders();
+
+                    // Enable the token endpoint.
+                    options.EnableTokenEndpoint("/connect/token");
+
+                    // Enable the password flow.
+                    options.AllowPasswordFlow();
+
+                    // Enable the use of refresh tokens();
+                    options.AllowRefreshTokenFlow();
+
+                    // During development, you can disable the HTTPS requirement.
+                    options.DisableHttpsRequirement();
+
+                    options.AddEphemeralSigningKey();
+
+                    options.UseJsonWebTokens();
+                });
 
             services.AddSwaggerGen(opt =>
             {
@@ -129,6 +155,21 @@
             // Register the validation middleware, that is used to decrypt
             // the access tokens and populate the HttpContext.User property.
             app.UseOAuthValidation();
+
+            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
+            JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
+
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                Authority = "http://localhost:55822/",
+                Audience = "resource_server",
+                RequireHttpsMetadata = false,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    NameClaimType = OpenIdConnectConstants.Claims.Subject,
+                    RoleClaimType = OpenIdConnectConstants.Claims.Role,
+                },
+            });
 
             // Register the openiddict middleware.
             app.UseOpenIddict();

@@ -7,11 +7,12 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Srisys.Web.Models;
+    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
     /// <summary>
     /// DBContenxt for Srisys.
     /// </summary>
-    public class SrisysDbContext : DbContext, IDisposable
+    public class SrisysDbContext : IdentityDbContext<ApplicationUser>, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SrisysDbContext"/> class.
@@ -55,7 +56,7 @@
         /// <summary>
         /// Gets or sets the users db set.
         /// </summary>
-        public DbSet<User> Users { get; set; }
+        // public DbSet<ApplicationUser> Users { get; set; }
 
         /// <summary>
         /// Seeds the database with test data.
