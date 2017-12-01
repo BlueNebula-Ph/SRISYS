@@ -5,12 +5,13 @@ namespace Srisys.Web.Controllers
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
+    using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using Srisys.Web.Models;
 
     /// <summary>
     /// <see cref="BorrowerController"/> class handles adding, editing, deleting and fetching of borrowers.
@@ -65,6 +66,28 @@ namespace Srisys.Web.Controllers
             list = list.OrderBy(ordering);
 
             var entities = await this.builder.BuildAsync(list, filter);
+
+            return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Returns list of active <see cref="Borrower"/>
+        /// </summary>
+        /// <returns>List of Borrower</returns>
+        [HttpGet("lookup", Name = "GetBorrowerLookup")]
+        public IActionResult GetLookup()
+        {
+            // get list of active items (not deleted)
+            var list = this.context.Borrowers
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted);
+
+            // sort
+            var ordering = $"Name {Constants.DefaultSortDirection}";
+
+            list = list.OrderBy(ordering);
+
+            var entities = list.ProjectTo<BorrowerLookup>();
 
             return this.Ok(entities);
         }

@@ -91,6 +91,7 @@
                 // SeedMaterials(context);
                 // SeedSuppliers(context);
                 // SeedActivities(context);
+                SeedBorrowers(context);
                 context.SaveChanges();
             }
         }
