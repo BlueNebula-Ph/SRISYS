@@ -42,9 +42,10 @@
                     </a>
                 </li>
             </ul>
-            <div ng-controller="loginController as login" class="navbar-text navbar-right logged-user">
-                <div ng-show="login.userProfile.loggedIn">
-                    <i class="fa fa-user"></i> Logged on as {{ login.userProfile.username }}
+            <div class="navbar-text navbar-right logged-user">
+                <div ng-show="navCtrl.loggedUser.loggedIn">
+                    <i class="fa fa-user"></i> Logged on as {{ navCtrl.loggedUser.username }} | 
+                    <a href="" ng-click="navCtrl.logout()"><i class="fa fa-sign-out"></i> Sign out</a>
                 </div>
             </div>
         </div>

@@ -1,16 +1,17 @@
 ﻿(function (module) {
-    var currentUser = function (localStorage) {
-        var USERKEY = "userkey";
+    var currentUser = function (localStorage, keys) {
 
         var setUserProfile = function (username, token) {
             userProfile.username = username;
             userProfile.token = token;
 
-            // Setup other properties from token such as permissions
-            var payload = JSON.parse(window.atob(token.split('.')[1]));
-            userProfile.userId = payload.sid;
+            if (token) {
+                // Setup other properties from token such as permissions
+                var payload = JSON.parse(window.atob(token.split('.')[1]));
+                userProfile.userId = payload.sid;
 
-            localStorage.add(USERKEY, userProfile);
+                localStorage.add(keys.userkey, userProfile);
+            }
         };
 
         var initialize = function () {
@@ -23,7 +24,7 @@
                 }
             };
 
-            var localUser = localStorage.get(USERKEY);
+            var localUser = localStorage.get(keys.userkey);
             if (localUser) {
                 user.userId = localUser.userId;
                 user.username = localUser.username;
@@ -41,6 +42,6 @@
         };
     };
 
-    module.factory("currentUser", ["localStorage", currentUser]);
+    module.factory("currentUser", ["localStorage", "keys", currentUser]);
 
 })(angular.module("srisys-app"));

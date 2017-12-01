@@ -10,6 +10,7 @@
 
     angular.module("srisys-app", ["ui.router", "permission", "permission.ui"])
         .constant("env", env)
+        .constant("keys", { userkey: "USERKEY" })
         .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
             $urlRouterProvider.otherwise("/home");

@@ -13,10 +13,6 @@
   <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
-    <Content Include="wwwroot\images\background.jpg" />
-    <Content Include="wwwroot\images\bg.jpg" />
-    <Content Include="wwwroot\images\bg2.jpg" />
-    <Content Include="wwwroot\images\bg3.jpg" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\controllers\activity\borrow-item-controller.js" />
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
