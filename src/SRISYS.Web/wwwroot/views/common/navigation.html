@@ -21,7 +21,7 @@
                         <i class="fa fa-home"></i> Home
                     </a>
                 </li>
-                <li ui-sref-active="nav-active">
+                <li ui-sref-active="nav-active" permission permission-only="'seesDashboard'">
                     <a ui-sref="inventory">
                         <i class="fa fa-database"></i> Inventory
                     </a>
@@ -42,8 +42,10 @@
                     </a>
                 </li>
             </ul>
-            <div class="navbar-text navbar-right logged-user">
-                <i class="fa fa-user"></i> Logged on as User
+            <div ng-controller="loginController as login" class="navbar-text navbar-right logged-user">
+                <div ng-show="login.userProfile.loggedIn">
+                    <i class="fa fa-user"></i> Logged on as {{ login.userProfile.username }}
+                </div>
             </div>
         </div>
     </div>

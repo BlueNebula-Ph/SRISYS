@@ -14,12 +14,13 @@
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Filters;
     using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
     /// </summary>
-    [Authorize]
+    [AuthorizePermission(PermissionItem.Material, PermissionAction.Read)]
     [Produces("application/json")]
     [Route("api/[controller]")]
     public class MaterialController : Controller

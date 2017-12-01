@@ -13,12 +13,14 @@ namespace Srisys.Web.Controllers
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Services.Interfaces;
+    using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// <see cref="ActivityController"/> class handles ActivityLog basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class ActivityController : Controller
     {
         private readonly SrisysDbContext context;

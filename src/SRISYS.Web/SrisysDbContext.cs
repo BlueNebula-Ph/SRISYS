@@ -7,12 +7,12 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Srisys.Web.Models;
-    using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+    using Microsoft.AspNetCore.Identity;
 
     /// <summary>
     /// DBContenxt for Srisys.
     /// </summary>
-    public class SrisysDbContext : IdentityDbContext<ApplicationUser>, IDisposable
+    public class SrisysDbContext : DbContext, IDisposable
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="SrisysDbContext"/> class.
@@ -56,7 +56,7 @@
         /// <summary>
         /// Gets or sets the users db set.
         /// </summary>
-        // public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<ApplicationUser> Users { get; set; }
 
         /// <summary>
         /// Seeds the database with test data.
@@ -74,6 +74,7 @@
                 SeedMaterials(context);
                 SeedSuppliers(context);
                 SeedActivities(context);
+                SeedUsers(context);
 
                 context.SaveChanges();
             }
@@ -165,6 +166,18 @@
                     new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedBy = "Geddy", QuantityBorrowed = 15, ReturnedBy = "Geddy", TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
                 };
                 context.Activities.AddRange(activities);
+            }
+        }
+
+        private static void SeedUsers(SrisysDbContext context)
+        {
+            if (!context.Users.Any())
+            {
+                var newUser = new ApplicationUser { Username = "TestUser", Firstname = "First", Lastname = "LastName" };
+                var password = new PasswordHasher<ApplicationUser>().HashPassword(newUser, "Test");
+                newUser.PasswordHash = password;
+
+                context.Users.Add(newUser);
             }
         }
     }

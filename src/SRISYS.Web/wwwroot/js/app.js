@@ -8,13 +8,20 @@
         Object.assign(env, window._environment);
     };
 
-    angular.module("srisys-app", ["ui.router"])
+    angular.module("srisys-app", ["ui.router", "permission", "permission.ui"])
         .constant("env", env)
         .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
             $urlRouterProvider.otherwise("/home");
 
             $stateProvider
+                .state("login", {
+                    url: "/login",
+                    templateUrl: "/views/common/login.html",
+                    controller: "loginController",
+                    controllerAs: "ctrl"
+                })
+
                 .state("home", {
                     url: "/home",
                     templateUrl: "/views/home/index.html",
@@ -147,9 +154,18 @@
                     controllerAs: "ctrl"
                 });
         }])
-        .run(["$rootScope", "$state", "$stateParams",
-            function ($rootScope, $state, $stateParams) {
+        .run(["$rootScope", "$state", "$stateParams", "$transitions", "loginRedirect", "currentUser",
+            function ($rootScope, $state, $stateParams, $transitions, loginRedirect, currentUser) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
-            }]);;
+
+                $transitions.onBefore({}, function (transition) {
+                    var newState = transition.to().name;
+
+                    if (newState != "login" && !currentUser.userProfile.loggedIn) {
+                        loginRedirect.setLastState(newState);
+                        return transition.router.stateService.target("login");
+                    }
+                });
+            }]);
 })();
