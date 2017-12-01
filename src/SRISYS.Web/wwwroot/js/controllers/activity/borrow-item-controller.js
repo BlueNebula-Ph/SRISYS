@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var borrowItemController = function ($q, $scope, activityService, inventoryService, utils) {
+    var borrowItemController = function ($q, $scope, activityService, inventoryService, borrowerService, utils) {
         var vm = this;
         var defaultBorrow = {
             type: 1,
@@ -16,7 +16,8 @@
 
         // Data
         vm.borrow = {};
-        vm.itemList = [];
+		vm.itemList = [];
+		vm.borrowerList = [];
 
         // Helper properties
         vm.defaultFocus = true;
@@ -91,19 +92,22 @@
         };
 
         var processItemList = function (response) {
-            utils.populateDropdownlist(response, vm.itemList, "", "");
+			utils.populateDropdownlist(response, vm.itemList, "", "");
+			utils.populateDropdownlist(response, vm.borrowerList, "name", "");
         };
 
         var loadAll = function () {
             utils.showLoading();
 
             var requests = {
-                item: inventoryService.getItemLookup()
+				item: inventoryService.getItemLookup(),
+				borrower: borrowerService.getBorrowerLookup()
             };
 
             $q.all(requests)
                 .then((responses) => {
-                    processItemList(responses.item);
+					processItemList(responses.item);
+					processItemList(responses.borrower);
                 }, utils.onError)
                 .finally(utils.hideLoading);
         };
@@ -116,6 +120,6 @@
         return vm;
     };
 
-    module.controller("borrowItemController", ["$q", "$scope", "activityService", "inventoryService", "utils", borrowItemController]);
+    module.controller("borrowItemController", ["$q", "$scope", "activityService", "inventoryService", "borrowerService", "utils", borrowItemController]);
 
 })(angular.module("srisys-app"));

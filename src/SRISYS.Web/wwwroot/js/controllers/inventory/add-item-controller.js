@@ -104,7 +104,7 @@
 
             var requests = {
                 category: referenceService.getReferenceLookup(2),
-                supplier: supplierService.getSupplierLookup()
+				supplier: supplierService.getSupplierLookup()
             };
 
             if ($stateParams.id != 0) {

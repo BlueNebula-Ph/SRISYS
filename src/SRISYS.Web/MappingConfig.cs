@@ -36,6 +36,8 @@
             // Borrower
             this.CreateMap<Borrower, BorrowerSummary>();
 
+            this.CreateMap<Borrower, BorrowerLookup>();
+
             this.CreateMap<SaveBorrowerRequest, Borrower>();
 
             // Category
