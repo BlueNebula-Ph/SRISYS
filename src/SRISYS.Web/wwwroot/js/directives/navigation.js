@@ -1,18 +1,24 @@
 ﻿(function (module) {
     var navigation = function () {
-        var navController = ["$state", "currentUser", "localStorage", "keys", function ($state, currentUser, localStorage, keys) {
-            var vm = this;
+        var navController = ["$state", "currentUser", "localStorage", "keys", "PermPermissionStore",
+            function ($state, currentUser, localStorage, keys, PermPermissionStore) {
+                var vm = this;
 
-            vm.loggedUser = currentUser.userProfile;
+                vm.loggedUser = currentUser.userProfile;
 
-            vm.logout = function () {
-                localStorage.remove(keys.userkey);
-                currentUser.setUserProfile("", "");
-                $state.go("login");
-            };
+                vm.logout = function () {
+                    // Clear the user key from the local storage
+                    localStorage.remove(keys.userkey);
+                    currentUser.setUserProfile("", "");
 
-            return vm;
-        }];
+                    // Clear the user permissions from the permission store
+                    PermPermissionStore.clearStore();
+
+                    $state.go("login");
+                };
+
+                return vm;
+            }];
 
         return {
             restrict: "E",

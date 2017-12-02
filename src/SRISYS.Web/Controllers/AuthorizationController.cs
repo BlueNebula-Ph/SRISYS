@@ -67,8 +67,7 @@ namespace Srisys.Web.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, model.Username),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
-                        new Claim(PermissionItem.Material.ToString(), PermissionAction.Read.ToString()),
-                        new Claim(PermissionItem.Material.ToString(), PermissionAction.Create.ToString()),
+                        new Claim("accessRights", user.AccessRights),
                     };
 
                     var signingCred = new SigningCredentials(

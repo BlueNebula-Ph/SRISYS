@@ -26,5 +26,10 @@
         /// Gets or sets the lastname of the user.
         /// </summary>
         public string Lastname { get; set; }
+
+        /// <summary>
+        /// Gets or sets the access rights of the user.
+        /// </summary>
+        public string AccessRights { get; set; }
     }
 }

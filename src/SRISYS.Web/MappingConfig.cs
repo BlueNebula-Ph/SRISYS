@@ -63,6 +63,16 @@
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();
 
             this.CreateMap<SaveReferenceTypeRequest, ReferenceType>();
+
+            // User
+            this.CreateMap<ApplicationUser, UserSummary>()
+                .ForMember(d => d.IsAdmin, o => o.MapFrom(s => s.AccessRights.Contains("admin")))
+                .ForMember(d => d.CanView, o => o.MapFrom(s => s.AccessRights.Contains("canView")))
+                .ForMember(d => d.CanWrite, o => o.MapFrom(s => s.AccessRights.Contains("canWrite")))
+                .ForMember(d => d.CanDelete, o => o.MapFrom(s => s.AccessRights.Contains("canDelete")));
+
+            this.CreateMap<SaveUserRequest, ApplicationUser>()
+                .ForMember(d => d.PasswordHash, o => o.Ignore());
         }
     }
 }

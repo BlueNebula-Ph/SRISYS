@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var currentUser = function (localStorage, keys) {
+    var currentUser = function (localStorage, keys, PermPermissionStore) {
 
         var setUserProfile = function (username, token) {
             userProfile.username = username;
@@ -9,6 +9,15 @@
                 // Setup other properties from token such as permissions
                 var payload = JSON.parse(window.atob(token.split('.')[1]));
                 userProfile.userId = payload.sid;
+
+                if (payload.accessRights) {
+                    var accessRights = payload.accessRights.split(',');
+                    PermPermissionStore.defineManyPermissions(accessRights, function () {
+                        return true;
+                    });
+
+                    localStorage.add(keys.userpermissions, accessRights);
+                }
 
                 localStorage.add(keys.userkey, userProfile);
             }
@@ -24,11 +33,20 @@
                 }
             };
 
+            // Get user info from local storage
             var localUser = localStorage.get(keys.userkey);
             if (localUser) {
                 user.userId = localUser.userId;
                 user.username = localUser.username;
                 user.token = localUser.token;
+            }
+
+            // Get user permissions from local storage
+            var accessRights = localStorage.get(keys.userpermissions);
+            if (accessRights) {
+                PermPermissionStore.defineManyPermissions(accessRights, function () {
+                    return true;
+                });
             }
 
             return user;
@@ -42,6 +60,6 @@
         };
     };
 
-    module.factory("currentUser", ["localStorage", "keys", currentUser]);
+    module.factory("currentUser", ["localStorage", "keys", "PermPermissionStore", currentUser]);
 
 })(angular.module("srisys-app"));

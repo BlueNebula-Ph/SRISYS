@@ -26,6 +26,12 @@
         public string Lastname { get; set; }
 
         /// <summary>
+        /// Gets or sets the permissions of the user.
+        /// ex. CanRead, CanWrite, CanDelete or Admin
+        /// </summary>
+        public string AccessRights { get; set; }
+
+        /// <summary>
         /// Gets or sets a value indicating whether the user is deleted.
         /// </summary>
         public bool IsDeleted { get; set; }

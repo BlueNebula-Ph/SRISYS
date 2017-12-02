@@ -173,7 +173,7 @@
         {
             if (!context.Users.Any())
             {
-                var newUser = new ApplicationUser { Username = "TestUser", Firstname = "First", Lastname = "LastName" };
+                var newUser = new ApplicationUser { Username = "TestUser", Firstname = "First", Lastname = "LastName", AccessRights = "admin,canView" };
                 var password = new PasswordHasher<ApplicationUser>().HashPassword(newUser, "Test");
                 newUser.PasswordHash = password;
 

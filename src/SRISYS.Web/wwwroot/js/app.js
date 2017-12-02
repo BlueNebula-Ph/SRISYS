@@ -10,7 +10,7 @@
 
     angular.module("srisys-app", ["ui.router", "permission", "permission.ui"])
         .constant("env", env)
-        .constant("keys", { userkey: "USERKEY" })
+        .constant("keys", { userkey: "USERKEY", userpermissions: "USERPERMISSIONS" })
         .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
             $urlRouterProvider.otherwise("/home");
@@ -27,14 +27,26 @@
                     url: "/home",
                     templateUrl: "/views/home/index.html",
                     controller: "homeController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permission: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 })
 
                 .state("system", {
                     url: "/system",
                     templateUrl: "/views/common/index.html",
                     controller: "manageSystemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: "admin",
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("system.list-suppliers", {
                     url: "/list/suppliers",
                     templateUrl: "/views/system/supplier-list.html",
@@ -57,10 +69,14 @@
                     controllerAs: "ctrl"
                 }).state("system.list-users", {
                     url: "/list/users",
-                    template: "<div>List users</div>"
+                    templateUrl: "/views/system/user-list.html",
+                    controller: "viewUsersController",
+                    controllerAs: "ctrl"
                 }).state("system.add-user", {
                     url: "/add/user/{id}",
-                    template: "<div>ADD user</div>"
+                    templateUrl: "/views/system/add-user.html",
+                    controller: "addUserController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("inventory", {
@@ -153,6 +169,11 @@
                     templateUrl: "/views/report/stocks-report.html",
                     controller: "stocksReportController",
                     controllerAs: "ctrl"
+                })
+
+                .state("unauthorized", {
+                    url: "/unauthorized",
+                    templateUrl: "/views/common/unauthorized.html"
                 });
         }])
         .run(["$rootScope", "$state", "$stateParams", "$transitions", "loginRedirect", "currentUser",

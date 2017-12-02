@@ -32,6 +32,7 @@
     <Content Include="wwwroot\js\controllers\report\stocks-report-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-category-controller.js" />
     <Content Include="wwwroot\js\controllers\system\add-supplier-controller.js" />
+    <Content Include="wwwroot\js\controllers\system\add-user-controller.js" />
     <Content Include="wwwroot\js\controllers\system\manage-system-controller.js" />
     <Content Include="wwwroot\js\controllers\system\view-categories-controller.js" />
     <Content Include="wwwroot\js\controllers\system\view-suppliers-controller.js" />
@@ -67,6 +68,7 @@
     <Content Include="wwwroot\js\services\report-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
     <Content Include="wwwroot\js\services\token-service.js" />
+    <Content Include="wwwroot\js\services\user-service.js" />
     <Content Include="wwwroot\js\services\utility-service.js" />
     <Content Include="wwwroot\views\activity\activity-list.html" />
     <Content Include="wwwroot\views\activity\borrow-items.html" />
@@ -86,6 +88,7 @@
     <Content Include="wwwroot\views\common\sidebar.html" />
     <Content Include="wwwroot\views\common\summary-controls.html" />
     <Content Include="wwwroot\views\common\summary-shell.html" />
+    <Content Include="wwwroot\views\common\unauthorized.html" />
     <Content Include="wwwroot\views\home\index.html" />
     <Content Include="wwwroot\views\home\login.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />

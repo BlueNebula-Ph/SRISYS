@@ -306,3 +306,11 @@ dd {
 .reports-table {
     border: 1px dashed #aaa;
 }
+
+/* Unauthorized */
+.unauthorized {
+    width: 30%;
+    margin: 80px auto;
+    border: 1px solid #ff0000;
+    text-align: center;
+}
