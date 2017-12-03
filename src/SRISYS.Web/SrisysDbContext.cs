@@ -39,6 +39,21 @@
         public DbSet<Adjustment> Adjustments { get; set; }
 
         /// <summary>
+        /// Gets or sets the borrowers db set.
+        /// </summary>
+        public DbSet<Borrower> Borrowers { get; set; }
+
+        /// <summary>
+        /// Gets or sets the categories db set.
+        /// </summary>
+        public DbSet<Category> Categories { get; set; }
+
+        /// <summary>
+        /// Gets or sets the subcategories db set.
+        /// </summary>
+        public DbSet<Subcategory> Subcategories { get; set; }
+
+        /// <summary>
         /// Gets or sets the suppliers db set.
         /// </summary>
         public DbSet<Supplier> Suppliers { get; set; }
@@ -71,11 +86,13 @@
 
                 SeedReferenceTypes(context);
                 SeedReferences(context);
-                SeedMaterials(context);
-                SeedSuppliers(context);
-                SeedActivities(context);
+                // SeedCategories(context);
+                // SeedSubcategories(context);
+                // SeedMaterials(context);
+                // SeedSuppliers(context);
+                // SeedActivities(context);
+                SeedBorrowers(context);
                 SeedUsers(context);
-
                 context.SaveChanges();
             }
         }
@@ -93,6 +110,12 @@
                 .HasOne(a => a.Material)
                 .WithMany(a => a.Adjustments)
                 .HasForeignKey(a => a.MaterialId);
+
+            // Categories
+            modelBuilder.Entity<Subcategory>()
+                .HasOne(a => a.Category)
+                .WithMany(a => a.Subcategories)
+                .HasForeignKey(a => a.CategoryId);
         }
 
         private static void SeedReferenceTypes(SrisysDbContext context)
@@ -102,8 +125,6 @@
                 var referenceTypes = new List<ReferenceType>
                 {
                     new ReferenceType { Code = "MaterialType" },
-                    new ReferenceType { Code = "Category" },
-                    new ReferenceType { Code = "SubCategory" },
                 };
                 context.ReferenceTypes.AddRange(referenceTypes);
             }
@@ -117,15 +138,37 @@
                 {
                     new Reference { ReferenceTypeId = 1, Code = "Tool" },
                     new Reference { ReferenceTypeId = 1, Code = "Consumable" },
-                    new Reference { ReferenceTypeId = 2, Code = "CAT-001" },
-                    new Reference { ReferenceTypeId = 2, Code = "CAT-002" },
-                    new Reference { ReferenceTypeId = 2, Code = "CAT-003" },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-001", ParentReferenceId = 3 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-021", ParentReferenceId = 3 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-003", ParentReferenceId = 4 },
-                    new Reference { ReferenceTypeId = 3, Code = "SUBCAT-004", ParentReferenceId = 5 },
                 };
                 context.References.AddRange(references);
+            }
+        }
+
+        private static void SeedCategories(SrisysDbContext context)
+        {
+            if (!context.Categories.Any())
+            {
+                var categories = new List<Category>
+                {
+                    new Category { Name = "CAT-001" },
+                    new Category { Name = "CAT-002" },
+                    new Category { Name = "CAT-003" },
+                };
+                context.Categories.AddRange(categories);
+            }
+        }
+
+        private static void SeedSubcategories(SrisysDbContext context)
+        {
+            if (!context.Subcategories.Any())
+            {
+                var subcategories = new List<Subcategory>
+                {
+                    new Subcategory { Name = "SUBCAT-001", CategoryId = 1 },
+                    new Subcategory { Name = "SUBCAT-021", CategoryId = 1 },
+                    new Subcategory { Name = "SUBCAT-003", CategoryId = 2 },
+                    new Subcategory { Name = "SUBCAT-004", CategoryId = 3 },
+                };
+                context.Subcategories.AddRange(subcategories);
             }
         }
 
@@ -135,9 +178,9 @@
             {
                 var materials = new List<Material>
                 {
-                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, RemainingQuantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 3, SubCategoryId = 6, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
-                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, RemainingQuantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 4, SubCategoryId = 8, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
-                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, RemainingQuantity = 150, Size = "1", Model = "Model 5", Brand = "B-001" },
+                    new Material { TypeId = 2, Name = "ITEM-001", Unit = "PC", Quantity = 100, RemainingQuantity = 100, Size = "1", Model = "Model 1", Brand = "B-001", Location = "North", CategoryId = 1, SubCategoryId = 1, Price = 2, LastPurchaseDate = DateTime.Now, MinimumStock = 50 },
+                    new Material { TypeId = 2, Name = "ITEM-002", Unit = "PC", Quantity = 200, RemainingQuantity = 200, Size = "5", Model = "Model 3", Brand = "B-001", Location = "North", CategoryId = 2, SubCategoryId = 3, Price = 7, LastPurchaseDate = DateTime.Now, MinimumStock = 10 },
+                    new Material { TypeId = 1, Name = "ITEM-003", Unit = "PC", Quantity = 150, RemainingQuantity = 150, Size = "1", Model = "Model 5", Brand = "B-001", CategoryId = 1, SubCategoryId = 1 },
                 };
                 context.Materials.AddRange(materials);
             }
@@ -156,14 +199,27 @@
             }
         }
 
+        private static void SeedBorrowers(SrisysDbContext context)
+        {
+            if (!context.Borrowers.Any())
+            {
+                var borrowers = new List<Borrower>
+                {
+                    new Borrower { Name = "Charterstone" },
+                    new Borrower { Name = "Geddy" },
+                };
+                context.Borrowers.AddRange(borrowers);
+            }
+        }
+
         private static void SeedActivities(SrisysDbContext context)
         {
             if (!context.Activities.Any())
             {
                 var activities = new List<Activity>
                 {
-                    new Activity { Date = DateTime.Now, MaterialId = 3, BorrowedBy = "Charterstone", QuantityBorrowed = 10, Status = Common.ActivityStatus.Pending },
-                    new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedBy = "Geddy", QuantityBorrowed = 15, ReturnedBy = "Geddy", TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
+                    new Activity { Date = DateTime.Now, MaterialId = 3, BorrowedById = 1, QuantityBorrowed = 10, Status = Common.ActivityStatus.Pending },
+                    new Activity { Date = DateTime.Now, MaterialId = 2, BorrowedById = 2, QuantityBorrowed = 15, TotalQuantityReturned = 15, Status = Common.ActivityStatus.Complete },
                 };
                 context.Activities.AddRange(activities);
             }

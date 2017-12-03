@@ -24,16 +24,32 @@
                 .ForMember(d => d.Model, s => s.MapFrom(o => o.Material.Model))
                 .ForMember(d => d.Size, s => s.MapFrom(o => o.Material.Size))
                 .ForMember(d => d.Use, s => s.MapFrom(o => o.Material.Use))
+                .ForMember(d => d.BorrowedBy, s => s.MapFrom(o => o.BorrowedBy.Name))
+                .ForMember(d => d.ReturnedBy, s => s.MapFrom(o => o.ReturnedBy.Name))
+                .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => o.ReleasedBy.Username))
+                .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => o.ReceivedBy.Username))
                 .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
                 .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned));
 
             this.CreateMap<ActivityRequest, Activity>();
 
+            // Borrower
+            this.CreateMap<Borrower, BorrowerSummary>();
+
+            this.CreateMap<Borrower, BorrowerLookup>();
+
+            this.CreateMap<SaveBorrowerRequest, Borrower>();
+
+            // Category
+            this.CreateMap<Category, CategorySummary>();
+
+            this.CreateMap<SaveCategoryRequest, Category>();
+
             // Material
             this.CreateMap<Material, MaterialSummary>()
                 .ForMember(d => d.TypeCode, s => s.MapFrom(o => o.Type.Code))
-                .ForMember(d => d.Categoryname, s => s.MapFrom(o => o.Category.Code))
-                .ForMember(d => d.SubCategoryName, s => s.MapFrom(o => o.SubCategory.Code))
+                .ForMember(d => d.Categoryname, s => s.MapFrom(o => o.Category.Name))
+                .ForMember(d => d.SubCategoryName, s => s.MapFrom(o => o.SubCategory.Name))
                 .ForMember(d => d.SupplierName, s => s.MapFrom(o => o.Supplier.Name));
 
             this.CreateMap<Material, MaterialLookup>();
@@ -42,6 +58,11 @@
 
             // Adjustment
             this.CreateMap<Adjustment, AdjustmentSummary>();
+
+            // Subcategory
+            this.CreateMap<Subcategory, SubcategorySummary>();
+
+            this.CreateMap<SaveSubcategoryRequest, Subcategory>();
 
             // Supplier
             this.CreateMap<Supplier, SupplierSummary>();

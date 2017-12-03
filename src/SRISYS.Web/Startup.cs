@@ -80,7 +80,7 @@
 
             services.AddDbContext<SrisysDbContext>(opt =>
             {
-                opt.UseInMemoryDatabase();
+                opt.UseSqlServer(this.Configuration.GetConnectionString("MaterialDatabase"));
             });
 
             services.AddSwaggerGen(opt =>

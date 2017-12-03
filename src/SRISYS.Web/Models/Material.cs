@@ -118,12 +118,12 @@
         /// <summary>
         /// Gets or sets property Category.
         /// </summary>
-        public Reference Category { get; set; }
+        public Category Category { get; set; }
 
         /// <summary>
         /// Gets or sets property SubCategory.
         /// </summary>
-        public Reference SubCategory { get; set; }
+        public Subcategory SubCategory { get; set; }
 
         /// <summary>
         /// Gets or sets property Supplier.

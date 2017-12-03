@@ -26,12 +26,12 @@
         /// <summary>
         /// Gets or sets the borrowed by property.
         /// </summary>
-        public string BorrowedBy { get; set; }
+        public int? BorrowedById { get; set; }
 
         /// <summary>
         /// Gets or sets the released by property.
         /// </summary>
-        public string ReleasedBy { get; set; }
+        public int? ReleasedById { get; set; }
 
         /// <summary>
         /// Gets or sets the latest return date property.
@@ -46,12 +46,12 @@
         /// <summary>
         /// Gets or sets the returned by property.
         /// </summary>
-        public string ReturnedBy { get; set; }
+        public int? ReturnedById { get; set; }
 
         /// <summary>
         /// Gets or sets the received by property.
         /// </summary>
-        public string ReceivedBy { get; set; }
+        public int? ReceivedById { get; set; }
 
         /// <summary>
         /// Gets or sets the status property.
@@ -64,5 +64,25 @@
         /// Gets or sets the material navigation property.
         /// </summary>
         public Material Material { get; set; }
+
+        /// <summary>
+        /// Gets or sets the borrower navigation property.
+        /// </summary>
+        public Borrower BorrowedBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the returned by navigation property. - Please change property name
+        /// </summary>
+        public Borrower ReturnedBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the released by navigation property.
+        /// </summary>
+        public User ReleasedBy { get; set; }
+
+        /// <summary>
+        /// Gets or sets the released by navigation property.
+        /// </summary>
+        public User ReceivedBy { get; set; }
     }
 }
