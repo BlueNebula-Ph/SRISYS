@@ -337,7 +337,7 @@
                         column: x => x.BorrowedById,
                         principalTable: "Borrowers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Activities_Materials_MaterialId",
                         column: x => x.MaterialId,
@@ -349,19 +349,19 @@
                         column: x => x.ReceivedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Activities_Users_ReleasedById",
                         column: x => x.ReleasedById,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Activities_Borrowers_ReturnedById",
                         column: x => x.ReturnedById,
                         principalTable: "Borrowers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(

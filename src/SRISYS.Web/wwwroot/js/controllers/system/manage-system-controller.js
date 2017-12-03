@@ -3,6 +3,9 @@
         var vm = this;
 
         vm.sidebarItems = [
+            { text: "Borrowers", isHeader: true, isItem: false, icon: "" },
+            { text: "Add New Borrower", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-borrower({ id: 0 })" },
+            { text: "Search Borrowers", isHeader: false, isItem: true, icon: "fa-search", link: ".list-borrowers" },
             { text: "Categories", isHeader: true, isItem: false, icon: "fa-file-o" },
             { text: "Add New Category", isHeader: false, isItem: true, icon: "fa-plus", link: ".add-category({ id: 0 })" },
             { text: "Search Categories", isHeader: false, isItem: true, icon: "fa-search", link: ".list-categories" },

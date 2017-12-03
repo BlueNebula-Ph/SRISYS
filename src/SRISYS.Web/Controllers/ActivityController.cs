@@ -7,13 +7,13 @@ namespace Srisys.Web.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Services.Interfaces;
-    using Microsoft.AspNetCore.Authorization;
 
     /// <summary>
     /// <see cref="ActivityController"/> class handles ActivityLog basic add, edit, delete and get.

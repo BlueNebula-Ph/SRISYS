@@ -4,7 +4,6 @@
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
-    using AspNet.Security.OAuth.Validation;
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
@@ -14,15 +13,14 @@
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using Srisys.Web.Filters;
     using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
     /// </summary>
-    [AuthorizePermission(PermissionItem.Material, PermissionAction.Read)]
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class MaterialController : Controller
     {
         private readonly SrisysDbContext context;

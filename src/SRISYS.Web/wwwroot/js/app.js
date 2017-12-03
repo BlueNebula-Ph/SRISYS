@@ -77,6 +77,16 @@
                     templateUrl: "/views/system/add-user.html",
                     controller: "addUserController",
                     controllerAs: "ctrl"
+                }).state("system.list-borrowers", {
+                    url: "/list/borrowers",
+                    templateUrl: "/views/system/borrower-list.html",
+                    controller: "viewBorrowersController",
+                    controllerAs: "ctrl"
+                }).state("system.add-borrower", {
+                    url: "/add/borrower/{id}",
+                    templateUrl: "/views/system/add-borrower.html",
+                    controller: "addBorrowerController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("inventory", {

@@ -9,9 +9,10 @@ using Srisys.Web.Common;
 namespace Srisys.Web.Migrations
 {
     [DbContext(typeof(SrisysDbContext))]
-    partial class SrisysDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171203061813_RemoveOpenIddict")]
+    partial class RemoveOpenIddict
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

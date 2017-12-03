@@ -1,12 +1,11 @@
 ﻿(function (module) {
-    var viewCategoriesController = function ($q, referenceService, utils) {
+    var viewBorrowersController = function ($q, borrowerService, utils) {
         var vm = this;
-        var refTypeId = 3;
 
         vm.focus = true;
         vm.currentPage = 1;
         vm.filters = {
-            sortBy: "ParentReference.Code",
+            sortBy: "Name",
             sortDirection: "asc",
             searchTerm: "",
             pageIndex: vm.currentPage
@@ -17,17 +16,16 @@
 
         // Headers
         vm.headers = [
-            { text: "Category", value: "ParentReference.Code" },
-            { text: "Subcategory", value: "Code" },
+            { text: "Name", value: "Name" },
             { text: "", value: "" }
         ];
 
         // Methods
-        vm.fetchCategories = function () {
+        vm.fetchBorrowers = function () {
             utils.showLoading();
 
-            referenceService.searchReferences(refTypeId, vm.filters)
-                .then(processCategoryList, utils.onError)
+            borrowerService.searchBorrowers(vm.filters)
+                .then(processBorrowerList, utils.onError)
                 .finally(utils.hideLoading);
         };
 
@@ -38,22 +36,22 @@
         };
 
         vm.changePage = function () {
-            vm.fetchCategories();
+            vm.fetchBorrowers();
         };
 
-        var processCategoryList = function (response) {
+        var processBorrowerList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
 
         var processResponses = function (responses) {
-            processCategoryList(responses.category);
+            processBorrowerList(responses.borrower);
         };
 
         var loadAll = function () {
             utils.showLoading();
 
             var requests = {
-                category: referenceService.searchReferences(refTypeId, vm.filters)
+                borrower: borrowerService.searchBorrowers(vm.filters)
             };
 
             $q.all(requests)
@@ -68,6 +66,6 @@
         return vm;
     };
 
-    module.controller("viewCategoriesController", ["$q", "referenceService", "utils", viewCategoriesController]);
+    module.controller("viewBorrowersController", ["$q", "borrowerService", "utils", viewBorrowersController]);
 
 })(angular.module("srisys-app"));

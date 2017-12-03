@@ -1,8 +1,5 @@
 ﻿namespace Srisys.Web.Models
 {
-    using System;
-    using Srisys.Web.Common;
-
     /// <summary>
     /// View model for the Borrower entity.
     /// </summary>

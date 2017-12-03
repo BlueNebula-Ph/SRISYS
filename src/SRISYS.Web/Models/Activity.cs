@@ -78,11 +78,11 @@
         /// <summary>
         /// Gets or sets the released by navigation property.
         /// </summary>
-        public User ReleasedBy { get; set; }
+        public ApplicationUser ReleasedBy { get; set; }
 
         /// <summary>
         /// Gets or sets the released by navigation property.
         /// </summary>
-        public User ReceivedBy { get; set; }
+        public ApplicationUser ReceivedBy { get; set; }
     }
 }
