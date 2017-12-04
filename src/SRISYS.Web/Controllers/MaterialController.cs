@@ -87,15 +87,6 @@
                 list = list.Where(c => c.Quantity < c.MinimumStock);
             }
 
-            // sort
-            var ordering = $"Name {Constants.DefaultSortDirection}";
-            if (!string.IsNullOrEmpty(filter?.SortBy))
-            {
-                ordering = $"{filter.SortBy} {filter.SortDirection}";
-            }
-
-            list = list.OrderBy(ordering);
-
             var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
