@@ -5,7 +5,7 @@
     <shell-search>
         <div search-input>
             <span title="Search activitiy via borrower"><i class="fa fa-search fa-fw"></i></span>
-            <input placeholder="Search by borrower..." ng-model="ctrl.filters.borrowedBy" focus-me="ctrl.focus" />
+            <select ng-model="ctrl.filters.borrowedById" ng-options="b.id as b.name for b in ctrl.borrowerList" focus-me="ctrl.focus"></select>
         </div>
         <div search-input>
             <span title="Search activitiy via material"><i class="fa fa-database fa-fw"></i></span>

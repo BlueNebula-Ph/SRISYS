@@ -3,9 +3,6 @@
         var vm = this;
         var defaultItem = {
             typeId: "1",
-            supplierId: 0,
-            categoryId: 0,
-            subCategoryId: 0,
             price: 0
         };
 

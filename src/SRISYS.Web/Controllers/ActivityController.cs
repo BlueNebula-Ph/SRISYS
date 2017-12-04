@@ -169,6 +169,7 @@ namespace Srisys.Web.Controllers
         {
             // get list of active activities (not deleted)
             var list = this.context.Activities
+                .Include(c => c.BorrowedBy)
                 .Include(c => c.Material)
                 .AsNoTracking();
 

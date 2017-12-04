@@ -1,22 +1,26 @@
 ﻿(function (module) {
-    var returnItemController = function ($q, activityService, inventoryService, utils) {
+    var returnItemController = function ($q, activityService, inventoryService, borrowerService, currentUser, utils) {
         var vm = this;
         var defaultReturns = {
             type: 2,
             date: new Date(),
+            returnedById: 0,
+            receivedByUser: currentUser.userProfile.name,
+            receivedById: currentUser.userProfile.userId,
             activities: []
         };
 
         // Data
         vm.activities = [];
         vm.itemList = [];
+        vm.borrowerList = [];
         vm.filters = {
             sortBy: "Date",
             sortDirection: "desc",
             pageIndex: 1,
             pageSize: 200,
             materialId: 0,
-            borrowedBy: "",
+            borrowedById: 0,
             activityStatus: 1
         };
         vm.returns = {};
@@ -39,8 +43,8 @@
                         date: vm.returns.date,
                         materialId: obj.materialId,
                         quantity: obj.quantityReturned <= obj.balance ? obj.quantityReturned : obj.balance,
-                        returnedBy: vm.returns.returnedBy,
-                        receivedBy: vm.returns.receivedBy
+                        returnedById: vm.returns.returnedById,
+                        receivedById: vm.returns.receivedById
                     };
                     vm.returns.activities.push(newReturn);
                 }
@@ -67,6 +71,12 @@
         // Private Methods
         var clearForm = function () {
             angular.copy(defaultReturns, vm.returns);
+            vm.defaultFocus = true;
+
+            if (vm.returnForm) {
+                vm.returnForm.$setPristine();
+                vm.returnForm.$setUntouched();
+            }
         };
 
         var saveSuccessful = function () {
@@ -90,6 +100,7 @@
         var processResponses = function (responses) {
             processActivities(responses.activity);
             utils.populateDropdownlist(responses.items, vm.itemList, "name", "Filter by materials..");
+            utils.populateDropdownlist(responses.borrower, vm.borrowerList, "", "");
         };
 
         var loadAll = function () {
@@ -97,7 +108,8 @@
 
             var requests = {
                 activity: activityService.getActivities(vm.filters),
-                items: inventoryService.getItemLookup()
+                items: inventoryService.getItemLookup(),
+                borrower: borrowerService.getBorrowerLookup()
             };
 
             $q.all(requests)
@@ -114,6 +126,6 @@
         return vm;
     };
 
-    module.controller("returnItemController", ["$q", "activityService", "inventoryService", "utils", returnItemController]);
+    module.controller("returnItemController", ["$q", "activityService", "inventoryService", "borrowerService", "currentUser", "utils", returnItemController]);
 
 })(angular.module("srisys-app"));

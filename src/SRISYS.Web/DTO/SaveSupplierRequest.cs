@@ -6,7 +6,7 @@
     /// <summary>
     /// View model for the SaveSupplierRequest entity.
     /// </summary>
-    public class SaveSupplierRequest : DTOBase
+    public class SaveSupplierRequest : SaveRequestBase
     {
         /// <summary>
         /// Gets or sets property Name.

@@ -18,6 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Filters\PopulateCurrentUserAttribute.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
     <Content Include="wwwroot\js\app.js" />
@@ -126,7 +130,7 @@
   <ItemGroup>
     <PackageReference Include="Automapper" Version="6.1.1" />
     <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="2.0.1" />
-    <PackageReference Include="BlueNebula.Common" Version="1.0.0" />
+    <PackageReference Include="BlueNebula.Common" Version="1.0.1" />
     <PackageReference Include="linqkit.core" Version="1.1.11" />
     <PackageReference Include="Microsoft.ApplicationInsights.AspNetCore" Version="2.0.0" />
     <PackageReference Include="Microsoft.AspNetCore" Version="1.1.2" />

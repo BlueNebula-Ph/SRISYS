@@ -9,7 +9,9 @@
         }
 
         var label = element.querySelector("label");
-        label.classList.add("control-label");
+        if (label) {
+            label.classList.add("control-label");
+        }
 
         element.classList.add("form-group");
         element.classList.add("form-group-sm");

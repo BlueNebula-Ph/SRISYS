@@ -67,6 +67,7 @@ namespace Srisys.Web.Controllers
                         new Claim(JwtRegisteredClaimNames.Sub, model.Username),
                         new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
                         new Claim(JwtRegisteredClaimNames.Sid, user.Id.ToString()),
+                        new Claim(JwtRegisteredClaimNames.GivenName, $"{user.Firstname} {user.Lastname}"),
                         new Claim("accessRights", user.AccessRights),
                     };
 

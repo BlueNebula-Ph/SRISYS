@@ -26,8 +26,8 @@
                 .ForMember(d => d.Use, s => s.MapFrom(o => o.Material.Use))
                 .ForMember(d => d.BorrowedBy, s => s.MapFrom(o => o.BorrowedBy.Name))
                 .ForMember(d => d.ReturnedBy, s => s.MapFrom(o => o.ReturnedBy.Name))
-                .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => o.ReleasedBy.Username))
-                .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => o.ReceivedBy.Username))
+                .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => $"{o.ReleasedBy.Firstname} {o.ReleasedBy.Lastname}"))
+                .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => $"{o.ReceivedBy.Firstname} {o.ReceivedBy.Lastname}"))
                 .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
                 .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned));
 
@@ -69,7 +69,9 @@
 
             this.CreateMap<Supplier, SupplierLookup>();
 
-            this.CreateMap<SaveSupplierRequest, Supplier>();
+            this.CreateMap<SaveSupplierRequest, Supplier>()
+                .ForMember(d => d.CreatedBy, o => o.Condition(s => s.CreatedBy != 0))
+                .ForMember(d => d.CreatedDate, o => o.Condition(s => s.CreatedDate != default(DateTime)));
 
             // Reference
             this.CreateMap<Reference, ReferenceLookup>();

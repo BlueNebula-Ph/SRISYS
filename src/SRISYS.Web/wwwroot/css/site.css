@@ -314,3 +314,8 @@ dd {
     border: 1px solid #ff0000;
     text-align: center;
 }
+
+/* Validation */
+input.ng-dirty.ng-invalid {
+    border: 1px solid #ff0000;
+}

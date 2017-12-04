@@ -9,6 +9,7 @@
                 // Setup other properties from token such as permissions
                 var payload = JSON.parse(window.atob(token.split('.')[1]));
                 userProfile.userId = payload.sid;
+                userProfile.name = payload.given_name;
 
                 if (payload.accessRights) {
                     var accessRights = payload.accessRights.split(',');
@@ -27,6 +28,7 @@
             var user = {
                 userId: 0,
                 username: "",
+                name: "",
                 token: "",
                 get loggedIn() {
                     return this.token;
@@ -38,6 +40,7 @@
             if (localUser) {
                 user.userId = localUser.userId;
                 user.username = localUser.username;
+                user.name = localUser.name;
                 user.token = localUser.token;
             }
 
