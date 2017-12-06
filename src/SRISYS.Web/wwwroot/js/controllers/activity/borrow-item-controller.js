@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var borrowItemController = function ($q, $scope, activityService, inventoryService, borrowerService, currentUser, utils) {
+    var borrowItemController = function ($q, $scope, $state, activityService, inventoryService, borrowerService, currentUser, utils) {
         var vm = this;
         var defaultBorrow = {
             type: 1,
@@ -14,6 +14,7 @@
             isFocused: true,
             materialId: 0,
         };
+        var type = $state.current.data.type;
 
         // Data
         vm.borrow = {};
@@ -23,6 +24,7 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.saveEnabled = true;
+        vm.header = type == "Tools" ? "Borrow Tools." : "Use Consumables.";
 
         // Watchers
         $scope.$watch(() => { return vm.borrow.activities; },
@@ -95,8 +97,9 @@
         var loadAll = function () {
             utils.showLoading();
 
+            var typeId = type == "Tools" ? 1 : 2;
             var requests = {
-				item: inventoryService.getItemLookup(),
+				item: inventoryService.getItemLookup(typeId),
 				borrower: borrowerService.getBorrowerLookup()
             };
 
@@ -116,6 +119,6 @@
         return vm;
     };
 
-    module.controller("borrowItemController", ["$q", "$scope", "activityService", "inventoryService", "borrowerService", "currentUser", "utils", borrowItemController]);
+    module.controller("borrowItemController", ["$q", "$scope", "$state", "activityService", "inventoryService", "borrowerService", "currentUser", "utils", borrowItemController]);
 
 })(angular.module("srisys-app"));

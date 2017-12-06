@@ -95,14 +95,20 @@
         /// <summary>
         /// Returns list of active <see cref="Material"/>
         /// </summary>
+        /// <param name="typeId">Optional type id</param>
         /// <returns>List of Materials</returns>
-        [HttpGet("lookup", Name = "GetMaterialLookup")]
-        public IActionResult GetLookup()
+        [HttpGet("lookup/{typeId}", Name = "GetMaterialLookup")]
+        public IActionResult GetLookup(int typeId = 0)
         {
             // get list of active items (not deleted)
             var list = this.context.Materials
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
+
+            if (typeId != 0)
+            {
+                list = list.Where(a => a.TypeId == typeId);
+            }
 
             // sort
             var ordering = $"Name {Constants.DefaultSortDirection}";

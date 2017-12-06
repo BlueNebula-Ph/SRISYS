@@ -29,7 +29,8 @@
                 .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => $"{o.ReleasedBy.Firstname} {o.ReleasedBy.Lastname}"))
                 .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => $"{o.ReceivedBy.Firstname} {o.ReceivedBy.Lastname}"))
                 .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
-                .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned));
+                .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned))
+                .ForMember(d => d.ActionPerformed, s => s.MapFrom(o => o.Material.Type.Code == Constants.Tool ? "borrowed" : "used"));
 
             this.CreateMap<ActivityRequest, Activity>();
 

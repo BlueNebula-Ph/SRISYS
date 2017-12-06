@@ -8,6 +8,7 @@
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
     using Srisys.Web.Models;
+    using Srisys.Web.Common;
 
     /// <summary>
     /// DBContenxt for Srisys.
@@ -128,8 +129,8 @@
 
                 var references = new List<Reference>
                 {
-                    new Reference { ReferenceType = referenceType, Code = "Tool" },
-                    new Reference { ReferenceType = referenceType, Code = "Consumable" },
+                    new Reference { ReferenceType = referenceType, Code = Constants.Tool },
+                    new Reference { ReferenceType = referenceType, Code = Constants.Consumable },
                 };
                 context.References.AddRange(references);
             }

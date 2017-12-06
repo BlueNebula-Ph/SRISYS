@@ -135,7 +135,18 @@
                     url: "/borrow",
                     templateUrl: "/views/activity/borrow-items.html",
                     controller: "borrowItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        type: "Tools"
+                    }
+                }).state("activity.consume", {
+                    url: "/consume",
+                    templateUrl: "/views/activity/borrow-items.html",
+                    controller: "borrowItemController",
+                    controllerAs: "ctrl",
+                    data: {
+                        type: "Consumables"
+                    }
                 }).state("activity.return", {
                     url: "/return",
                     templateUrl: "/views/activity/return-items.html",

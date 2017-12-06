@@ -13,11 +13,11 @@
         </div>
         <div search-input>
             <span title="Date from"><i class="fa fa-calendar fa-fw"></i></span>
-            <input type="date" style="width: 153px;" placeholder="Search by date..." ng-model="ctrl.filters.dateFrom" />
+            <input type="date" placeholder="Search by date..." ng-model="ctrl.filters.dateFrom" />
         </div>
         <div search-input>
             <span title="Date to"><i class="fa fa-calendar fa-fw"></i></span>
-            <input type="date" style="width: 153px;" placeholder="Search by date..." ng-model="ctrl.filters.dateTo" />
+            <input type="date" placeholder="Search by date..." ng-model="ctrl.filters.dateTo" />
         </div>
         <div search-input>
             <span title="Show complete activities"><i class="fa fa-check fa-fw"></i></span>
@@ -41,7 +41,7 @@
                         <em>{{ c.date | date: 'MMM dd, yyyy' }}</em>
                     </span>
                     <span style="width: 50%;">
-                        <b>{{ c.borrowedBy }}</b> borrowed <b>{{ c.quantityBorrowed }}</b> {{ c.unit }} of <b>{{ c.materialName }}</b>.
+                        <b>{{ c.borrowedBy }}</b> {{ c.actionPerformed }} <b>{{ c.quantityBorrowed }}</b> {{ c.unit }} of <b>{{ c.materialName }}</b>.
                     </span>
                     <span style="width: 25%;">
                         Released by: <b>{{ c.releasedBy }}</b>

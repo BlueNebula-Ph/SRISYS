@@ -46,6 +46,41 @@ html, body {
     padding: 5px 20px;
 }
 
+/* Home page */
+.home-container {
+    width: 70%;
+    margin: 70px auto;
+}
+
+.welcome-text {
+    color: teal;
+    font-weight: bold;
+}
+
+.recent-activities li {
+    border-top: 1px solid #ccc;
+    padding: 6px;
+}
+
+    .recent-activities li:nth-child(even) {
+        background-color: #f8f8f8;
+    }
+
+    .recent-activities li:last-child {
+        border-bottom: 1px solid #ccc;
+    }
+
+.quick-box {
+    border: 1px solid #999;
+    padding: 10px 20px;
+    background: #fafafa;
+    margin-bottom: 20px;
+}
+
+.quick-list li {
+    margin: 5px 0;
+}
+
 /* Common: paddings and margins */
 .side-padding-none {
     padding-left: 0;
@@ -83,6 +118,10 @@ html, body {
 
 .top-margin-md {
     margin-top: 15px;
+}
+
+.border-radius-none {
+    border-radius: 0;
 }
 
 /* Set widths on the form inputs since otherwise they're 100% wide */
@@ -293,9 +332,9 @@ dd {
         background: #fafafa;
     }
 
-    .activities-box .header span {
-        display: inline-block;
-    }
+        .activities-box .header span {
+            display: inline-block;
+        }
 
     .activities-box .details {
         border-top: 1px solid #ccc;
