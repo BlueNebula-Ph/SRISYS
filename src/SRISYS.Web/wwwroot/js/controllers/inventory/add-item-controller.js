@@ -21,6 +21,10 @@
         // Watchers
         $scope.$watch(() => { return vm.item.typeId; },
             function (newVal, oldVal) {
+                if (!newVal) {
+                    return;
+                }
+
                 // Set type id to string to allow radio button to pickup
                 vm.item.typeId = newVal.toString();
 
@@ -37,7 +41,7 @@
             function (newVal, oldVal) {
                 var tempList = [];
 
-                if (newVal != 0) {
+                if (newVal && newVal != 0) {
                     var subcategories = vm.categoryList.find((cat) => { return cat.id == newVal; }).subcategories;
                     angular.copy(subcategories, tempList);
                 }

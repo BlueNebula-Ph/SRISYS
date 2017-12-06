@@ -4,7 +4,7 @@
     <h3 class="welcome-text"><i class="fa fa-clipboard"></i> Welcome to Stockroom Manager.</h3>
     <div class="col-md-8 left-padding-none">
         <h4> <i class="fa fa-exchange"></i> Recent activities.</h4>
-        <p>Displaying recent stockroom activities. To view all activities, click <a ui-sref="activity.list">here</a>.</p>
+        <p>Displaying recent stockroom activities. To view all activities, click <a ui-sref="activity.log">here</a>.</p>
         <ul class="list-unstyled recent-activities">
             <li ng-repeat="act in ctrl.recentActivities track by act.id">
                 <div>
@@ -28,14 +28,14 @@
     <div class="col-md-4">
         <div class="quick-box">
             <ul class="list-unstyled quick-list">
-                <li><a ui-sref="activity.borrow"><i class="fa fa-wrench fa-fw"></i> Borrow Tools</a></li>
-                <li><a ui-sref="activity.consume"><i class="fa fa-paperclip fa-fw"></i> Use Consumables</a></li>
-                <li><a ui-sref="activity.return"><i class="fa fa-mail-reply fa-fw"></i> Make a Return</a></li>
-                <li><a ui-sref="inventory.add({id:0})"><i class="fa fa-plus fa-fw"></i> Add New Materials</a></li>
-                <li><a ui-sref="inventory.list"><i class="fa fa-database fa-fw"></i> View Inventory</a></li>
+                <li><a ui-sref="activity.borrow" permission permission-only="['admin','canWrite']"><i class="fa fa-wrench fa-fw"></i> Borrow Tools</a></li>
+                <li><a ui-sref="activity.consume" permission permission-only="['admin','canWrite']"><i class="fa fa-paperclip fa-fw"></i> Use Consumables</a></li>
+                <li><a ui-sref="activity.return" permission permission-only="['admin','canWrite']"><i class="fa fa-mail-reply fa-fw"></i> Make a Return</a></li>
+                <li><a ui-sref="inventory.add({id:0})" permission permission-only="['admin','canWrite']"><i class="fa fa-plus fa-fw"></i> Add New Materials</a></li>
+                <li><a ui-sref="inventory.list" permission permission-only="['admin','canView','canWrite']"><i class="fa fa-database fa-fw"></i> View Inventory</a></li>
             </ul>
         </div>
-        <div class="quick-box">
+        <div class="quick-box" permission permission-only="'admin'">
             <ul class="list-unstyled quick-list">
                 <li><a ui-sref="system.add-borrower({id:0})"><i class="fa fa-user-plus"></i> Add Borrowers</a></li>
                 <li><a ui-sref="system.list-borrowers"><i class="fa fa-search"></i> View Borrowers</a></li>

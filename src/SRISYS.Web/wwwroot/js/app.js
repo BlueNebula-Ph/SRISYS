@@ -27,13 +27,7 @@
                     url: "/home",
                     templateUrl: "/views/home/index.html",
                     controller: "homeController",
-                    controllerAs: "ctrl",
-                    data: {
-                        permission: {
-                            only: ["admin", "canWrite"],
-                            redirectTo: "unauthorized"
-                        }
-                    }
+                    controllerAs: "ctrl"
                 })
 
                 .state("system", {
@@ -103,17 +97,35 @@
                     url: "/add/{id}",
                     templateUrl: "/views/inventory/add-item.html",
                     controller: "addItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("inventory.purchase", {
                     url: "/purchase",
                     templateUrl: "/views/inventory/purchase-item.html",
                     controller: "purchaseItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("inventory.adjust", {
                     url: "/adjust",
                     templateUrl: "/views/inventory/adjust-item.html",
                     controller: "adjustItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("inventory.details", {
                     url: "/details/{id}",
                     templateUrl: "/views/inventory/item-details.html",
@@ -137,7 +149,11 @@
                     controller: "borrowItemController",
                     controllerAs: "ctrl",
                     data: {
-                        type: "Tools"
+                        type: "Tools",
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
                     }
                 }).state("activity.consume", {
                     url: "/consume",
@@ -145,13 +161,23 @@
                     controller: "borrowItemController",
                     controllerAs: "ctrl",
                     data: {
-                        type: "Consumables"
+                        type: "Consumables",
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
                     }
                 }).state("activity.return", {
                     url: "/return",
                     templateUrl: "/views/activity/return-items.html",
                     controller: "returnItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 })
 
                 .state("reports", {
