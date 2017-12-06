@@ -1,12 +1,11 @@
 ﻿(function (module) {
-    var viewCategoriesController = function ($q, referenceService, utils) {
+    var viewCategoriesController = function ($q, categoryService, utils) {
         var vm = this;
-        var refTypeId = 3;
 
         vm.focus = true;
         vm.currentPage = 1;
         vm.filters = {
-            sortBy: "ParentReference.Code",
+            sortBy: "Name",
             sortDirection: "asc",
             searchTerm: "",
             pageIndex: vm.currentPage
@@ -17,8 +16,8 @@
 
         // Headers
         vm.headers = [
-            { text: "Category", value: "ParentReference.Code" },
-            { text: "Subcategory", value: "Code" },
+            { text: "Category", value: "Name" },
+            { text: "Subcategories", value: "" },
             { text: "", value: "" }
         ];
 
@@ -26,7 +25,7 @@
         vm.fetchCategories = function () {
             utils.showLoading();
 
-            referenceService.searchReferences(refTypeId, vm.filters)
+            categoryService.searchCategories(vm.filters)
                 .then(processCategoryList, utils.onError)
                 .finally(utils.hideLoading);
         };
@@ -42,6 +41,10 @@
         };
 
         var processCategoryList = function (response) {
+            response.data.items.map((item) => {
+                item.subs = item.subcategories.map((sc) => sc.name).join(', ');
+            });
+
             angular.copy(response.data, vm.summaryResult);
         };
 
@@ -53,7 +56,7 @@
             utils.showLoading();
 
             var requests = {
-                category: referenceService.searchReferences(refTypeId, vm.filters)
+                category: categoryService.searchCategories(vm.filters)
             };
 
             $q.all(requests)
@@ -68,6 +71,6 @@
         return vm;
     };
 
-    module.controller("viewCategoriesController", ["$q", "referenceService", "utils", viewCategoriesController]);
+    module.controller("viewCategoriesController", ["$q", "categoryService", "utils", viewCategoriesController]);
 
 })(angular.module("srisys-app"));

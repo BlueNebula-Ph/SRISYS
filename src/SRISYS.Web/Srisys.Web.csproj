@@ -71,6 +71,7 @@
     <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
     <Content Include="wwwroot\js\services\auth-service.js" />
+    <Content Include="wwwroot\js\services\category-service.js" />
     <Content Include="wwwroot\js\services\current-user.js" />
     <Content Include="wwwroot\js\services\form-encode.js" />
     <Content Include="wwwroot\js\services\inventory-service.js" />

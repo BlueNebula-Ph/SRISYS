@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var viewItemsController = function ($q, inventoryService, referenceService, utils) {
+    var viewItemsController = function ($q, $scope, inventoryService, categoryService, utils) {
         var vm = this;
         vm.focus = true;
         vm.currentPage = 1;
@@ -31,6 +31,22 @@
             { text: "", value: "" }
         ];
 
+        // Watchers
+        $scope.$watch(() => { return vm.filters.categoryId; },
+            function (newVal, oldVal) {
+                var tempList = [];
+
+                if (newVal != 0) {
+                    var subcategories = vm.categoryList.find((cat) => { return cat.id == newVal; }).subcategories;
+                    angular.copy(subcategories, tempList);
+                }
+
+                tempList.splice(0, 0, { id: 0, name: "Filter by subcategory.." });
+                angular.copy(tempList, vm.subcategoryList);
+                vm.filters.subCategoryId = 0;
+
+            }, true);
+
         // Methods
         vm.fetchItems = function () {
             utils.showLoading();
@@ -59,8 +75,7 @@
             processItemList(responses.item);
 
             // Dropdown lists
-            utils.populateDropdownlist(responses.category, vm.categoryList, "code", "Filter by category..");
-            utils.populateDropdownlist(responses.subcategory, vm.subcategoryList, "code", "Filter by subcategory..");
+            utils.populateDropdownlist(responses.category, vm.categoryList, "name", "Filter by category..");
         };
 
         var loadAll = function () {
@@ -68,8 +83,7 @@
 
             var requests = {
                 item: inventoryService.searchItems(vm.filters),
-                category: referenceService.getReferenceLookup(2),
-                subcategory: referenceService.getReferenceLookup(3)
+                category: categoryService.getCategoryLookup(),
             };
 
             $q.all(requests)
@@ -84,6 +98,6 @@
         return vm;
     };
 
-    module.controller("viewItemsController", ["$q", "inventoryService", "referenceService", "utils", viewItemsController]);
+    module.controller("viewItemsController", ["$q", "$scope", "inventoryService", "categoryService", "utils", viewItemsController]);
 
 })(angular.module("srisys-app"));

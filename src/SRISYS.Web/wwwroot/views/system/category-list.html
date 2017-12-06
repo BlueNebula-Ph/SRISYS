@@ -24,8 +24,8 @@
             </thead>
             <tbody>
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
-                    <td>{{ c.parentCode }}</td>
-                    <td>{{ c.code }}</td>
+                    <td>{{ c.name }}</td>
+                    <td>{{ c.subs }}</td>
                     <td class="text-center">
                         <summary-controls show-details="false"
                                           show-edit="true" edit-state="system.add-category({ id: {{ c.id }} })" edit-title="Edit this category."

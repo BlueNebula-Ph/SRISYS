@@ -20,27 +20,27 @@
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="name">Material Name</label>
-                    <input type="text" name="name" ng-model="ctrl.item.name" focus-me="ctrl.defaultFocus" />
+                    <input type="text" name="name" ng-model="ctrl.item.name" focus-me="ctrl.defaultFocus" required />
                 </div>
                 <div form-input>
                     <label for="quantity">Quantity</label>
-                    <input type="number" name="quantity" ng-model="ctrl.item.quantity" ng-disabled="!ctrl.quantityEnabled" />
+                    <input type="number" name="quantity" ng-model="ctrl.item.quantity" ng-disabled="!ctrl.quantityEnabled" required />
                 </div>
                 <div form-input>
                     <label for="unit">Unit</label>
-                    <input type="text" name="unit" ng-model="ctrl.item.unit" />
+                    <input type="text" name="unit" ng-model="ctrl.item.unit" required />
                 </div>
                 <div form-input>
                     <label for="brand">Brand</label>
-                    <input type="text" name="brand" ng-model="ctrl.item.brand" />
+                    <input type="text" name="brand" ng-model="ctrl.item.brand" required />
                 </div>
                 <div form-input>
                     <label for="model">Model</label>
-                    <input type="text" name="model" ng-model="ctrl.item.model" />
+                    <input type="text" name="model" ng-model="ctrl.item.model" required />
                 </div>
                 <div form-input>
                     <label for="size">Size</label>
-                    <input type="text" name="size" ng-model="ctrl.item.size" />
+                    <input type="text" name="size" ng-model="ctrl.item.size" required />
                 </div>
                 <div form-input>
                     <label for="use">Use</label>
@@ -50,11 +50,11 @@
             <div class="col-md-3 left-padding-none" ng-show="ctrl.showConsumableFields">
                 <div form-input>
                     <label for="category">Category</label>
-                    <select name="category" ng-options="c.id as c.code for c in ctrl.categoryList " ng-model="ctrl.item.categoryId"></select>
+                    <select name="category" ng-options="c.id as c.name for c in ctrl.categoryList " ng-model="ctrl.item.categoryId"></select>
                 </div>
                 <div form-input>
                     <label for="subcategory">Subcategory</label>
-                    <select name="subcategory" ng-options="c.id as c.code for c in ctrl.subcategoryList"  ng-model="ctrl.item.subCategoryId"></select>
+                    <select name="subcategory" ng-options="c.id as c.name for c in ctrl.subcategoryList"  ng-model="ctrl.item.subCategoryId"></select>
                 </div>
                 <div form-input>
                     <label for="location">Location</label>
