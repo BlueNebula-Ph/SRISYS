@@ -131,6 +131,10 @@ textarea {
     max-width: 300px;
 }
 
+    input.wide {
+        max-width: 100%;
+    }
+
 .filter-override {
     float: left !important;
     padding-right: 5px !important;

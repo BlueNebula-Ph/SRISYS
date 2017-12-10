@@ -7,8 +7,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Srisys.Web.Models;
     using Srisys.Web.Common;
+    using Srisys.Web.Models;
 
     /// <summary>
     /// DBContenxt for Srisys.

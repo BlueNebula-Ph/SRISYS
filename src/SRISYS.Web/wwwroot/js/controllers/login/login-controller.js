@@ -13,11 +13,12 @@
                     .then(function (response) {
                         loginRedirect.redirectPostLogin();
                     }, function (errorResponse) {
-                        console.log(errorResponse);
-                        toastr.error(errorResponse.data.error);
+                        var errorMesssage = errorResponse ? errorResponse.data.error : "Unable to login.";
+                        toastr.error("Something went wrong.", errorResponse.data.error);
                     }).finally(function () {
                         vm.password = vm.username = "";
                         form.$setUntouched();
+                        form.$setPristine();
 
                         vm.defaultFocus = true;
                     });

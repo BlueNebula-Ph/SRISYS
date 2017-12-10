@@ -11,8 +11,8 @@ namespace Srisys.Web.Controllers
     using Microsoft.EntityFrameworkCore;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using Srisys.Web.Models;
     using Srisys.Web.Filters;
+    using Srisys.Web.Models;
 
     /// <summary>
     /// <see cref="SupplierController"/> class handles Supplier basic add, edit, delete and get.

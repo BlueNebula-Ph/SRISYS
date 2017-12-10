@@ -4,8 +4,15 @@
     using Microsoft.EntityFrameworkCore.Metadata;
     using Microsoft.EntityFrameworkCore.Migrations;
 
+    /// <summary>
+    /// Initial Migration
+    /// </summary>
     public partial class InitialCreate : Migration
     {
+        /// <summary>
+        /// Ups the migration
+        /// </summary>
+        /// <param name="migrationBuilder">The migration builder</param>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
@@ -484,6 +491,10 @@
                 column: "CategoryId");
         }
 
+        /// <summary>
+        /// Downs the migrations
+        /// </summary>
+        /// <param name="migrationBuilder">The migration builder.</param>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(

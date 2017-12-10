@@ -1,16 +1,21 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Srisys.Web;
-using Srisys.Web.Common;
-
-namespace Srisys.Web.Migrations
+﻿namespace Srisys.Web.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
+    using Microsoft.EntityFrameworkCore.Metadata;
+    using Srisys.Web;
+
+    /// <summary>
+    /// The Model Snapshot
+    /// </summary>
     [DbContext(typeof(SrisysDbContext))]
-    partial class SrisysDbContextModelSnapshot : ModelSnapshot
+    public partial class SrisysDbContextModelSnapshot : ModelSnapshot
     {
+        /// <summary>
+        /// Builds the model
+        /// </summary>
+        /// <param name="modelBuilder">The model builder</param>
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder

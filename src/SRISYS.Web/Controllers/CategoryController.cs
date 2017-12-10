@@ -5,14 +5,13 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using AutoMapper.QueryableExtensions;
 
     /// <summary>
     /// <see cref="CategoryController"/> class handles ActivityLog basic add, edit, delete and get.

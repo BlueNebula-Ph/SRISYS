@@ -66,7 +66,9 @@
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\directives\summary-controls.js" />
     <Content Include="wwwroot\js\directives\summary-shell.js" />
+    <Content Include="wwwroot\js\env.aws.js" />
     <Content Include="wwwroot\js\env.js" />
+    <Content Include="wwwroot\js\env.local.js" />
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
@@ -104,7 +106,6 @@
     <Content Include="wwwroot\views\common\summary-shell.html" />
     <Content Include="wwwroot\views\common\unauthorized.html" />
     <Content Include="wwwroot\views\home\index.html" />
-    <Content Include="wwwroot\views\home\login.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
     <Content Include="wwwroot\views\inventory\adjust-item.html" />
     <Content Include="wwwroot\views\inventory\item-details.html" />
