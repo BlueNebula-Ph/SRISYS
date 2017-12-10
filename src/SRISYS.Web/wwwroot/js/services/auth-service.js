@@ -10,14 +10,13 @@
 
             var data = formEncode({
                 username: username,
-                password: password,
-                grant_type: "password"
+                password: password
             });
 
             return $http
-                .post(env.baseUrl + "/connect/token", data, config)
+                .post(env.baseUrl + "/auth/connect/token", data, config)
                 .then(function (response) {
-                    currentUser.setUserProfile(username, response.data.access_token);
+                    currentUser.setUserProfile(username, response.data.token);
                     return username;
                 });
         };

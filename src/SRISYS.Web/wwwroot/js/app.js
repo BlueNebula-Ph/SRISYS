@@ -8,13 +8,21 @@
         Object.assign(env, window._environment);
     };
 
-    angular.module("srisys-app", ["ui.router"])
+    angular.module("srisys-app", ["ui.router", "permission", "permission.ui"])
         .constant("env", env)
+        .constant("keys", { userkey: "USERKEY", userpermissions: "USERPERMISSIONS" })
         .config(["$stateProvider", "$urlRouterProvider", function ($stateProvider, $urlRouterProvider) {
 
             $urlRouterProvider.otherwise("/home");
 
             $stateProvider
+                .state("login", {
+                    url: "/login",
+                    templateUrl: "/views/common/login.html",
+                    controller: "loginController",
+                    controllerAs: "ctrl"
+                })
+
                 .state("home", {
                     url: "/home",
                     templateUrl: "/views/home/index.html",
@@ -26,7 +34,13 @@
                     url: "/system",
                     templateUrl: "/views/common/index.html",
                     controller: "manageSystemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: "admin",
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("system.list-suppliers", {
                     url: "/list/suppliers",
                     templateUrl: "/views/system/supplier-list.html",
@@ -49,10 +63,24 @@
                     controllerAs: "ctrl"
                 }).state("system.list-users", {
                     url: "/list/users",
-                    template: "<div>List users</div>"
+                    templateUrl: "/views/system/user-list.html",
+                    controller: "viewUsersController",
+                    controllerAs: "ctrl"
                 }).state("system.add-user", {
                     url: "/add/user/{id}",
-                    template: "<div>ADD user</div>"
+                    templateUrl: "/views/system/add-user.html",
+                    controller: "addUserController",
+                    controllerAs: "ctrl"
+                }).state("system.list-borrowers", {
+                    url: "/list/borrowers",
+                    templateUrl: "/views/system/borrower-list.html",
+                    controller: "viewBorrowersController",
+                    controllerAs: "ctrl"
+                }).state("system.add-borrower", {
+                    url: "/add/borrower/{id}",
+                    templateUrl: "/views/system/add-borrower.html",
+                    controller: "addBorrowerController",
+                    controllerAs: "ctrl"
                 })
 
                 .state("inventory", {
@@ -69,17 +97,35 @@
                     url: "/add/{id}",
                     templateUrl: "/views/inventory/add-item.html",
                     controller: "addItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("inventory.purchase", {
                     url: "/purchase",
                     templateUrl: "/views/inventory/purchase-item.html",
                     controller: "purchaseItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("inventory.adjust", {
                     url: "/adjust",
                     templateUrl: "/views/inventory/adjust-item.html",
                     controller: "adjustItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("inventory.details", {
                     url: "/details/{id}",
                     templateUrl: "/views/inventory/item-details.html",
@@ -101,12 +147,37 @@
                     url: "/borrow",
                     templateUrl: "/views/activity/borrow-items.html",
                     controller: "borrowItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        type: "Tools",
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
+                }).state("activity.consume", {
+                    url: "/consume",
+                    templateUrl: "/views/activity/borrow-items.html",
+                    controller: "borrowItemController",
+                    controllerAs: "ctrl",
+                    data: {
+                        type: "Consumables",
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 }).state("activity.return", {
                     url: "/return",
                     templateUrl: "/views/activity/return-items.html",
                     controller: "returnItemController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        permissions: {
+                            only: ["admin", "canWrite"],
+                            redirectTo: "unauthorized"
+                        }
+                    }
                 })
 
                 .state("reports", {
@@ -145,11 +216,25 @@
                     templateUrl: "/views/report/stocks-report.html",
                     controller: "stocksReportController",
                     controllerAs: "ctrl"
+                })
+
+                .state("unauthorized", {
+                    url: "/unauthorized",
+                    templateUrl: "/views/common/unauthorized.html"
                 });
         }])
-        .run(["$rootScope", "$state", "$stateParams",
-            function ($rootScope, $state, $stateParams) {
+        .run(["$rootScope", "$state", "$stateParams", "$transitions", "loginRedirect", "currentUser",
+            function ($rootScope, $state, $stateParams, $transitions, loginRedirect, currentUser) {
                 $rootScope.$state = $state;
                 $rootScope.$stateParams = $stateParams;
-            }]);;
+
+                $transitions.onBefore({}, function (transition) {
+                    var newState = transition.to().name;
+
+                    if (newState != "login" && !currentUser.userProfile.loggedIn) {
+                        loginRedirect.setLastState(newState);
+                        return transition.router.stateService.target("login");
+                    }
+                });
+            }]);
 })();

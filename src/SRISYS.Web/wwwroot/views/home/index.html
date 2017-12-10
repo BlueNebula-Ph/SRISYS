@@ -1,66 +1,64 @@
 ﻿<navigation></navigation>
 <loading-indicator></loading-indicator>
-<div class="main">
-    <sidebar items="ctrl.sidebarItems"></sidebar>
-    <div class="main-content">
-        <div class="col-md-8 side-padding-none">
-            <h3>Recent Activities.</h3>
-            <div class="top-margin-sm">
-                <div class="activities-box" ng-repeat="c in ctrl.recentActivities track by c.id">
-                    <div class="header">
-                        <span style="width: 2%;">
-                            <i ng-show="c.status == 'Complete'" class="text-success fa fa-check"></i>
-                        </span>
-                        <span style="width: 20%;">
-                            <em>{{ c.date | date: 'MMM dd, yyyy' }}</em>
-                        </span>
-                        <span style="width: 50%;">
-                            <b>{{ c.borrowedBy }}</b> borrowed <b>{{ c.quantityBorrowed }}</b> {{ c.unit }} of <b>{{ c.materialName }}</b>.
-                        </span>
-                        <span style="width: 25%;">
-                            Released by: <b>{{ c.releasedBy }}</b>
-                        </span>
-                    </div>
+<div class="home-container">
+    <h3 class="welcome-text"><i class="fa fa-clipboard"></i> Welcome to Stockroom Manager.</h3>
+    <div class="col-md-8 left-padding-none">
+        <h4> <i class="fa fa-exchange"></i> Recent activities.</h4>
+        <p>Displaying recent stockroom activities. To view all activities, click <a ui-sref="activity.log">here</a>.</p>
+        <ul class="list-unstyled recent-activities">
+            <li ng-repeat="act in ctrl.recentActivities track by act.id">
+                <div>
+                    <em>{{ act.borrowedBy }} {{ act.actionPerformed }} {{ act.quantityBorrowed }} {{ act.unit }} of {{ act.materialName }}.</em>
+                    <span class="pull-right">{{ act.date | date:'MM/dd/yyyy' }}</span>
                 </div>
-                <div class="activities-box" ng-show="ctrl.recentActivities.length == 0">
-                    <div class="header">No records found.</div>
+                <div class="small">
+                    <span ng-show="act.totalQuantityReturned == 0" class="text-info">
+                        <i class="fa fa-info-circle"></i> No return information found.
+                    </span>
+                    <span ng-show="act.balance == 0" class="text-success">
+                        <i class="fa fa-check-circle"></i> All materials returned.
+                    </span>
+                    <span ng-show="act.balance > 0 && act.balance != act.quantityBorrowed" class="text-warning">
+                        <i class="fa fa-info-circle"></i> {{ act.totalQuantityReturned }} {{ act.unit }} returned / exchanged.
+                    </span>
                 </div>
-            </div>
-            <div><a ui-sref="activity.log">View all activities</a></div>
+            </li>
+        </ul>
+    </div>
+    <div class="col-md-4">
+        <div class="quick-box">
+            <ul class="list-unstyled quick-list">
+                <li><a ui-sref="activity.borrow" permission permission-only="['admin','canWrite']"><i class="fa fa-wrench fa-fw"></i> Borrow Tools</a></li>
+                <li><a ui-sref="activity.consume" permission permission-only="['admin','canWrite']"><i class="fa fa-paperclip fa-fw"></i> Use Consumables</a></li>
+                <li><a ui-sref="activity.return" permission permission-only="['admin','canWrite']"><i class="fa fa-mail-reply fa-fw"></i> Make a Return</a></li>
+                <li><a ui-sref="inventory.add({id:0})" permission permission-only="['admin','canWrite']"><i class="fa fa-plus fa-fw"></i> Add New Materials</a></li>
+                <li><a ui-sref="inventory.list" permission permission-only="['admin','canView','canWrite']"><i class="fa fa-database fa-fw"></i> View Inventory</a></li>
+            </ul>
         </div>
-        <div class="col-md-3 col-md-offset-1">
-            <div class="panel panel-default top-margin-md">
-                <div class="panel-heading">
-                    <strong class="text-info"><i class="fa fa-exclamation-triangle"></i> Low stock</strong>
-                </div>
-                <div class="panel-body side-padding-none top-padding-none">
-                    <table class="table table-condensed table-striped">
-                        <thead>
-                            <tr>
-                                <th>Material</th>
-                                <th>Quantity</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="c in ctrl.lowStock track by c.id">
-                                <td>{{ c.name }}</td>
-                                <td>{{ c.quantity | number:0 }}</td>
-                            </tr>
-                            <tr ng-show="ctrl.lowStock.length == 0">
-                                <td colspan="2" class="text-success">
-                                   <i class="fa fa-thumbs-up"></i> Quantities are sufficient.
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                    <hr />
-                    <ul class="list-unstyled left-margin-sm">
-                        <li><a ui-sref="reports.low-stocks">View the report</a></li>
-                        <li><a ui-sref="inventory.purchase">Purchase materials</a></li>
-                    </ul>
-                </div>
-            </div>
+        <div class="quick-box" permission permission-only="'admin'">
+            <ul class="list-unstyled quick-list">
+                <li><a ui-sref="system.add-borrower({id:0})"><i class="fa fa-user-plus"></i> Add Borrowers</a></li>
+                <li><a ui-sref="system.list-borrowers"><i class="fa fa-search"></i> View Borrowers</a></li>
+            </ul>
         </div>
-        <div class="clearfix"></div>
+        <div ng-show="ctrl.lowStock.length > 0">
+            <div class="alert alert-danger border-radius-none">
+                <b><i class="fa fa-exclamation-triangle"></i> Low stock detected. ({{ ctrl.lowStock.length }})</b>
+            </div>
+            <table class="table table-condensed table-striped summary-table">
+                <thead>
+                    <tr>
+                        <th><span>Material</span></th>
+                        <th><span>Qty Remaining</span></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr ng-repeat="item in ctrl.lowStock track by item.id">
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.remainingQuantity | number:0 }} {{ item.unit }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </div>
 </div>

@@ -1,18 +1,20 @@
 ﻿(function (module) {
-    var borrowItemController = function ($q, $scope, activityService, inventoryService, borrowerService, utils) {
+    var borrowItemController = function ($q, $scope, $state, activityService, inventoryService, borrowerService, currentUser, utils) {
         var vm = this;
         var defaultBorrow = {
             type: 1,
-            borrowedBy: "",
-            releasedBy: "",
+            borrowedById: 0,
+            releasedById: currentUser.userProfile.userId,
+            releasedByUser: currentUser.userProfile.name,
             date: new Date(),
             activities: []
         };
         var newActivity = {
             quantity: 0,
             isFocused: true,
-            materialId: 0
+            materialId: 0,
         };
+        var type = $state.current.data.type;
 
         // Data
         vm.borrow = {};
@@ -22,6 +24,7 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.saveEnabled = true;
+        vm.header = type == "Tools" ? "Borrow Tools." : "Use Consumables.";
 
         // Watchers
         $scope.$watch(() => { return vm.borrow.activities; },
@@ -35,8 +38,8 @@
             vm.saveEnabled = false;
 
             for (var i = 0, l = vm.borrow.activities.length; i < l; i++) {
-                vm.borrow.activities[i].borrowedBy = vm.borrow.borrowedBy;
-                vm.borrow.activities[i].releasedBy = vm.borrow.releasedBy;
+                vm.borrow.activities[i].borrowedById = vm.borrow.borrowedById;
+                vm.borrow.activities[i].releasedById = vm.borrow.releasedById;
                 vm.borrow.activities[i].date = vm.borrow.date;
             }
 
@@ -74,9 +77,9 @@
             angular.copy(defaultBorrow, vm.borrow);
             vm.defaultFocus = true;
 
-            if (vm.adjustmentForm) {
-                vm.adjustmentForm.$setPristine();
-                vm.adjustmentForm.$setUntouched();
+            if (vm.borrowForm) {
+                vm.borrowForm.$setPristine();
+                vm.borrowForm.$setUntouched();
             }
         };
 
@@ -91,23 +94,19 @@
             vm.saveEnabled = true;
         };
 
-        var processItemList = function (response) {
-			utils.populateDropdownlist(response, vm.itemList, "", "");
-			utils.populateDropdownlist(response, vm.borrowerList, "name", "");
-        };
-
         var loadAll = function () {
             utils.showLoading();
 
+            var typeId = type == "Tools" ? 1 : 2;
             var requests = {
-				item: inventoryService.getItemLookup(),
+				item: inventoryService.getItemLookup(typeId),
 				borrower: borrowerService.getBorrowerLookup()
             };
 
             $q.all(requests)
                 .then((responses) => {
-					processItemList(responses.item);
-					processItemList(responses.borrower);
+                    utils.populateDropdownlist(responses.item, vm.itemList, "", "");
+                    utils.populateDropdownlist(responses.borrower, vm.borrowerList, "", "");
                 }, utils.onError)
                 .finally(utils.hideLoading);
         };
@@ -120,6 +119,6 @@
         return vm;
     };
 
-    module.controller("borrowItemController", ["$q", "$scope", "activityService", "inventoryService", "borrowerService", "utils", borrowItemController]);
+    module.controller("borrowItemController", ["$q", "$scope", "$state", "activityService", "inventoryService", "borrowerService", "currentUser", "utils", borrowItemController]);
 
 })(angular.module("srisys-app"));

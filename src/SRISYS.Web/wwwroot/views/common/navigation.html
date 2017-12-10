@@ -36,14 +36,17 @@
                         <i class="fa fa-files-o"></i> Reports
                     </a>
                 </li>
-                <li ui-sref-active="nav-active">
+                <li ui-sref-active="nav-active" permission permission-only="'admin'">
                     <a ui-sref="system">
                         <i class="fa fa-cogs"></i> System Management
                     </a>
                 </li>
             </ul>
             <div class="navbar-text navbar-right logged-user">
-                <i class="fa fa-user"></i> Logged on as User
+                <div ng-show="navCtrl.loggedUser.loggedIn">
+                    <i class="fa fa-user"></i> Logged on as {{ navCtrl.loggedUser.username }} | 
+                    <a href="" ng-click="navCtrl.logout()"><i class="fa fa-sign-out"></i> Sign out</a>
+                </div>
             </div>
         </div>
     </div>

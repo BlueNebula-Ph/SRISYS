@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var viewActivitiesController = function ($q, activityService, inventoryService, utils) {
+    var viewActivitiesController = function ($q, activityService, inventoryService, borrowerService, utils) {
         var vm = this;
 
         // Data
@@ -7,6 +7,7 @@
             items: []
         };
         vm.itemList = [];
+        vm.borrowerList = [];
 
         // Helper Properties
         vm.focus = true;
@@ -16,7 +17,7 @@
             sortDirection: "desc",
             pageIndex: vm.currentPage,
             materialId: 0,
-            borrowedBy: ""
+            borrowedById: 0
         };
 
         // Public Methods
@@ -56,6 +57,7 @@
         var processResponses = function (responses) {
             processActivityList(responses.activity);
             utils.populateDropdownlist(responses.item, vm.itemList, "name", "Filter by material..");
+            utils.populateDropdownlist(responses.borrower, vm.borrowerList, "name", "Filter by borrower..");
         };
 
         var loadAll = function () {
@@ -63,7 +65,8 @@
 
             var requests = {
                 activity: activityService.searchActivities(vm.filters),
-                item: inventoryService.getItemLookup()
+                item: inventoryService.getItemLookup(),
+                borrower: borrowerService.getBorrowerLookup()
             };
 
             $q.all(requests)
@@ -78,6 +81,6 @@
         return vm;
     };
 
-    module.controller("viewActivitiesController", ["$q", "activityService", "inventoryService", "utils", viewActivitiesController]);
+    module.controller("viewActivitiesController", ["$q", "activityService", "inventoryService", "borrowerService", "utils", viewActivitiesController]);
 
 })(angular.module("srisys-app"));

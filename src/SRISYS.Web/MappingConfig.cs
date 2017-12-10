@@ -26,10 +26,11 @@
                 .ForMember(d => d.Use, s => s.MapFrom(o => o.Material.Use))
                 .ForMember(d => d.BorrowedBy, s => s.MapFrom(o => o.BorrowedBy.Name))
                 .ForMember(d => d.ReturnedBy, s => s.MapFrom(o => o.ReturnedBy.Name))
-                .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => o.ReleasedBy.Username))
-                .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => o.ReceivedBy.Username))
+                .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => $"{o.ReleasedBy.Firstname} {o.ReleasedBy.Lastname}"))
+                .ForMember(d => d.ReceivedBy, s => s.MapFrom(o => $"{o.ReceivedBy.Firstname} {o.ReceivedBy.Lastname}"))
                 .ForMember(d => d.Status, s => s.MapFrom(o => Enum.GetName(typeof(ActivityStatus), o.Status)))
-                .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned));
+                .ForMember(d => d.Balance, s => s.MapFrom(o => o.QuantityBorrowed - o.TotalQuantityReturned))
+                .ForMember(d => d.ActionPerformed, s => s.MapFrom(o => o.Material.Type.Code == Constants.Tool ? "borrowed" : "used"));
 
             this.CreateMap<ActivityRequest, Activity>();
 
@@ -69,7 +70,9 @@
 
             this.CreateMap<Supplier, SupplierLookup>();
 
-            this.CreateMap<SaveSupplierRequest, Supplier>();
+            this.CreateMap<SaveSupplierRequest, Supplier>()
+                .ForMember(d => d.CreatedBy, o => o.Condition(s => s.CreatedBy != 0))
+                .ForMember(d => d.CreatedDate, o => o.Condition(s => s.CreatedDate != default(DateTime)));
 
             // Reference
             this.CreateMap<Reference, ReferenceLookup>();
@@ -84,6 +87,16 @@
             this.CreateMap<ReferenceType, ReferenceTypeSummary>();
 
             this.CreateMap<SaveReferenceTypeRequest, ReferenceType>();
+
+            // User
+            this.CreateMap<ApplicationUser, UserSummary>()
+                .ForMember(d => d.IsAdmin, o => o.MapFrom(s => s.AccessRights.Contains("admin")))
+                .ForMember(d => d.CanView, o => o.MapFrom(s => s.AccessRights.Contains("canView")))
+                .ForMember(d => d.CanWrite, o => o.MapFrom(s => s.AccessRights.Contains("canWrite")))
+                .ForMember(d => d.CanDelete, o => o.MapFrom(s => s.AccessRights.Contains("canDelete")));
+
+            this.CreateMap<SaveUserRequest, ApplicationUser>()
+                .ForMember(d => d.PasswordHash, o => o.Ignore());
         }
     }
 }

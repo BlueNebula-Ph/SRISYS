@@ -3,8 +3,9 @@
         var urlBase = env.baseUrl + "/api/material";
         var dataFactory = {};
 
-        dataFactory.getItemLookup = function () {
-            var url = urlBase + "/lookup";
+        dataFactory.getItemLookup = function (typeId) {
+            var tid = typeId || 0;
+            var url = urlBase + "/lookup/" + tid;
             return $http.get(url);
         };
 

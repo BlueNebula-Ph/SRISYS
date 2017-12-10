@@ -7,6 +7,7 @@ namespace Srisys.Web.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -19,6 +20,7 @@ namespace Srisys.Web.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class ActivityController : Controller
     {
         private readonly SrisysDbContext context;
@@ -167,6 +169,7 @@ namespace Srisys.Web.Controllers
         {
             // get list of active activities (not deleted)
             var list = this.context.Activities
+                .Include(c => c.BorrowedBy)
                 .Include(c => c.Material)
                 .AsNoTracking();
 

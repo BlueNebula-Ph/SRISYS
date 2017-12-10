@@ -6,6 +6,8 @@ namespace Srisys.Web.Controllers
     using System.Threading.Tasks;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Srisys.Web.Common;
@@ -17,11 +19,13 @@ namespace Srisys.Web.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class UserController : Controller
     {
         private readonly SrisysDbContext context;
         private readonly IMapper mapper;
-        private readonly ISummaryListBuilder<User, UserSummary> builder;
+        private readonly ISummaryListBuilder<ApplicationUser, UserSummary> builder;
+        private readonly IPasswordHasher<ApplicationUser> passwordHasher;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="UserController"/> class.
@@ -29,15 +33,21 @@ namespace Srisys.Web.Controllers
         /// <param name="context">The DbContext</param>
         /// <param name="mapper">The mapper</param>
         /// <param name="builder">The summary list builder</param>
-        public UserController(SrisysDbContext context, IMapper mapper, ISummaryListBuilder<User, UserSummary> builder)
+        /// <param name="passwordHasher">The tool for hashing passwords</param>
+        public UserController(
+            SrisysDbContext context,
+            IMapper mapper,
+            ISummaryListBuilder<ApplicationUser, UserSummary> builder,
+            IPasswordHasher<ApplicationUser> passwordHasher)
         {
             this.context = context;
             this.mapper = mapper;
             this.builder = builder;
+            this.passwordHasher = passwordHasher;
         }
 
         /// <summary>
-        /// Returns list of active <see cref="User"/>
+        /// Returns list of active <see cref="ApplicationUser"/>
         /// </summary>
         /// <param name="filter"><see cref="UserFilterRequest"/></param>
         /// <returns>List of Users</returns>
@@ -50,6 +60,12 @@ namespace Srisys.Web.Controllers
                 .Where(c => !c.IsDeleted);
 
             // filter
+            if (filter != null)
+            {
+                list = list.Where(a => a.Username.Contains(filter.SearchTerm) ||
+                    a.Firstname.Contains(filter.SearchTerm) ||
+                    a.Lastname.Contains(filter.SearchTerm));
+            }
 
             // sort
             var ordering = $"Username {Constants.DefaultSortDirection}";
@@ -66,7 +82,7 @@ namespace Srisys.Web.Controllers
         }
 
         /// <summary>
-        /// Gets a specific <see cref="User"/>.
+        /// Gets a specific <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>User summary object</returns>
@@ -87,7 +103,7 @@ namespace Srisys.Web.Controllers
         }
 
         /// <summary>
-        /// Creates a <see cref="User"/>.
+        /// Creates a <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="entity">User to be created</param>
         /// <returns>User object</returns>
@@ -99,7 +115,9 @@ namespace Srisys.Web.Controllers
                 return this.BadRequest(this.ModelState);
             }
 
-            var user = this.mapper.Map<User>(entity);
+            var user = this.mapper.Map<ApplicationUser>(entity);
+            user.PasswordHash = this.passwordHasher.HashPassword(user, entity.Password);
+
             await this.context.Users.AddAsync(user);
             await this.context.SaveChangesAsync();
 
@@ -107,7 +125,7 @@ namespace Srisys.Web.Controllers
         }
 
         /// <summary>
-        /// Updates a specific <see cref="User"/>.
+        /// Updates a specific <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <param name="entity">entity</param>
@@ -141,7 +159,7 @@ namespace Srisys.Web.Controllers
         }
 
         /// <summary>
-        /// Deletes a specific <see cref="User"/>.
+        /// Deletes a specific <see cref="ApplicationUser"/>.
         /// </summary>
         /// <param name="id">id</param>
         /// <returns>None</returns>

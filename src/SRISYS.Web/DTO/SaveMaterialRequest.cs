@@ -1,7 +1,6 @@
 ﻿namespace Srisys.Web.DTO
 {
     using System;
-    using System.ComponentModel;
     using System.ComponentModel.DataAnnotations;
     using BlueNebula.Common.DTOs;
 

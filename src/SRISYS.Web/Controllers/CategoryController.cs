@@ -1,24 +1,25 @@
 ﻿namespace Srisys.Web.Controllers
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using Srisys.Web.Services.Interfaces;
+    using AutoMapper.QueryableExtensions;
 
     /// <summary>
     /// <see cref="CategoryController"/> class handles ActivityLog basic add, edit, delete and get.
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class CategoryController : Controller
     {
         private readonly SrisysDbContext context;
@@ -57,16 +58,25 @@
                 list = list.Where(c => c.Name.ToLower().Contains(filter.SearchTerm.ToLower()));
             }
 
-            // sort
-            var ordering = $"Name {Constants.DefaultSortDirection}";
-            if (!string.IsNullOrEmpty(filter?.SortBy))
-            {
-                ordering = $"{filter.SortBy} {filter.SortDirection}";
-            }
-
-            list = list.OrderBy(ordering);
-
             var entities = await this.builder.BuildAsync(list, filter);
+
+            return this.Ok(entities);
+        }
+
+        /// <summary>
+        /// Gets a lookup of categories.
+        /// </summary>
+        /// <returns>The list of categories</returns>
+        [HttpGet("lookup", Name = "GetCategoryLookup")]
+        public IActionResult GetCategoryLookup()
+        {
+            // get list of active categorys (not deleted)
+            var list = this.context.Categories
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted)
+                .OrderBy(c => c.Name);
+
+            var entities = list.ProjectTo<CategorySummary>();
 
             return this.Ok(entities);
         }

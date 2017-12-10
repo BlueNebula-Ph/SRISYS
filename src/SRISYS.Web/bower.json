@@ -3,6 +3,7 @@
   "private": true,
   "dependencies": {
     "angular": "1.6.5",
+    "angular-permission": "5.3.2",
     "angular-ui-router": "1.0.5",
     "autoNumeric": "2.0.13",
     "bootstrap": "3.3.7",

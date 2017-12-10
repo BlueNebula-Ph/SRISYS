@@ -1,16 +1,23 @@
 ﻿namespace Srisys.Web
 {
     using System.IO;
+    using System.Text;
     using AutoMapper;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authentication.JwtBearer;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
     using Microsoft.Extensions.PlatformAbstractions;
+    using Microsoft.IdentityModel.Tokens;
+    using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
+    using Srisys.Web.Configuration;
     using Srisys.Web.Services;
     using Srisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
@@ -56,11 +63,15 @@
                         .AllowCredentials());
             });
 
+            // Add the authentication service
+            services.AddAuthentication(o => { o.SignInScheme = JwtBearerDefaults.AuthenticationScheme; });
+
             // Add framework services.
             services.AddMvc()
                 .AddJsonOptions(opt =>
                 {
                     opt.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+                    opt.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
                 });
 
             services.AddLogging();
@@ -70,32 +81,6 @@
             services.AddDbContext<SrisysDbContext>(opt =>
             {
                 opt.UseSqlServer(this.Configuration.GetConnectionString("MaterialDatabase"));
-
-                // opt.UseInMemoryDatabase();
-                opt.UseOpenIddict();
-            });
-
-            services.AddOpenIddict(options =>
-            {
-                // Register the Entity Framework stores.
-                options.AddEntityFrameworkCoreStores<SrisysDbContext>();
-
-                // Register the ASP.NET Core MVC binder used by OpenIddict.
-                // Note: if you don't call this method, you won't be able to
-                // bind OpenIdConnectRequest or OpenIdConnectResponse parameters.
-                options.AddMvcBinders();
-
-                // Enable the token endpoint.
-                options.EnableTokenEndpoint("/connect/token");
-
-                // Enable the password flow.
-                options.AllowPasswordFlow();
-
-                // Enable the use of refresh tokens();
-                options.AllowRefreshTokenFlow();
-
-                // During development, you can disable the HTTPS requirement.
-                options.DisableHttpsRequirement();
             });
 
             services.AddSwaggerGen(opt =>
@@ -111,6 +96,10 @@
             // Add application services
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
             services.AddScoped<IAdjustmentService, AdjustmentService>();
+            services.AddTransient(typeof(IPasswordHasher<>), typeof(PasswordHasher<>));
+
+            // Add configuration options
+            services.Configure<AuthOptions>(this.Configuration.GetSection("Auth"));
         }
 
         /// <summary>
@@ -119,7 +108,12 @@
         /// <param name="app">IApplicationBuilder</param>
         /// <param name="env">IHostingEnvironment</param>
         /// <param name="loggerFactory">ILoggerFactory</param>
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        /// <param name="authOptions">The configuration for authentication</param>
+        public void Configure(
+            IApplicationBuilder app,
+            IHostingEnvironment env,
+            ILoggerFactory loggerFactory,
+            IOptions<AuthOptions> authOptions)
         {
             loggerFactory.AddConsole(this.Configuration.GetSection("Logging"));
             loggerFactory.AddDebug();
@@ -131,8 +125,19 @@
             // the access tokens and populate the HttpContext.User property.
             app.UseOAuthValidation();
 
-            // Register the openiddict middleware.
-            app.UseOpenIddict();
+            app.UseJwtBearerAuthentication(new JwtBearerOptions
+            {
+                AutomaticAuthenticate = true,
+                AutomaticChallenge = true,
+                TokenValidationParameters = new TokenValidationParameters
+                {
+                    IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(authOptions.Value.Key)),
+                    ValidAudience = authOptions.Value.Audience,
+                    ValidateIssuerSigningKey = true,
+                    ValidateLifetime = true,
+                    ValidIssuer = authOptions.Value.Issuer,
+                },
+            });
 
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();

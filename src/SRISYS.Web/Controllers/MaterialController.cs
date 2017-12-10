@@ -7,6 +7,7 @@
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -19,6 +20,7 @@
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class MaterialController : Controller
     {
         private readonly SrisysDbContext context;
@@ -85,15 +87,6 @@
                 list = list.Where(c => c.Quantity < c.MinimumStock);
             }
 
-            // sort
-            var ordering = $"Name {Constants.DefaultSortDirection}";
-            if (!string.IsNullOrEmpty(filter?.SortBy))
-            {
-                ordering = $"{filter.SortBy} {filter.SortDirection}";
-            }
-
-            list = list.OrderBy(ordering);
-
             var entities = await this.builder.BuildAsync(list, filter);
 
             return this.Ok(entities);
@@ -102,14 +95,20 @@
         /// <summary>
         /// Returns list of active <see cref="Material"/>
         /// </summary>
+        /// <param name="typeId">Optional type id</param>
         /// <returns>List of Materials</returns>
-        [HttpGet("lookup", Name = "GetMaterialLookup")]
-        public IActionResult GetLookup()
+        [HttpGet("lookup/{typeId}", Name = "GetMaterialLookup")]
+        public IActionResult GetLookup(int typeId = 0)
         {
             // get list of active items (not deleted)
             var list = this.context.Materials
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted);
+
+            if (typeId != 0)
+            {
+                list = list.Where(a => a.TypeId == typeId);
+            }
 
             // sort
             var ordering = $"Name {Constants.DefaultSortDirection}";

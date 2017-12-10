@@ -1,11 +1,8 @@
 ﻿(function (module) {
-    var addItemController = function ($scope, $q, $stateParams, inventoryService, supplierService, referenceService, utils) {
+    var addItemController = function ($scope, $q, $stateParams, inventoryService, supplierService, categoryService, utils) {
         var vm = this;
         var defaultItem = {
             typeId: "1",
-            supplierId: 0,
-            categoryId: 0,
-            subCategoryId: 0,
             price: 0
         };
 
@@ -24,6 +21,10 @@
         // Watchers
         $scope.$watch(() => { return vm.item.typeId; },
             function (newVal, oldVal) {
+                if (!newVal) {
+                    return;
+                }
+
                 // Set type id to string to allow radio button to pickup
                 vm.item.typeId = newVal.toString();
 
@@ -38,19 +39,16 @@
 
         $scope.$watch(() => { return vm.item.categoryId; },
             function (newVal, oldVal) {
-                vm.subcategoryList = [];
-                if (newVal != oldVal && newVal != 0) {
-                    utils.showLoading();
+                var tempList = [];
 
-                    referenceService.getReferenceLookup(3, newVal)
-                        .then((response) => {
-                            utils.populateDropdownlist(response, vm.subcategoryList, "", "");
-                        }, utils.onError)
-                        .finally(utils.hideLoading);
-                } else if (newVal == 0) {
-                    vm.subcategoryList.push({ id: 0, code: "-- Select subcategory --" });
+                if (newVal && newVal != 0) {
+                    var subcategories = vm.categoryList.find((cat) => { return cat.id == newVal; }).subcategories;
+                    angular.copy(subcategories, tempList);
                 }
-            });
+
+                angular.copy(tempList, vm.subcategoryList);
+
+            }, true);
 
         // Public Methods
         vm.save = function () {
@@ -71,6 +69,9 @@
         var resetForm = function () {
             angular.copy(defaultItem, vm.item);
             vm.defaultFocus = true;
+            if (vm.addItemForm) {
+                vm.addItemForm.$setPristine();
+            }
         };
 
         var saveSuccessful = function (response) {
@@ -90,8 +91,8 @@
         };
 
         var processResponses = function (responses) {
-            utils.populateDropdownlist(responses.category, vm.categoryList, "code", "-- Select category --");
-            utils.populateDropdownlist(responses.supplier, vm.supplierList, "name", "-- Select supplier --");
+            utils.populateDropdownlist(responses.category, vm.categoryList, "", "");
+            utils.populateDropdownlist(responses.supplier, vm.supplierList, "", "");
 
             if (responses.item) {
                 angular.copy(responses.item.data, defaultItem);
@@ -103,7 +104,7 @@
             utils.showLoading();
 
             var requests = {
-                category: referenceService.getReferenceLookup(2),
+                category: categoryService.getCategoryLookup(),
 				supplier: supplierService.getSupplierLookup()
             };
 
@@ -124,6 +125,6 @@
         return vm;
     };
 
-    module.controller("addItemController", ["$scope", "$q", "$stateParams", "inventoryService", "supplierService", "referenceService", "utils", addItemController]);
+    module.controller("addItemController", ["$scope", "$q", "$stateParams", "inventoryService", "supplierService", "categoryService", "utils", addItemController]);
 
 })(angular.module("srisys-app"));

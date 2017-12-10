@@ -1,0 +1,39 @@
+﻿<summary-shell>
+    <shell-title>
+        <h3>Borrowers. <small class="text-muted">Search borrowers.</small></h3>
+    </shell-title>
+    <shell-search>
+        <div search-input>
+            <span title="Search borrower via keyword"><i class="fa fa-search fa-fw"></i></span>
+            <input placeholder="Search Borrower..." ng-model="ctrl.filters.searchTerm" focus-me="ctrl.focus" />
+        </div>
+        <button class="btn btn-primary btn-sm" ng-click="ctrl.fetchBorrowers()">
+            <i class="fa fa-search"></i> Search
+        </button>
+    </shell-search>
+    <shell-table>
+        <table class="table table-condensed table-striped summary-table">
+            <thead>
+                <tr>
+                    <th ng-repeat="header in ctrl.headers track by $index" ng-class="header.class">
+                        <column-header header-text="{{ header.text }}" header-value="{{ header.value }}" sort="ctrl.filters.sortBy"
+                                       sort-direction="ctrl.filters.sortDirection"
+                                       fetch-call-back="ctrl.fetchBorrowers()"></column-header>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
+                    <td>{{ c.name }}</td>
+                    <td class="text-center">
+                        <summary-controls show-details="false"
+                                          show-edit="true" edit-state="system.add-borrower({ id: {{ c.id }} })" edit-title="Edit this borrower."
+                                          show-delete="true" delete-title="Delete this borrower.">
+                        </summary-controls>
+                    </td>
+                </tr>
+                <tr no-records ng-if="ctrl.summaryResult.items.length == 0" colspan="2"></tr>
+            </tbody>
+        </table>
+    </shell-table>
+</summary-shell>

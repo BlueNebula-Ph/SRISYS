@@ -12,6 +12,7 @@ namespace Srisys.Web.Controllers
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
+    using Srisys.Web.Filters;
 
     /// <summary>
     /// <see cref="SupplierController"/> class handles Supplier basic add, edit, delete and get.
@@ -120,6 +121,7 @@ namespace Srisys.Web.Controllers
         /// <param name="entity">entity to be created</param>
         /// <returns>Supplier</returns>
         [HttpPost]
+        [InjectMetadata(ActionType.Create, "entity")]
         public async Task<IActionResult> Create([FromBody]SaveSupplierRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
@@ -141,6 +143,7 @@ namespace Srisys.Web.Controllers
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
+        [InjectMetadata(ActionType.Update, "entity")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveSupplierRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)

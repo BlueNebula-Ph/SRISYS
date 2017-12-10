@@ -1,15 +1,27 @@
-﻿<form name="loginForm" ng-submit="ctrl.login(loginForm)">
-    <div class="form-group">
-        <label class="control-label">Username</label>
-        <input type="text" class="form-control input-sm" placeholder="Alice"
-               ng-model="ctrl.username"/>
+﻿<div class="login-container">
+    <div class="login-header">
+        <ul class="list-unstyled">
+            <li><span class="logo">Ace Plastic Center</span></li>
+            <li><small>Stockroom Manager</small></li>
+        </ul>
     </div>
-    <div class="form-group">
-        <label class="control-label">Password</label>
-        <input type="password" class="form-control input-sm"
-               ng-model="ctrl.password" />
+    <form class="login-form" name="loginForm" ng-submit="ctrl.login(loginForm)">
+        <h3>Sign In.</h3>
+        <div form-input>
+            <label>Username</label>
+            <input type="text" ng-model="ctrl.username" focus-me="ctrl.defaultFocus" required />
+        </div>
+        <div form-input>
+            <label>Password</label>
+            <input type="password" ng-model="ctrl.password" required />
+        </div>
+        <div>
+            <button type="submit" class="btn btn-primary btn-block btn-sm">
+                <i class="fa fa-key"></i> Login
+            </button>
+        </div>
+    </form>
+    <div class="login-footer">
+        <small>&copy; 2017. Ace Plastic Center.</small>
     </div>
-    <div>
-        <button type="submit" class="btn btn-primary">Login</button>
-    </div>
-</form>
+</div>

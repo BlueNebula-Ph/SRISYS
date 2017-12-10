@@ -1,13 +1,15 @@
-﻿namespace Srisys.Web.Migrations
-{
-    using System;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Metadata;
-    using Srisys.Web;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Srisys.Web;
+using Srisys.Web.Common;
 
+namespace Srisys.Web.Migrations
+{
     [DbContext(typeof(SrisysDbContext))]
-    internal partial class SrisysDbContextModelSnapshot : ModelSnapshot
+    partial class SrisysDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -15,128 +17,12 @@
                 .HasAnnotation("ProductVersion", "1.1.2")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("OpenIddict.Models.OpenIddictApplication", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ClientId")
-                        .IsRequired();
-
-                    b.Property<string>("ClientSecret");
-
-                    b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("DisplayName");
-
-                    b.Property<string>("PostLogoutRedirectUris");
-
-                    b.Property<string>("RedirectUris");
-
-                    b.Property<string>("Type")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ClientId")
-                        .IsUnique();
-
-                    b.ToTable("OpenIddictApplications");
-                });
-
-            modelBuilder.Entity("OpenIddict.Models.OpenIddictAuthorization", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ApplicationId");
-
-                    b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Scopes");
-
-                    b.Property<string>("Status")
-                        .IsRequired();
-
-                    b.Property<string>("Subject")
-                        .IsRequired();
-
-                    b.Property<string>("Type")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
-
-                    b.ToTable("OpenIddictAuthorizations");
-                });
-
-            modelBuilder.Entity("OpenIddict.Models.OpenIddictScope", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
-
-                    b.Property<string>("Description");
-
-                    b.Property<string>("Name")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.ToTable("OpenIddictScopes");
-                });
-
-            modelBuilder.Entity("OpenIddict.Models.OpenIddictToken", b =>
-                {
-                    b.Property<string>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<string>("ApplicationId");
-
-                    b.Property<string>("AuthorizationId");
-
-                    b.Property<string>("Ciphertext");
-
-                    b.Property<string>("ConcurrencyToken")
-                        .IsConcurrencyToken();
-
-                    b.Property<DateTimeOffset?>("CreationDate");
-
-                    b.Property<DateTimeOffset?>("ExpirationDate");
-
-                    b.Property<string>("Hash");
-
-                    b.Property<string>("Status");
-
-                    b.Property<string>("Subject")
-                        .IsRequired();
-
-                    b.Property<string>("Type")
-                        .IsRequired();
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ApplicationId");
-
-                    b.HasIndex("AuthorizationId");
-
-                    b.HasIndex("Hash")
-                        .IsUnique();
-
-                    b.ToTable("OpenIddictTokens");
-                });
-
             modelBuilder.Entity("Srisys.Web.Models.Activity", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<int>("BorrowedById");
+                    b.Property<int?>("BorrowedById");
 
                     b.Property<int>("CreatedBy");
 
@@ -154,11 +40,11 @@
 
                     b.Property<double>("QuantityBorrowed");
 
-                    b.Property<int>("ReceivedById");
+                    b.Property<int?>("ReceivedById");
 
-                    b.Property<int>("ReleasedById");
+                    b.Property<int?>("ReleasedById");
 
-                    b.Property<int>("ReturnedById");
+                    b.Property<int?>("ReturnedById");
 
                     b.Property<int>("Status");
 
@@ -208,6 +94,36 @@
                     b.HasIndex("MaterialId");
 
                     b.ToTable("Adjustments");
+                });
+
+            modelBuilder.Entity("Srisys.Web.Models.ApplicationUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("AccessRights");
+
+                    b.Property<int>("CreatedBy");
+
+                    b.Property<DateTime>("CreatedDate");
+
+                    b.Property<string>("Firstname");
+
+                    b.Property<bool>("IsDeleted");
+
+                    b.Property<int>("LastUpdatedBy");
+
+                    b.Property<DateTime>("LastUpdatedDate");
+
+                    b.Property<string>("Lastname");
+
+                    b.Property<string>("PasswordHash");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("Srisys.Web.Models.Borrower", b =>
@@ -434,80 +350,28 @@
                     b.ToTable("Suppliers");
                 });
 
-            modelBuilder.Entity("Srisys.Web.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd();
-
-                    b.Property<int>("CreatedBy");
-
-                    b.Property<DateTime>("CreatedDate");
-
-                    b.Property<string>("Firstname");
-
-                    b.Property<bool>("IsDeleted");
-
-                    b.Property<int>("LastUpdatedBy");
-
-                    b.Property<DateTime>("LastUpdatedDate");
-
-                    b.Property<string>("Lastname");
-
-                    b.Property<string>("Password");
-
-                    b.Property<string>("Username");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Users");
-                });
-
-            modelBuilder.Entity("OpenIddict.Models.OpenIddictAuthorization", b =>
-                {
-                    b.HasOne("OpenIddict.Models.OpenIddictApplication", "Application")
-                        .WithMany("Authorizations")
-                        .HasForeignKey("ApplicationId");
-                });
-
-            modelBuilder.Entity("OpenIddict.Models.OpenIddictToken", b =>
-                {
-                    b.HasOne("OpenIddict.Models.OpenIddictApplication", "Application")
-                        .WithMany("Tokens")
-                        .HasForeignKey("ApplicationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("OpenIddict.Models.OpenIddictAuthorization", "Authorization")
-                        .WithMany("Tokens")
-                        .HasForeignKey("AuthorizationId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
             modelBuilder.Entity("Srisys.Web.Models.Activity", b =>
                 {
                     b.HasOne("Srisys.Web.Models.Borrower", "BorrowedBy")
                         .WithMany()
-                        .HasForeignKey("BorrowedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("BorrowedById");
 
                     b.HasOne("Srisys.Web.Models.Material", "Material")
                         .WithMany()
                         .HasForeignKey("MaterialId")
                         .OnDelete(DeleteBehavior.Cascade);
 
-                    b.HasOne("Srisys.Web.Models.User", "ReceivedBy")
+                    b.HasOne("Srisys.Web.Models.ApplicationUser", "ReceivedBy")
                         .WithMany()
-                        .HasForeignKey("ReceivedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ReceivedById");
 
-                    b.HasOne("Srisys.Web.Models.User", "ReleasedBy")
+                    b.HasOne("Srisys.Web.Models.ApplicationUser", "ReleasedBy")
                         .WithMany()
-                        .HasForeignKey("ReleasedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ReleasedById");
 
                     b.HasOne("Srisys.Web.Models.Borrower", "ReturnedBy")
                         .WithMany()
-                        .HasForeignKey("ReturnedById")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("ReturnedById");
                 });
 
             modelBuilder.Entity("Srisys.Web.Models.Adjustment", b =>

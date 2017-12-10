@@ -93,7 +93,8 @@ namespace Srisys.Web.Controllers
                 .AsNoTracking()
                 .Where(c => !c.IsDeleted &&
                     c.TypeId == (int)MaterialType.Consumable &&
-                    c.Quantity < c.MinimumStock);
+                    c.Quantity < c.MinimumStock)
+                .OrderBy(c => c.Name);
 
             var mappedList = await list.ProjectTo<MaterialSummary>().ToListAsync();
 
@@ -110,7 +111,8 @@ namespace Srisys.Web.Controllers
             // Get a list of materials.
             var list = this.context.Materials
                 .AsNoTracking()
-                .Where(c => !c.IsDeleted);
+                .Where(c => !c.IsDeleted)
+                .OrderBy(c => c.Name);
 
             var mappedList = await list.ProjectTo<MaterialSummary>().ToListAsync();
 

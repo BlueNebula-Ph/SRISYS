@@ -7,6 +7,7 @@ namespace Srisys.Web.Controllers
     using AutoMapper;
     using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
@@ -18,6 +19,7 @@ namespace Srisys.Web.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [Authorize]
     public class BorrowerController : Controller
     {
         private readonly SrisysDbContext context;

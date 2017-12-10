@@ -94,5 +94,11 @@
         /// Gets or sets the balance of the item borrowed.
         /// </summary>
         public double Balance { get; set; }
+
+        /// <summary>
+        /// Gets or sets the action that occurred.
+        /// Possible values: borrowed, used
+        /// </summary>
+        public string ActionPerformed { get; set; }
     }
 }

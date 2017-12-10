@@ -1,14 +1,12 @@
 ﻿(function (module) {
-    var addCategoryController = function (referenceService, loadingService, utils) {
+    var addCategoryController = function (categoryService, loadingService, utils) {
         var vm = this;
 
         // Data
-        var referenceTypeId = 2;
-        var childReferenceTypeId = 3;
         var defaultCategory = {};
         vm.category = {
-            referenceTypeId: referenceTypeId,
-            children: []
+            name: "",
+            subcategories: []
         };
 
         // Helper properties
@@ -19,7 +17,7 @@
         vm.save = function () {
             loadingService.showLoading();
 
-            referenceService.saveReference(0, vm.category)
+            categoryService.saveCategory(0, vm.category)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
         };
@@ -29,8 +27,12 @@
         };
 
         vm.addSubcategory = function () {
-            var newSub = { code: "", referenceTypeId: childReferenceTypeId, focus: true };
-            vm.category.children.push(newSub);
+            var newSub = { id: 0, name: "", focus: true };
+            vm.category.subcategories.push(newSub);
+        };
+
+        vm.removeSubcategory = function ($index) {
+            vm.category.subcategories.splice($index, 1);
         };
 
         // Private methods
@@ -53,6 +55,6 @@
         return vm;
     };
 
-    module.controller("addCategoryController", ["referenceService", "loadingService", "utils", addCategoryController]);
+    module.controller("addCategoryController", ["categoryService", "loadingService", "utils", addCategoryController]);
 
 })(angular.module("srisys-app"));
