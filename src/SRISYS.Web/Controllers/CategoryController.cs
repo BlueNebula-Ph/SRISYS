@@ -46,9 +46,10 @@
         [HttpPost("search", Name = "GetAllCategorys")]
         public async Task<IActionResult> GetAll([FromBody]CategoryFilterRequest filter)
         {
-            // get list of active categorys (not deleted)
+            // get list of active categories (not deleted)
             var list = this.context.Categories
                 .AsNoTracking()
+                .Include(c => c.Subcategories)
                 .Where(c => !c.IsDeleted);
 
             // filter
@@ -72,6 +73,7 @@
             // get list of active categorys (not deleted)
             var list = this.context.Categories
                 .AsNoTracking()
+                .Include(c => c.Subcategories)
                 .Where(c => !c.IsDeleted)
                 .OrderBy(c => c.Name);
 
@@ -177,7 +179,30 @@
             this.context.Update(category);
             await this.context.SaveChangesAsync();
 
-            return new NoContentResult();
+            return this.NoContent();
+        }
+
+        /// <summary>
+        /// Deletes a specific <see cref="Subcategory"/>.
+        /// </summary>
+        /// <param name="id">The category id</param>
+        /// <param name="subcategoryId">The subcategory id to delete</param>
+        /// <returns>None</returns>
+        [HttpDelete("{id}/subcategory/{subcategoryId}")]
+        public async Task<IActionResult> DeleteSubcategory(long id, long subcategoryId)
+        {
+            var subcategory = await this.context.Subcategories
+                .SingleOrDefaultAsync(a => a.Id == subcategoryId && a.CategoryId == id);
+            if (subcategory == null)
+            {
+                return this.NotFound(subcategoryId);
+            }
+
+            subcategory.IsDeleted = true;
+            this.context.Update(subcategory);
+            await this.context.SaveChangesAsync();
+
+            return this.NoContent();
         }
     }
 }

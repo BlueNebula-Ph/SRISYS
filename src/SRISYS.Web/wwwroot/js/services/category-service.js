@@ -32,6 +32,11 @@
             return $http.delete(url);
         };
 
+        dataFactory.deleteSubcategory = function (id, subcategoryId) {
+            var url = urlBase + "/" + id + "/subcategory/" + subcategoryId;
+            return $http.delete(url);
+        };
+
         return dataFactory;
     };
 

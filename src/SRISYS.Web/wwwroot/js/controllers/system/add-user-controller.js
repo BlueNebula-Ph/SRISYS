@@ -1,7 +1,9 @@
 ﻿(function (module) {
     var addUserController = function ($stateParams, userService, utils) {
         var vm = this;
-        var defaultUser = {};
+        var defaultUser = {
+            canView: true
+        };
 
         // Data
         vm.user = {};
@@ -25,6 +27,7 @@
                 if (val.selected) {
                     accessRights.push(val.value);
                 }
+                vm.user[val.value] = val.selected;
             });
             vm.user.accessRights = accessRights.join(',');
 
@@ -44,7 +47,7 @@
             vm.defaultFocus = true;
 
             vm.accessRights.forEach((val, idx) => {
-                val.selected = false;
+                val.selected = defaultUser[val.value];
             });
 
             if (vm.addUserForm) {
