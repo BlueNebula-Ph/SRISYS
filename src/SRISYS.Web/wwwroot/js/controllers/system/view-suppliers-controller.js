@@ -36,7 +36,13 @@
             vm.filters.searchTerm = "";
 
             vm.focus = true;
-        };
+		};
+
+		vm.delete = function (id) {
+			supplierService.deleteSupplier(id)
+				.then((response) => { vm.fetchSuppliers(); }, onFetchError)
+				.finally(utils.hideLoading);
+		};
 
         var processSupplierList = function (response) {
             angular.copy(response.data, vm.summaryResult);

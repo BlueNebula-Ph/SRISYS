@@ -7,6 +7,6 @@
     <i class="fa fa-edit fa-fw"></i>
 </a>
 <button ng-if="showDelete" class="btn btn-danger btn-xs" title="{{ deleteTitle }}"
-        ng-click="onDelete" permission permission-only="['admin', 'canDelete']">
+        ng-click="onDelete()" permission permission-only="['admin', 'canDelete']">
     <i class="fa fa-trash-o fa-fw"></i>
 </button>

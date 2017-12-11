@@ -7,8 +7,8 @@
     using Microsoft.AspNetCore.Identity;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.DependencyInjection;
-    using Srisys.Web.Models;
     using Srisys.Web.Common;
+    using Srisys.Web.Models;
 
     /// <summary>
     /// DBContenxt for Srisys.
@@ -82,8 +82,9 @@
         {
             using (var context = app.ApplicationServices.GetRequiredService<SrisysDbContext>())
             {
-                // context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                context.Database.EnsureDeleted();
+                //context.Database.Migrate();
+                context.Database.EnsureCreated();
 
                 SeedReferences(context);
                 SeedCategories(context);

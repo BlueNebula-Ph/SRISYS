@@ -28,7 +28,7 @@
                     <td class="text-center">
                         <summary-controls show-details="false"
                                           show-edit="true" edit-state="system.add-borrower({ id: {{ c.id }} })" edit-title="Edit this borrower."
-                                          show-delete="true" delete-title="Delete this borrower.">
+                                          show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this borrower.">
                         </summary-controls>
                     </td>
                 </tr>

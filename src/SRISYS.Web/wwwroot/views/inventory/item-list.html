@@ -58,7 +58,7 @@
                     <td class="text-center">
                         <summary-controls show-details="true" details-state="inventory.details({ id: {{ c.id }} })" details-title="View material details."
                                           show-edit="true" edit-state="inventory.add({ id: {{ c.id }} })" edit-title="Edit this material."
-                                          show-delete="true" delete-title="Delete this material.">
+                                          show-delete="true" on-delete="ctrl.delete(c.id)" delete-title="Delete this material.">
                         </summary-controls>
                     </td>
                 </tr>
