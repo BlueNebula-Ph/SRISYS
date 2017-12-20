@@ -36,6 +36,7 @@
             vm.focus = true;
         };
 
+        // Paging
         vm.changePage = function () {
             vm.fetchCategories();
         };

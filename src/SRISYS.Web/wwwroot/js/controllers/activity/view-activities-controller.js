@@ -49,6 +49,11 @@
             }
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchActivities();
+        };
+
         // Private Methods
         var processActivityList = function (response) {
             angular.copy(response.data, vm.summaryResult);

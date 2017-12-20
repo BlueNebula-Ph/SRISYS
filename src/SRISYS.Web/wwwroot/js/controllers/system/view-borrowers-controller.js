@@ -35,6 +35,7 @@
             vm.focus = true;
         };
 
+        // Paging
         vm.changePage = function () {
             vm.fetchBorrowers();
         };

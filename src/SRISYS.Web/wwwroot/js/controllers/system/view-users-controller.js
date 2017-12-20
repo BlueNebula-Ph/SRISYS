@@ -39,6 +39,11 @@
             vm.focus = true;
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchUsers();
+        };
+
         var processUserList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };

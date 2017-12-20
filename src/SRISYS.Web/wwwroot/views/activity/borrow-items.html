@@ -47,8 +47,9 @@
                         </tr>
                         <tr ng-repeat="i in ctrl.borrow.activities track by $index">
                             <td>
-                                <select name="item" focus-me="i.isFocused" class="form-control input-sm" required
-                                        ng-options="item.name for item in ctrl.itemList" ng-model="i.selectedMaterial"></select>
+                                <!--<select name="item" focus-me="i.isFocused" class="form-control input-sm" required
+                                        ng-options="item.name for item in ctrl.itemList" ng-model="i.selectedMaterial"></select>-->
+                                <autocomplete route="/api/material/lookup/{{ctrl.typeId}}" selected-item="i.selectedMaterial" selected-value="i.selectedId" is-focused="i.isFocused"></autocomplete> 
                             </td>
                             <td><input type="text" class="form-control input-sm" ng-model="i.unit" readonly /></td>
                             <td><input type="text" class="form-control input-sm" ng-model="i.brand" readonly /></td>

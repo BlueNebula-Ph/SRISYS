@@ -62,6 +62,7 @@
             vm.focus = true;
         };
 
+        // Paging
         vm.changePage = function () {
             vm.fetchItems();
         };

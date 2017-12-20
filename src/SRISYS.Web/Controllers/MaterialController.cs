@@ -96,9 +96,11 @@
         /// Returns list of active <see cref="Material"/>
         /// </summary>
         /// <param name="typeId">Optional type id</param>
+        /// <param name="search">Optional search string</param>
+        /// <param name="pageSize">Optional page size</param>
         /// <returns>List of Materials</returns>
         [HttpGet("lookup/{typeId}", Name = "GetMaterialLookup")]
-        public IActionResult GetLookup(int typeId = 0)
+        public IActionResult GetLookup(int typeId = 0, [FromQuery] string search = "", [FromQuery] int pageSize = 0)
         {
             // get list of active items (not deleted)
             var list = this.context.Materials
@@ -110,10 +112,20 @@
                 list = list.Where(a => a.TypeId == typeId);
             }
 
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = list.Where(a => a.Name.StartsWith(search));
+            }
+
             // sort
             var ordering = $"Name {Constants.DefaultSortDirection}";
 
             list = list.OrderBy(ordering);
+
+            if (pageSize != default(int))
+            {
+                list = list.Take(pageSize);
+            }
 
             var entities = list.ProjectTo<MaterialLookup>();
 

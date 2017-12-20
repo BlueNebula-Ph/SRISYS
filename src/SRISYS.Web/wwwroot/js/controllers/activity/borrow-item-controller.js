@@ -25,10 +25,12 @@
         vm.defaultFocus = true;
         vm.saveEnabled = true;
         vm.header = type == "Tools" ? "Borrow Tools." : "Use Consumables.";
+        vm.typeId = type == "Tools" ? 1 : 2;
 
         // Watchers
         $scope.$watch(() => { return vm.borrow.activities; },
             function (newVal, oldVal) {
+                console.log(newVal);
                 assignValues();
             }, true);
 
@@ -64,6 +66,7 @@
                 var selectedMaterial = item.selectedMaterial;
 
                 if (selectedMaterial) {
+                    console.log(selectedMaterial);
                     item.materialId = selectedMaterial.id;
                     item.unit = selectedMaterial.unit;
                     item.brand = selectedMaterial.brand;

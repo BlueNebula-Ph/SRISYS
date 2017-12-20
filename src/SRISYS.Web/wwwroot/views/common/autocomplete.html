@@ -1,0 +1,11 @@
+﻿<input class="form-control input-sm" ng-model="search" ng-keyup="handleKeyup($event)"
+       ng-keydown="handleKeydown($event)" placeholder="Type to search..." focus-me="isFocused" />
+<div class="autocomplete" ng-show="showLoading">
+    <span class="fa fa-spinner fa-spin"></span>
+</div>
+<div class="autocomplete" ng-show="items.length > 0">
+    <ul>
+        <li ng-repeat="i in items track by $index" ng-click="itemSelected(i)"
+            ng-class="{ 'background-hovered': $index == selectedIndex }">{{ i.name }}</li>
+    </ul>
+</div>

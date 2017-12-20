@@ -28,8 +28,22 @@
             vm.getTotalPages = function () {
                 var result = new Array();
 
-                for (var i = 1, total = $scope.totalPages; i <= total; i++) {
-                    result.push(i);
+                // If total pages <= 10, return all pages
+                if ($scope.totalPages <= 10) {
+                    for (var i = 1, total = $scope.totalPages; i <= total; i++) {
+                        result.push(i);
+                    }
+                } else { // If more than 10, return current page - 5 until 15th page
+                    var i = 1;
+                    if ($scope.currentPage > 6) {
+                        i = $scope.currentPage - 5;
+                    }
+                    for (var j = 1; j <= 10; j++) {
+                        if (i <= $scope.totalPages) {
+                            result.push(i);
+                            i++;
+                        }
+                    }
                 }
 
                 return result;

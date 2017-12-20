@@ -191,10 +191,10 @@
             if (!context.Suppliers.Any())
             {
                 var suppliers = new List<Supplier>
-                {
-                    new Supplier { Name = "Dave Grohl", Email = "dave@ff.com", Address = "Foo street", PhoneNumber = "339403", OtherDetails = "Foo" },
-                    new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
-                };
+                    {
+                        new Supplier { Name = "Dave Grohl", Email = "dave@ff.com", Address = "Foo street", PhoneNumber = "339403", OtherDetails = "Foo" },
+                        new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
+                    };
                 context.Suppliers.AddRange(suppliers);
             }
         }
