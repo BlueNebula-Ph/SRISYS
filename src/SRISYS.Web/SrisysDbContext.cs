@@ -82,8 +82,9 @@
         {
             using (var context = app.ApplicationServices.GetRequiredService<SrisysDbContext>())
             {
-                // context.Database.EnsureDeleted();
-                context.Database.Migrate();
+                context.Database.EnsureDeleted();
+                //context.Database.Migrate();
+                context.Database.EnsureCreated();
 
                 SeedReferences(context);
                 SeedCategories(context);

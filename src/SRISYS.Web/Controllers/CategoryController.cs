@@ -43,7 +43,7 @@
         /// </summary>
         /// <param name="filter"><see cref="CategoryFilterRequest"/></param>
         /// <returns>List of Categorys</returns>
-        [HttpPost("search", Name = "GetAllCategorys")]
+        [HttpPost("search", Name = "GetAllCategories")]
         public async Task<IActionResult> GetAll([FromBody]CategoryFilterRequest filter)
         {
             // get list of active categories (not deleted)

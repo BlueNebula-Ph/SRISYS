@@ -38,7 +38,13 @@
         // Paging
         vm.changePage = function () {
             vm.fetchBorrowers();
-        };
+		};
+
+		vm.delete = function (id) {
+			borrowerService.deleteBorrower(id)
+				.then((response) => { vm.fetchBorrowers(); }, utils.onError)
+				.finally(utils.hideLoading);
+		};
 
         var processBorrowerList = function (response) {
             angular.copy(response.data, vm.summaryResult);

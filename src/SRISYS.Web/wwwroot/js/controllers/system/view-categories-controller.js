@@ -41,6 +41,12 @@
             vm.fetchCategories();
         };
 
+		vm.delete = function (id) {
+			categoryService.deleteCategory(id)
+				.then((response) => { vm.fetchCategories(); }, utils.onError)
+				.finally(utils.hideLoading);
+		};
+
         var processCategoryList = function (response) {
             response.data.items.map((item) => {
                 item.subs = item.subcategories.map((sc) => sc.name).join(', ');

@@ -65,9 +65,15 @@
         // Paging
         vm.changePage = function () {
             vm.fetchItems();
-        };
+		};
 
-        var processItemList = function (response) {
+		vm.delete = function (id) {
+			inventoryService.deleteItem(id)
+				.then((response) => { vm.fetchItems(); }, utils.onError)
+				.finally(utils.hideLoading);
+		};
+
+		var processItemList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };
 
