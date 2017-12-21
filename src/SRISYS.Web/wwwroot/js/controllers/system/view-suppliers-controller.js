@@ -38,7 +38,9 @@
             vm.focus = true;
 		};
 
-		vm.delete = function (id) {
+        vm.delete = function (id) {
+            if (!utils.showConfirmMessage("Are you sure you want to delete this supplier?")) { return; }
+
 			supplierService.deleteSupplier(id)
 				.then((response) => { vm.fetchSuppliers(); }, onFetchError)
 				.finally(utils.hideLoading);

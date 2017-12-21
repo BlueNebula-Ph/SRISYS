@@ -41,7 +41,9 @@
             vm.fetchCategories();
         };
 
-		vm.delete = function (id) {
+        vm.delete = function (id) {
+            if (!utils.showConfirmMessage("Are you sure you want to delete this category?")) { return; }
+
 			categoryService.deleteCategory(id)
 				.then((response) => { vm.fetchCategories(); }, utils.onError)
 				.finally(utils.hideLoading);

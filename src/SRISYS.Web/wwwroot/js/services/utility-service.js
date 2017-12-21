@@ -31,6 +31,10 @@
             }
         };
 
+        service.showConfirmMessage = function (message) {
+            return confirm(message);
+        };
+
         return service;
     };
 
