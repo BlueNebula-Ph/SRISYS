@@ -1,21 +1,20 @@
-﻿namespace Srisys.Web.Migrations
-{
-    using System;
-    using Microsoft.EntityFrameworkCore;
-    using Microsoft.EntityFrameworkCore.Infrastructure;
-    using Microsoft.EntityFrameworkCore.Metadata;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 
-    /// <summary>
-    /// The model snapshot
-    /// </summary>
+namespace Srisys.Web.Migrations
+{
     [DbContext(typeof(SrisysDbContext))]
-    public partial class SrisysDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171221071314_AddUseFieldToActivity")]
+    partial class AddUseFieldToActivity
     {
         /// <summary>
         /// Builds the model
         /// </summary>
         /// <param name="modelBuilder">The model builder</param>
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.1.2")

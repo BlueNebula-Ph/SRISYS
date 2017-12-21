@@ -70,6 +70,8 @@
                     <th class="text-center">Date</th>
                     <th class="text-right">Quantity</th>
                     <th>Type</th>
+                    <th class="text-right">Price</th>
+                    <th>Receipt #</th>
                     <th>Remarks</th>
                 </tr>
             </thead>
@@ -78,9 +80,12 @@
                     <td class="text-center">{{ tr.date | date:'MM/dd/yyyy' }}</td>
                     <td class="text-right">{{ tr.quantity | number:0 }}</td>
                     <td>{{ tr.adjustmentType }}</td>
+                    <td class="text-right" ng-if="tr.price">₱ {{ tr.price | number:2 }}</td>
+                    <td class="text-right" ng-if="!tr.price">-</td>
+                    <td>{{ tr.receiptNumber | noValue }}</td>
                     <td>{{ tr.remarks }}</td>
                 </tr>
-                <tr no-records ng-if="ctrl.item.adjustments.length == 0" colspan="5"></tr>
+                <tr no-records ng-if="ctrl.item.adjustments.length == 0" colspan="6"></tr>
             </tbody>
         </table>
     </shell-details>

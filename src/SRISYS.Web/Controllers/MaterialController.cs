@@ -259,12 +259,7 @@
             }
 
             // Perform adjustment through the adjustment service.
-            this.adjustmentService.ModifyQuantity(
-                material,
-                saveAdjustmentRequest.Quantity,
-                saveAdjustmentRequest.AdjustmentType,
-                QuantityType.Both,
-                saveAdjustmentRequest.Remarks);
+            this.adjustmentService.ModifyQuantity(material, QuantityType.Both, saveAdjustmentRequest);
 
             // If the adjustment is a result of a purchase, update the last purchase date and price of the material.
             if (saveAdjustmentRequest.IsPurchase)

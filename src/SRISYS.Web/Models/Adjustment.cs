@@ -41,5 +41,17 @@
         /// Gets or sets the material navigation property
         /// </summary>
         public Material Material { get; set; }
+
+        /// <summary>
+        /// Gets or sets the material price
+        /// Only used on a purchase
+        /// </summary>
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the receipt number
+        /// Only used on a purchase
+        /// </summary>
+        public string ReceiptNumber { get; set; }
     }
 }

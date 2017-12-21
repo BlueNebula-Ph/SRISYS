@@ -29,6 +29,7 @@
         /// <summary>
         /// Gets or sets property Email.
         /// </summary>
+        [EmailAddress]
         public string Email { get; set; }
 
         /// <summary>

@@ -26,5 +26,15 @@
         /// Gets or sets the remarks.
         /// </summary>
         public string Remarks { get; set; }
+
+        /// <summary>
+        /// Gets or sets the price.
+        /// </summary>
+        public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the receipt number.
+        /// </summary>
+        public string ReceiptNumber { get; set; }
     }
 }

@@ -1,7 +1,8 @@
 ﻿namespace Srisys.Web.Services
 {
-    using System;
+    using AutoMapper;
     using Srisys.Web.Common;
+    using Srisys.Web.DTO;
     using Srisys.Web.Models;
     using Srisys.Web.Services.Interfaces;
 
@@ -11,14 +12,17 @@
     internal class AdjustmentService : IAdjustmentService
     {
         private readonly SrisysDbContext context;
+        private readonly IMapper mapper;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="AdjustmentService"/> class.
         /// </summary>
         /// <param name="context">DbContext</param>
-        public AdjustmentService(SrisysDbContext context)
+        /// <param name="mapper">Automapper</param>
+        public AdjustmentService(SrisysDbContext context, IMapper mapper)
         {
             this.context = context;
+            this.mapper = mapper;
         }
 
         /// <summary>
@@ -49,29 +53,27 @@
         /// Method to adjust item quantities
         /// </summary>
         /// <param name="material"><see cref="Material"/></param>
-        /// <param name="adjustmentQuantity">Adjustment Quantity</param>
-        /// <param name="adjustmentType">Adjustment Type</param>
         /// <param name="quantityType">The quantity to be adjusted</param>
-        /// <param name="remarks">Remarks</param>
-        public void ModifyQuantity(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, QuantityType quantityType, string remarks)
+        /// <param name="adjustmentRequest">The adjustment request</param>
+        public void ModifyQuantity(Material material, QuantityType quantityType, SaveAdjustmentRequest adjustmentRequest)
         {
             if (material != null)
             {
                 switch (quantityType)
                 {
                     case QuantityType.Quantity:
-                        this.AdjustQuantity(material, adjustmentType, adjustmentQuantity);
+                        this.AdjustQuantity(material, adjustmentRequest.AdjustmentType, adjustmentRequest.Quantity);
                         break;
                     case QuantityType.RemainingQuantity:
-                        this.AdjustRemainingQuantity(material, adjustmentType, adjustmentQuantity);
+                        this.AdjustRemainingQuantity(material, adjustmentRequest.AdjustmentType, adjustmentRequest.Quantity);
                         break;
                     default:
-                        this.AdjustQuantity(material, adjustmentType, adjustmentQuantity);
-                        this.AdjustRemainingQuantity(material, adjustmentType, adjustmentQuantity);
+                        this.AdjustQuantity(material, adjustmentRequest.AdjustmentType, adjustmentRequest.Quantity);
+                        this.AdjustRemainingQuantity(material, adjustmentRequest.AdjustmentType, adjustmentRequest.Quantity);
                         break;
                 }
 
-                this.SaveAdjustment(material, adjustmentQuantity, adjustmentType, remarks);
+                this.SaveAdjustment(adjustmentRequest);
             }
         }
 
@@ -89,17 +91,9 @@
                             material.RemainingQuantity - adjustmentQuantity;
         }
 
-        private void SaveAdjustment(Material material, double adjustmentQuantity, AdjustmentType adjustmentType, string remarks)
+        private void SaveAdjustment(SaveAdjustmentRequest adjustmentRequest)
         {
-            var adjustment = new Adjustment
-            {
-                MaterialId = material.Id,
-                Date = DateTime.Today,
-                AdjustmentType = Enum.GetName(typeof(AdjustmentType), adjustmentType),
-                Quantity = adjustmentQuantity,
-                Remarks = remarks,
-            };
-
+            var adjustment = this.mapper.Map<Adjustment>(adjustmentRequest);
             this.context.Add(adjustment);
         }
     }
