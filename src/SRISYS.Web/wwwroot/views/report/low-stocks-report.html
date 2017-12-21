@@ -1,8 +1,8 @@
 ﻿<loading-indicator></loading-indicator>
-<h3>Low Stocks Report.</h3>
+<h3><img class="img-thumbnail" src="/images/logo.jpg" width="50" height="50" />  Low Stocks Report.</h3>
 <div class="well well-sm">
     <em>Report generated on: {{ ctrl.date }}</em>
-    <a target="_blank" href="http://www.google.com" class="btn btn-default btn-xs pull-right">
+    <a ng-click="ctrl.print()" class="btn btn-default btn-xs pull-right">
         <i class="fa fa-print"></i> Print
     </a>
 </div>

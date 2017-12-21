@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var dailyReportController = function ($state, reportService, utils) {
+    var dailyReportController = function ($state, $window, $timeout, reportService, utils) {
         var vm = this;
 
         // Main properties
@@ -8,6 +8,10 @@
         vm.filters = {
             selectedDate: new Date(),
             materialTypeId: vm.type == "Tools" ? 1 : 2
+        };
+
+        vm.print = () => {
+            $window.print();
         };
 
         // Helpers
@@ -37,6 +41,6 @@
         return vm;
     };
 
-    module.controller("dailyReportController", ["$state", "reportService", "utils", dailyReportController]);
+    module.controller("dailyReportController", ["$state", "$window", "$timeout", "reportService", "utils", dailyReportController]);
 
 })(angular.module("srisys-app"));
