@@ -153,7 +153,10 @@
                 opt.RoutePrefix = "info";
             });
 
-            SrisysDbContext.Seed(app);
+            if (env.EnvironmentName == "Development")
+            {
+                SrisysDbContext.Seed(app);
+            }
         }
     }
 }
