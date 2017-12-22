@@ -21,6 +21,7 @@
     using Srisys.Web.Services;
     using Srisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
+    using Srisys.Web.Filters;
 
     /// <summary>
     /// <see cref="Startup"/> class API configuration.
@@ -96,6 +97,11 @@
             // Add application services
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
             services.AddScoped<IAdjustmentService, AdjustmentService>();
+            services.AddScoped<CheckDuplicateSupplierAttribute>();
+            services.AddScoped<CheckDuplicateBorrowerAttribute>();
+            services.AddScoped<CheckDuplicateCategoryAttribute>();
+            services.AddScoped<CheckDuplicateMaterialAttribute>();
+            services.AddScoped<CheckDuplicateUserAttribute>();
             services.AddTransient(typeof(IPasswordHasher<>), typeof(PasswordHasher<>));
 
             // Add configuration options
