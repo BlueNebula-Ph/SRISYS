@@ -7,7 +7,13 @@
         };
 
         service.onError = function (error) {
-            toastr.error("There was an error processing your requests.", "Error");
+            var errorMessage = "There was an error processing your requests.";
+
+            if (error.data[400]) {
+                errorMessage = error.data[400];
+            }
+
+            toastr.error(errorMessage, "Error");
             console.log(error);
         };
 

@@ -42,7 +42,7 @@
             if (!utils.showConfirmMessage("Are you sure you want to delete this supplier?")) { return; }
 
 			supplierService.deleteSupplier(id)
-				.then((response) => { vm.fetchSuppliers(); }, onFetchError)
+				.then((response) => { vm.fetchSuppliers(); }, utils.onError)
 				.finally(utils.hideLoading);
 		};
 
