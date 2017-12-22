@@ -12,6 +12,7 @@ namespace Srisys.Web.Controllers
     using Microsoft.EntityFrameworkCore;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Filters;
     using Srisys.Web.Models;
 
     /// <summary>
@@ -108,6 +109,7 @@ namespace Srisys.Web.Controllers
         /// <param name="entity">User to be created</param>
         /// <returns>User object</returns>
         [HttpPost]
+        [ServiceFilter(typeof(CheckDuplicateUserAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveUserRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
@@ -131,6 +133,7 @@ namespace Srisys.Web.Controllers
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(CheckDuplicateUserAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveUserRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)

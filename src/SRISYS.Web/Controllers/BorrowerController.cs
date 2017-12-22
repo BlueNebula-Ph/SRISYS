@@ -13,6 +13,7 @@ namespace Srisys.Web.Controllers
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Filters;
 
     /// <summary>
     /// <see cref="BorrowerController"/> class handles adding, editing, deleting and fetching of borrowers.
@@ -121,6 +122,7 @@ namespace Srisys.Web.Controllers
         /// <param name="entity">Borrower to be created</param>
         /// <returns>Borrower object</returns>
         [HttpPost]
+        [ServiceFilter(typeof(CheckDuplicateBorrowerAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveBorrowerRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
@@ -142,6 +144,7 @@ namespace Srisys.Web.Controllers
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(CheckDuplicateBorrowerAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveBorrowerRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)

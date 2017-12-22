@@ -1,11 +1,11 @@
 ﻿namespace Srisys.Web.Filters
 {
-    using BlueNebula.Common.DTOs;
-    using Microsoft.AspNetCore.Mvc.Filters;
-    using Srisys.Web.Common;
     using System;
     using System.IdentityModel.Tokens.Jwt;
     using System.Linq;
+    using BlueNebula.Common.DTOs;
+    using Microsoft.AspNetCore.Mvc.Filters;
+    using Srisys.Web.Common;
 
     public class InjectMetadataAttribute : ActionFilterAttribute
     {
