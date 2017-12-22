@@ -5,14 +5,14 @@
     using System.Linq.Dynamic.Core;
     using System.Threading.Tasks;
     using AutoMapper;
+    using AutoMapper.QueryableExtensions;
     using BlueNebula.Common.Helpers;
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Models;
-    using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using AutoMapper.QueryableExtensions;
+    using Srisys.Web.Filters;
 
     /// <summary>
     /// <see cref="CategoryController"/> class handles ActivityLog basic add, edit, delete and get.
@@ -109,6 +109,7 @@
         /// <param name="entity">Category to be created</param>
         /// <returns>Category object</returns>
         [HttpPost]
+        [ServiceFilter(typeof(CheckDuplicateCategoryAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveCategoryRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
@@ -130,6 +131,7 @@
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(CheckDuplicateCategoryAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveCategoryRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)

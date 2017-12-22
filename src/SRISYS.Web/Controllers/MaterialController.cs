@@ -14,6 +14,7 @@
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
     using Srisys.Web.Services.Interfaces;
+    using Srisys.Web.Filters;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
@@ -153,6 +154,7 @@
         /// <param name="entity">entity to be created</param>
         /// <returns>Material</returns>
         [HttpPost]
+        [ServiceFilter(typeof(CheckDuplicateMaterialAttribute))]
         public async Task<IActionResult> Create([FromBody] SaveMaterialRequest entity)
         {
             if (entity == null || !this.ModelState.IsValid)
@@ -176,6 +178,7 @@
         /// <param name="entity">entity</param>
         /// <returns>None</returns>
         [HttpPut("{id}")]
+        [ServiceFilter(typeof(CheckDuplicateMaterialAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody] SaveMaterialRequest entity)
         {
             if (entity == null || entity.Id == 0 || id == 0)
