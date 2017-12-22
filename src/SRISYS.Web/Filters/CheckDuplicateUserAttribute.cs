@@ -30,12 +30,11 @@
                 return;
             }
 
-            var entity = this.dbContext.Users.FirstOrDefault(c => c.Username == model.Username);
+            var entity = this.dbContext.Users.FirstOrDefault(c => c.Username == model.Username && c.Id != model.Id);
             if (entity != null)
             {
-                context.HttpContext.Response.StatusCode = 400;
-                context.Result = new ContentResult() { Content = "Duplicate not allowed" };
                 context.ModelState.AddModelError("400", "Usernname already exists");
+                context.Result = new BadRequestObjectResult(context.ModelState);
             }
 
             return;

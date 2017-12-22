@@ -31,12 +31,11 @@
                 return;
             }
 
-            var entity = this.dbContext.Suppliers.FirstOrDefault(c => c.Name == model.Name);
+            var entity = this.dbContext.Suppliers.FirstOrDefault(c => c.Name == model.Name && c.Id != model.Id);
             if (entity != null)
             {
-                context.HttpContext.Response.StatusCode = 400;
-                context.Result = new ContentResult() { Content = "Duplicate not allowed" };
                 context.ModelState.AddModelError("400", "Supplier name already exists");
+                context.Result = new BadRequestObjectResult(context.ModelState);
             }
 
             return;
