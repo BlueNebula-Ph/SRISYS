@@ -25,6 +25,7 @@
   <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
+    <Content Include="wwwroot\images\favicon-32x32.png" />
     <Content Include="wwwroot\images\logo.jpg" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\controllers\activity\borrow-item-controller.js" />

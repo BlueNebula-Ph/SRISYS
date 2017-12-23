@@ -13,8 +13,8 @@
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using Srisys.Web.Services.Interfaces;
     using Srisys.Web.Filters;
+    using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
@@ -22,6 +22,7 @@
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class MaterialController : Controller
     {
         private readonly SrisysDbContext context;
@@ -169,11 +170,6 @@
         [ServiceFilter(typeof(CheckDuplicateMaterialAttribute))]
         public async Task<IActionResult> Create([FromBody] SaveMaterialRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var material = this.mapper.Map<Material>(entity);
             material.RemainingQuantity = entity.Quantity;
 
@@ -193,11 +189,6 @@
         [ServiceFilter(typeof(CheckDuplicateMaterialAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody] SaveMaterialRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var material = await this.context.Materials.SingleOrDefaultAsync(t => t.Id == id);
             if (material == null)
             {
@@ -247,11 +238,6 @@
         [HttpPost("adjust")]
         public async Task<IActionResult> Adjust([FromBody]SaveAdjustmentRequest saveAdjustmentRequest)
         {
-            if (saveAdjustmentRequest == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             // Fetch the material to be adjusted and attach it to the dbcontext.
             var material = await this.context.Materials
                 .FindAsync(saveAdjustmentRequest.MaterialId);

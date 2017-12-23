@@ -19,6 +19,7 @@ namespace Srisys.Web.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ValidateModel]
     public class SupplierController : Controller
     {
         private readonly SrisysDbContext context;
@@ -125,11 +126,6 @@ namespace Srisys.Web.Controllers
         [ServiceFilter(typeof(CheckDuplicateSupplierAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveSupplierRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var supplier = this.mapper.Map<Supplier>(entity);
             await this.context.Suppliers.AddAsync(supplier);
             await this.context.SaveChangesAsync();
@@ -148,11 +144,6 @@ namespace Srisys.Web.Controllers
         [ServiceFilter(typeof(CheckDuplicateSupplierAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveSupplierRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var supplier = await this.context.Suppliers.SingleOrDefaultAsync(t => t.Id == id);
             if (supplier == null)
             {

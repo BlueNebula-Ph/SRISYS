@@ -21,6 +21,7 @@ namespace Srisys.Web.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class BorrowerController : Controller
     {
         private readonly SrisysDbContext context;
@@ -125,11 +126,6 @@ namespace Srisys.Web.Controllers
         [ServiceFilter(typeof(CheckDuplicateBorrowerAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveBorrowerRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var borrower = this.mapper.Map<Borrower>(entity);
             await this.context.Borrowers.AddAsync(borrower);
             await this.context.SaveChangesAsync();
@@ -147,11 +143,6 @@ namespace Srisys.Web.Controllers
         [ServiceFilter(typeof(CheckDuplicateBorrowerAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveBorrowerRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var borrower = await this.context.Borrowers.SingleOrDefaultAsync(t => t.Id == id);
             if (borrower == null)
             {

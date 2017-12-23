@@ -13,6 +13,7 @@ namespace Srisys.Web.Controllers
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Filters;
     using Srisys.Web.Services.Interfaces;
 
     /// <summary>
@@ -21,6 +22,7 @@ namespace Srisys.Web.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class ActivityController : Controller
     {
         private readonly SrisysDbContext context;
@@ -79,11 +81,6 @@ namespace Srisys.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SaveActivityRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             foreach (var activityToSave in entity.Activities)
             {
                 var activity = activityToSave.Id == 0 ?

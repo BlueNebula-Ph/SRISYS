@@ -18,10 +18,10 @@
     using Newtonsoft.Json;
     using Newtonsoft.Json.Serialization;
     using Srisys.Web.Configuration;
+    using Srisys.Web.Filters;
     using Srisys.Web.Services;
     using Srisys.Web.Services.Interfaces;
     using Swashbuckle.AspNetCore.Swagger;
-    using Srisys.Web.Filters;
 
     /// <summary>
     /// <see cref="Startup"/> class API configuration.
@@ -39,13 +39,20 @@
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
+
             this.Configuration = builder.Build();
+            this.HostingEnvironment = env;
         }
 
         /// <summary>
         /// Gets read-only property configuration <see cref="IConfigurationRoot"/> class.
         /// </summary>
         public IConfigurationRoot Configuration { get; }
+
+        /// <summary>
+        /// Gets or sets the hosting environment.
+        /// </summary>
+        public IHostingEnvironment HostingEnvironment { get; set; }
 
         /// <summary>
         /// This method gets called by the runtime. Use this method to add services to the container.
@@ -84,16 +91,6 @@
                 opt.UseSqlServer(this.Configuration.GetConnectionString("MaterialDatabase"));
             });
 
-            services.AddSwaggerGen(opt =>
-            {
-                opt.SwaggerDoc("v1", new Info { Title = "SRISYS API", Version = "v1", Description = "Leased Materials System API" });
-
-                // Set comments path for swagger
-                var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-                var xmlPath = Path.Combine(basePath, "Srisys.Web.xml");
-                opt.IncludeXmlComments(xmlPath);
-            });
-
             // Add application services
             services.AddTransient(typeof(ISummaryListBuilder<,>), typeof(SummaryListBuilder<,>));
             services.AddScoped<IAdjustmentService, AdjustmentService>();
@@ -106,6 +103,19 @@
 
             // Add configuration options
             services.Configure<AuthOptions>(this.Configuration.GetSection("Auth"));
+
+            if (this.HostingEnvironment.IsDevelopment())
+            {
+                services.AddSwaggerGen(opt =>
+                {
+                    opt.SwaggerDoc("v1", new Info { Title = "SRISYS API", Version = "v1", Description = "Leased Materials System API" });
+
+                    // Set comments path for swagger
+                    var basePath = PlatformServices.Default.Application.ApplicationBasePath;
+                    var xmlPath = Path.Combine(basePath, "Srisys.Web.xml");
+                    opt.IncludeXmlComments(xmlPath);
+                });
+            }
         }
 
         /// <summary>
@@ -148,19 +158,20 @@
             app.UseStaticFiles();
             app.UseMvcWithDefaultRoute();
 
-            app.UseSwagger(c =>
+            // Start up swagger and seed the database during development
+            if (env.IsDevelopment())
             {
-                c.RouteTemplate = "swagger/{documentName}/swagger.json";
-            });
+                app.UseSwagger(c =>
+                {
+                    c.RouteTemplate = "swagger/{documentName}/swagger.json";
+                });
 
-            app.UseSwaggerUI(opt =>
-            {
-                opt.SwaggerEndpoint("/swagger/v1/swagger.json", "SRISYS API V1");
-                opt.RoutePrefix = "info";
-            });
+                app.UseSwaggerUI(opt =>
+                {
+                    opt.SwaggerEndpoint("/swagger/v1/swagger.json", "SRISYS API V1");
+                    opt.RoutePrefix = "info";
+                });
 
-            if (env.EnvironmentName == "Development")
-            {
                 SrisysDbContext.Seed(app);
             }
         }

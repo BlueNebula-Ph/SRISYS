@@ -20,6 +20,7 @@
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class CategoryController : Controller
     {
         private readonly SrisysDbContext context;
@@ -114,11 +115,6 @@
         [ServiceFilter(typeof(CheckDuplicateCategoryAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveCategoryRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var category = this.mapper.Map<Category>(entity);
             await this.context.Categories.AddAsync(category);
             await this.context.SaveChangesAsync();
@@ -136,11 +132,6 @@
         [ServiceFilter(typeof(CheckDuplicateCategoryAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveCategoryRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var category = await this.context.Categories
                 .AsNoTracking()
                 .SingleOrDefaultAsync(t => t.Id == id);

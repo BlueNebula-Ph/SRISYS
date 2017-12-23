@@ -29,7 +29,7 @@
         /// <summary>
         /// Gets or sets property Email.
         /// </summary>
-        [EmailAddress]
+        [EmailAddress(ErrorMessage = "Please input a valid email address.")]
         public string Email { get; set; }
 
         /// <summary>

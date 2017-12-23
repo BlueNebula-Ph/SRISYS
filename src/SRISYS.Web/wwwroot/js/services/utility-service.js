@@ -6,15 +6,15 @@
             toastr.success(message, "Success");
         };
 
-        service.onError = function (error) {
+        service.onError = function (errorResponse) {
             var errorMessage = "There was an error processing your requests.";
 
-            if (error.data[400]) {
-                errorMessage = error.data[400];
+            if (errorResponse.data.errorMessage) {
+                errorMessage = errorResponse.data.errorMessage;
             }
 
             toastr.error(errorMessage, "Error");
-            console.log(error);
+            console.log(errorResponse);
         };
 
         service.showLoading = function () {

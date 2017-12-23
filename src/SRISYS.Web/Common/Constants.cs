@@ -29,5 +29,10 @@
         /// Constant for Material type Tool
         /// </summary>
         public const string Tool = "Tool";
+
+        /// <summary>
+        /// Constant for key ErrorMessage
+        /// </summary>
+        public const string ErrorMessage = "ErrorMessage";
     }
 }
