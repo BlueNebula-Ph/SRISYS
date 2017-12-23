@@ -10,7 +10,6 @@ namespace Srisys.Web.Controllers
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Options;
     using Microsoft.IdentityModel.Tokens;
-    using Srisys.Web.Common;
     using Srisys.Web.Configuration;
     using Srisys.Web.DTO;
     using Srisys.Web.Models;
@@ -88,9 +87,11 @@ namespace Srisys.Web.Controllers
                         expirationDate = token.ValidTo,
                     });
                 }
+
+                return this.BadRequest(new { error = "Incorrect username or password." });
             }
 
-            return this.BadRequest(new { error = "Unable to login." });
+            return this.BadRequest(new { error = "Unable to login. User not found." });
         }
     }
 }

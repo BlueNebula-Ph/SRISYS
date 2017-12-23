@@ -19,11 +19,14 @@
 
   <ItemGroup>
     <Compile Remove="Filters\PopulateCurrentUserAttribute.cs" />
+    <Compile Remove="Filters\PreventDuplicateAttribute.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="wwwroot\css\site.css" />
     <Content Include="wwwroot\css\site.min.css" />
+    <Content Include="wwwroot\images\favicon-32x32.png" />
+    <Content Include="wwwroot\images\logo.jpg" />
     <Content Include="wwwroot\js\app.js" />
     <Content Include="wwwroot\js\controllers\activity\borrow-item-controller.js" />
     <Content Include="wwwroot\js\controllers\activity\manage-activity-controller.js" />
@@ -50,6 +53,7 @@
     <Content Include="wwwroot\js\controllers\system\view-categories-controller.js" />
     <Content Include="wwwroot\js\controllers\system\view-suppliers-controller.js" />
     <Content Include="wwwroot\js\directives\add-edit-shell.js" />
+    <Content Include="wwwroot\js\directives\autocomplete.js" />
     <Content Include="wwwroot\js\directives\column-header.js" />
     <Content Include="wwwroot\js\directives\details-shell.js" />
     <Content Include="wwwroot\js\directives\discount-control.js" />
@@ -66,7 +70,9 @@
     <Content Include="wwwroot\js\directives\sidebar.js" />
     <Content Include="wwwroot\js\directives\summary-controls.js" />
     <Content Include="wwwroot\js\directives\summary-shell.js" />
+    <Content Include="wwwroot\js\env.aws.js" />
     <Content Include="wwwroot\js\env.js" />
+    <Content Include="wwwroot\js\env.local.js" />
     <Content Include="wwwroot\js\env.prod.js" />
     <Content Include="wwwroot\js\filters\no-value-filter.js" />
     <Content Include="wwwroot\js\services\activity-service.js" />
@@ -78,6 +84,7 @@
     <Content Include="wwwroot\js\services\loading-service.js" />
     <Content Include="wwwroot\js\services\local-storage.js" />
     <Content Include="wwwroot\js\services\login-redirect.js" />
+    <Content Include="wwwroot\js\services\lookup-service.js" />
     <Content Include="wwwroot\js\services\reference-service.js" />
     <Content Include="wwwroot\js\services\report-service.js" />
     <Content Include="wwwroot\js\services\supplier-service.js" />
@@ -88,6 +95,7 @@
     <Content Include="wwwroot\views\activity\borrow-items.html" />
     <Content Include="wwwroot\views\activity\return-items.html" />
     <Content Include="wwwroot\views\common\add-edit-shell.html" />
+    <Content Include="wwwroot\views\common\autocomplete.html" />
     <Content Include="wwwroot\views\common\column-header.html" />
     <Content Include="wwwroot\views\common\details-shell.html" />
     <Content Include="wwwroot\views\common\discount-control.html" />
@@ -104,7 +112,6 @@
     <Content Include="wwwroot\views\common\summary-shell.html" />
     <Content Include="wwwroot\views\common\unauthorized.html" />
     <Content Include="wwwroot\views\home\index.html" />
-    <Content Include="wwwroot\views\home\login.html" />
     <Content Include="wwwroot\views\inventory\add-item.html" />
     <Content Include="wwwroot\views\inventory\adjust-item.html" />
     <Content Include="wwwroot\views\inventory\item-details.html" />

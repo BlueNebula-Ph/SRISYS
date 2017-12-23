@@ -9,7 +9,8 @@
             purchaseDate: new Date(),
             price: 0,
             updatePrice: false,
-            remarks: ""
+            remarks: "",
+            receiptNumber: ""
         };
 
         // Data
@@ -25,11 +26,6 @@
         vm.save = function () {
             utils.showLoading();
             vm.saveEnabled = false;
-
-            // Fix up remarks before saving.
-            vm.purchase.remarks = "Purchased " + vm.purchase.quantity
-                + " from " + vm.purchase.supplier.name
-                + " on " + vm.purchase.purchaseDate.toDateString();
 
             inventoryService.adjustQuantity(vm.purchase)
                 .then(saveSuccessful, utils.onError)

@@ -23,8 +23,16 @@
                     <input type="number" name="quantity" ng-model="ctrl.purchase.quantity" />
                 </div>
                 <div form-input>
+                    <label for="receiptNumber">Receipt Number</label>
+                    <input type="text" name="receiptNumber" ng-model="ctrl.purchase.receiptNumber" />
+                </div>
+                <div form-input>
                     <label for="price">Price</label>
                     <input type="text" name="price" ng-model="ctrl.purchase.price" numeric-textbox="{ currencySymbol: '₱ '}" />
+                </div>
+                <div form-input>
+                    <label for="remarks">Remarks</label>
+                    <textarea name="remarks" rows="4" ng-model="ctrl.purchase.remarks" required></textarea>
                 </div>
                 <div>
                     <label>

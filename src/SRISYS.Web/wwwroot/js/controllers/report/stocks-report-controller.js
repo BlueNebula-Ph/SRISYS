@@ -1,10 +1,14 @@
 ﻿(function (module) {
-    var stocksReportController = function (reportService, utils) {
+    var stocksReportController = function ($window, reportService, utils) {
         var vm = this;
 
         // Main properties
         vm.items = [];
         vm.date = new Date().toLocaleDateString();
+
+        vm.print = () => {
+            $window.print();
+        };
 
         // Private methods
         var loadReport = function () {
@@ -26,6 +30,6 @@
         return vm;
     };
 
-    module.controller("stocksReportController", ["reportService", "utils", stocksReportController]);
+    module.controller("stocksReportController", ["$window", "reportService", "utils", stocksReportController]);
 
 })(angular.module("srisys-app"));

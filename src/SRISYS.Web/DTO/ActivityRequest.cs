@@ -42,5 +42,10 @@
         /// Gets or sets the received by property.
         /// </summary>
         public int? ReceivedById { get; set; }
+
+        /// <summary>
+        /// Gets or sets the use property.
+        /// </summary>
+        public string Use { get; set; }
     }
 }

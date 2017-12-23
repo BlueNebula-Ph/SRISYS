@@ -1,16 +1,20 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
-using Srisys.Web;
-using Srisys.Web.Common;
-
-namespace Srisys.Web.Migrations
+﻿namespace Srisys.Web.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.EntityFrameworkCore.Infrastructure;
+    using Microsoft.EntityFrameworkCore.Metadata;
+
+    /// <summary>
+    /// The model snapshot
+    /// </summary>
     [DbContext(typeof(SrisysDbContext))]
-    partial class SrisysDbContextModelSnapshot : ModelSnapshot
+    public partial class SrisysDbContextModelSnapshot : ModelSnapshot
     {
+        /// <summary>
+        /// Builds the model
+        /// </summary>
+        /// <param name="modelBuilder">The model builder</param>
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
             modelBuilder
@@ -50,6 +54,8 @@ namespace Srisys.Web.Migrations
 
                     b.Property<double>("TotalQuantityReturned");
 
+                    b.Property<string>("Use");
+
                     b.HasKey("Id");
 
                     b.HasIndex("BorrowedById");
@@ -85,7 +91,11 @@ namespace Srisys.Web.Migrations
 
                     b.Property<int>("MaterialId");
 
+                    b.Property<decimal>("Price");
+
                     b.Property<double>("Quantity");
+
+                    b.Property<string>("ReceiptNumber");
 
                     b.Property<string>("Remarks");
 

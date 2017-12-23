@@ -1,11 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore.Migrations;
-
-namespace Srisys.Web.Migrations
+﻿namespace Srisys.Web.Migrations
 {
+    using System;
+    using Microsoft.EntityFrameworkCore.Migrations;
+
+    /// <summary>
+    /// Migration to remove OpenIddict tables
+    /// </summary>
     public partial class RemoveOpenIddict : Migration
     {
+        /// <summary>
+        /// Ups the migration
+        /// </summary>
+        /// <param name="migrationBuilder">The migration builder</param>
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -103,6 +109,10 @@ namespace Srisys.Web.Migrations
                 onDelete: ReferentialAction.NoAction);
         }
 
+        /// <summary>
+        /// Downs the migration
+        /// </summary>
+        /// <param name="migrationBuilder">The migration builder</param>
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
@@ -169,7 +179,7 @@ namespace Srisys.Web.Migrations
                     DisplayName = table.Column<string>(nullable: true),
                     PostLogoutRedirectUris = table.Column<string>(nullable: true),
                     RedirectUris = table.Column<string>(nullable: true),
-                    Type = table.Column<string>(nullable: false)
+                    Type = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -183,7 +193,7 @@ namespace Srisys.Web.Migrations
                     Id = table.Column<string>(nullable: false),
                     ConcurrencyToken = table.Column<string>(nullable: true),
                     Description = table.Column<string>(nullable: true),
-                    Name = table.Column<string>(nullable: false)
+                    Name = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -200,7 +210,7 @@ namespace Srisys.Web.Migrations
                     Scopes = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: false),
                     Subject = table.Column<string>(nullable: false),
-                    Type = table.Column<string>(nullable: false)
+                    Type = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {
@@ -227,7 +237,7 @@ namespace Srisys.Web.Migrations
                     Hash = table.Column<string>(nullable: true),
                     Status = table.Column<string>(nullable: true),
                     Subject = table.Column<string>(nullable: false),
-                    Type = table.Column<string>(nullable: false)
+                    Type = table.Column<string>(nullable: false),
                 },
                 constraints: table =>
                 {

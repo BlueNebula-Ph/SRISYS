@@ -14,8 +14,8 @@
     };
 
     module.factory("tokenService", ["currentUser", "$q", tokenService]);
-    module.config(function ($httpProvider) {
+    module.config(["$httpProvider", function ($httpProvider) {
         $httpProvider.interceptors.push("tokenService");
-    });
+    }]);
 
 })(angular.module("srisys-app"));

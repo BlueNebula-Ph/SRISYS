@@ -82,8 +82,8 @@
         {
             using (var context = app.ApplicationServices.GetRequiredService<SrisysDbContext>())
             {
+                // context.Database.Migrate();
                 context.Database.EnsureDeleted();
-                //context.Database.Migrate();
                 context.Database.EnsureCreated();
 
                 SeedReferences(context);
@@ -192,10 +192,10 @@
             if (!context.Suppliers.Any())
             {
                 var suppliers = new List<Supplier>
-                {
-                    new Supplier { Name = "Dave Grohl", Email = "dave@ff.com", Address = "Foo street", PhoneNumber = "339403", OtherDetails = "Foo" },
-                    new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
-                };
+                    {
+                        new Supplier { Name = "Dave Grohl", Email = "dave@ff.com", Address = "Foo street", PhoneNumber = "339403", OtherDetails = "Foo" },
+                        new Supplier { Name = "Lucky Sun", Email = "lucky@sun.com", Address = "Cavite", PhoneNumber = "3494039", OtherDetails = "Discount" },
+                    };
                 context.Suppliers.AddRange(suppliers);
             }
         }
@@ -230,8 +230,8 @@
         {
             if (!context.Users.Any())
             {
-                var newUser = new ApplicationUser { Username = "TestUser", Firstname = "First", Lastname = "LastName", AccessRights = "admin,canView" };
-                var password = new PasswordHasher<ApplicationUser>().HashPassword(newUser, "Test");
+                var newUser = new ApplicationUser { Username = "Admin", Firstname = "Admin", Lastname = "User", AccessRights = "admin,canView,canWrite,canDelete" };
+                var password = new PasswordHasher<ApplicationUser>().HashPassword(newUser, "Admin");
                 newUser.PasswordHash = password;
 
                 context.Users.Add(newUser);

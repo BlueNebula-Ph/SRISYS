@@ -1,12 +1,12 @@
 ﻿<loading-indicator></loading-indicator>
-<h3>Daily {{ ctrl.type }} Report.</h3>
+<h3><img class="img-thumbnail" src="/images/logo.jpg" width="50" height="50" />  Daily {{ ctrl.type }} Report.</h3>
 <div class="form-inline well well-sm">
     <em>Report date:</em>
     <input type="date" class="form-control input-xs" ng-model="ctrl.filters.selectedDate" />
     <button class="btn btn-primary btn-xs" ng-click="ctrl.fetchReport()" focus-me="true">
         <i class="fa fa-clone"></i> Generate
     </button>
-    <a target="_blank" href="http://www.google.com" class="btn btn-default btn-xs pull-right">
+    <a ng-click="ctrl.print()" class="btn btn-default btn-xs pull-right">
         <i class="fa fa-print"></i> Print
     </a>
 </div>

@@ -7,15 +7,15 @@
             <div class="col-md-3 left-padding-none">
                 <div form-input>
                     <label for="name">Name</label>
-                    <input type="text" name="name" ng-model="ctrl.supplier.name" focus-me="ctrl.defaultFocus" />
+                    <input type="text" name="name" ng-model="ctrl.supplier.name" focus-me="ctrl.defaultFocus" required />
                 </div>
                 <div form-input>
                     <label for="address">Address</label>
-                    <textarea name="address" rows="4" ng-model="ctrl.supplier.address" />
+                    <textarea name="address" rows="4" ng-model="ctrl.supplier.address" required />
                 </div>
                 <div form-input>
                     <label for="contact">Contact Details</label>
-                    <input type="text" name="contact" ng-model="ctrl.supplier.phoneNumber" />
+                    <input type="text" name="contact" ng-model="ctrl.supplier.phoneNumber" required />
                 </div>
                 <div form-input>
                     <label for="email">Email</label>

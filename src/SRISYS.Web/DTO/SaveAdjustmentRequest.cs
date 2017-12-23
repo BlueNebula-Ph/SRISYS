@@ -30,6 +30,7 @@
         /// <summary>
         /// Gets or sets the remarks of the adjustment.
         /// </summary>
+        [Required]
         public string Remarks { get; set; }
 
         /// <summary>
@@ -54,5 +55,11 @@
         /// Only used when the adjustment is a purchase.
         /// </summary>
         public decimal Price { get; set; }
+
+        /// <summary>
+        /// Gets or sets the receipt number of a purchase.
+        /// Only used when the adjustment is a purchase.
+        /// </summary>
+        public string ReceiptNumber { get; set; }
     }
 }

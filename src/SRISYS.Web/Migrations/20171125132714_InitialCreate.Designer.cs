@@ -3,8 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
-using Srisys.Web;
-using Srisys.Web.Common;
 
 namespace Srisys.Web.Migrations
 {
@@ -12,6 +10,10 @@ namespace Srisys.Web.Migrations
     [Migration("20171125132714_InitialCreate")]
     partial class InitialCreate
     {
+        /// <summary>
+        /// Builds the target model.
+        /// </summary>
+        /// <param name="modelBuilder">The model builder</param>
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder

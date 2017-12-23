@@ -13,8 +13,8 @@
     using Models;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
-    using Srisys.Web.Services.Interfaces;
     using Srisys.Web.Filters;
+    using Srisys.Web.Services.Interfaces;
 
     /// <summary>
     /// <see cref="MaterialController"/> class handles Material basic add, edit, delete and get.
@@ -22,6 +22,7 @@
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class MaterialController : Controller
     {
         private readonly SrisysDbContext context;
@@ -97,9 +98,11 @@
         /// Returns list of active <see cref="Material"/>
         /// </summary>
         /// <param name="typeId">Optional type id</param>
+        /// <param name="search">Optional search string</param>
+        /// <param name="pageSize">Optional page size</param>
         /// <returns>List of Materials</returns>
         [HttpGet("lookup/{typeId}", Name = "GetMaterialLookup")]
-        public IActionResult GetLookup(int typeId = 0)
+        public IActionResult GetLookup(int typeId = 0, [FromQuery] string search = "", [FromQuery] int pageSize = 0)
         {
             // get list of active items (not deleted)
             var list = this.context.Materials
@@ -111,10 +114,20 @@
                 list = list.Where(a => a.TypeId == typeId);
             }
 
+            if (!string.IsNullOrEmpty(search))
+            {
+                list = list.Where(a => a.Name.StartsWith(search));
+            }
+
             // sort
             var ordering = $"Name {Constants.DefaultSortDirection}";
 
             list = list.OrderBy(ordering);
+
+            if (pageSize != default(int))
+            {
+                list = list.Take(pageSize);
+            }
 
             var entities = list.ProjectTo<MaterialLookup>();
 
@@ -157,11 +170,6 @@
         [ServiceFilter(typeof(CheckDuplicateMaterialAttribute))]
         public async Task<IActionResult> Create([FromBody] SaveMaterialRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var material = this.mapper.Map<Material>(entity);
             material.RemainingQuantity = entity.Quantity;
 
@@ -181,11 +189,6 @@
         [ServiceFilter(typeof(CheckDuplicateMaterialAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody] SaveMaterialRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var material = await this.context.Materials.SingleOrDefaultAsync(t => t.Id == id);
             if (material == null)
             {
@@ -235,11 +238,6 @@
         [HttpPost("adjust")]
         public async Task<IActionResult> Adjust([FromBody]SaveAdjustmentRequest saveAdjustmentRequest)
         {
-            if (saveAdjustmentRequest == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             // Fetch the material to be adjusted and attach it to the dbcontext.
             var material = await this.context.Materials
                 .FindAsync(saveAdjustmentRequest.MaterialId);
@@ -250,12 +248,7 @@
             }
 
             // Perform adjustment through the adjustment service.
-            this.adjustmentService.ModifyQuantity(
-                material,
-                saveAdjustmentRequest.Quantity,
-                saveAdjustmentRequest.AdjustmentType,
-                QuantityType.Both,
-                saveAdjustmentRequest.Remarks);
+            this.adjustmentService.ModifyQuantity(material, QuantityType.Both, saveAdjustmentRequest);
 
             // If the adjustment is a result of a purchase, update the last purchase date and price of the material.
             if (saveAdjustmentRequest.IsPurchase)

@@ -7,17 +7,30 @@
     using Microsoft.AspNetCore.Mvc.Filters;
     using Srisys.Web.Common;
 
+    /// <summary>
+    /// The <see cref="InjectMetadataAttribute"/> injects metadata before a save action is performed.
+    /// Metadata includes: createdby, createddatate, updatedby, updateddate
+    /// </summary>
     public class InjectMetadataAttribute : ActionFilterAttribute
     {
         private readonly ActionType actionType;
         private readonly string propertyName;
 
+        /// <summary>
+        /// Initializes a new instance of the <see cref="InjectMetadataAttribute"/> class.
+        /// </summary>
+        /// <param name="actionType">The action type. Add or Edit</param>
+        /// <param name="propertyName">The property name.</param>
         public InjectMetadataAttribute(ActionType actionType, string propertyName)
         {
             this.actionType = actionType;
             this.propertyName = propertyName;
         }
 
+        /// <summary>
+        /// Injects the meta data.
+        /// </summary>
+        /// <param name="context">The context passed</param>
         public override void OnActionExecuting(ActionExecutingContext context)
         {
             base.OnActionExecuting(context);

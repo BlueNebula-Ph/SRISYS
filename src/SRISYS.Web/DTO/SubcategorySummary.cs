@@ -16,5 +16,10 @@
         /// Gets or sets the parent category name property.
         /// </summary>
         public int CategoryId { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether the subcategory is deleted.
+        /// </summary>
+        public bool IsDeleted { get; set; }
     }
 }

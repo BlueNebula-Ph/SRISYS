@@ -21,6 +21,7 @@ namespace Srisys.Web.Controllers
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class UserController : Controller
     {
         private readonly SrisysDbContext context;
@@ -112,11 +113,6 @@ namespace Srisys.Web.Controllers
         [ServiceFilter(typeof(CheckDuplicateUserAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveUserRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var user = this.mapper.Map<ApplicationUser>(entity);
             user.PasswordHash = this.passwordHasher.HashPassword(user, entity.Password);
 
@@ -136,11 +132,6 @@ namespace Srisys.Web.Controllers
         [ServiceFilter(typeof(CheckDuplicateUserAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveUserRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var user = await this.context.Users.SingleOrDefaultAsync(t => t.Id == id);
             if (user == null)
             {

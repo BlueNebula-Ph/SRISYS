@@ -1,0 +1,12 @@
+﻿{
+  "inputFiles": [
+    "./wwwroot/js/app.js",
+    "./wwwroot/js/directives/*.js",
+    "./wwwroot/js/services/*.js",
+    "./wwwroot/js/filters/*.js",
+    "./wwwroot/js/controllers/**/*.js",
+
+    "!./wwwroot/js/env.js",
+    "!./wwwroot/js/**/*.min.js"
+  ]
+}

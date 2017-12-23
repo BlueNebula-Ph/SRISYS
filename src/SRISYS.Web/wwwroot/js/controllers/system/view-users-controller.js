@@ -39,6 +39,19 @@
             vm.focus = true;
         };
 
+        // Paging
+        vm.changePage = function () {
+            vm.fetchUsers();
+        };
+
+        vm.delete = function (id) {
+            if (!utils.showConfirmMessage("Are you sure you want to delete this user?")) { return; }
+
+            userService.deleteUser(id)
+				.then((response) => { vm.fetchUsers(); }, utils.onError)
+				.finally(utils.hideLoading);
+        };
+
         var processUserList = function (response) {
             angular.copy(response.data, vm.summaryResult);
         };

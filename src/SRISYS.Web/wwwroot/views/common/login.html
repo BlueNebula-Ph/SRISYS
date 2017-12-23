@@ -1,5 +1,6 @@
 ﻿<div class="login-container">
     <div class="login-header">
+        <img src="/images/logo.jpg" class="img-rounded img-thumbnail" width="80" height="80" />
         <ul class="list-unstyled">
             <li><span class="logo">Ace Plastic Center</span></li>
             <li><small>Stockroom Manager</small></li>
@@ -9,15 +10,16 @@
         <h3>Sign In.</h3>
         <div form-input>
             <label>Username</label>
-            <input type="text" ng-model="ctrl.username" focus-me="ctrl.defaultFocus" required />
+            <input type="text" class="wide" ng-model="ctrl.username" focus-me="ctrl.defaultFocus" required />
         </div>
         <div form-input>
             <label>Password</label>
-            <input type="password" ng-model="ctrl.password" required />
+            <input type="password" class="wide" ng-model="ctrl.password" required />
         </div>
         <div>
-            <button type="submit" class="btn btn-primary btn-block btn-sm">
-                <i class="fa fa-key"></i> Login
+            <button type="submit" class="btn btn-primary btn-block btn-sm" ng-disabled="ctrl.signingIn">
+                <span ng-show="!ctrl.signingIn"><i class="fa fa-key"></i> Login</span>
+                <span ng-show="ctrl.signingIn"><i class="fa fa-spinner fa-spin"></i> Signing in...</span>
             </button>
         </div>
     </form>

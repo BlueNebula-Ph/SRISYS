@@ -1,5 +1,5 @@
 ﻿(function (module) {
-    var addCategoryController = function (categoryService, loadingService, utils) {
+    var addCategoryController = function ($stateParams, categoryService, utils) {
         var vm = this;
 
         // Data
@@ -15,9 +15,10 @@
 
         // Public methods
         vm.save = function () {
-            loadingService.showLoading();
+            utils.showLoading();
+            vm.saveEnabled = false;
 
-            categoryService.saveCategory(0, vm.category)
+            categoryService.saveCategory($stateParams.id, vm.category)
                 .then(saveSuccessful, utils.onError)
                 .finally(onSaveComplete);
         };
@@ -32,7 +33,21 @@
         };
 
         vm.removeSubcategory = function ($index) {
-            vm.category.subcategories.splice($index, 1);
+            var subcategory = vm.category.subcategories[$index];
+            if (subcategory && subcategory.id != 0) {
+                if (!confirm("This subcategory has already been saved. Are you sure?")) {
+                    return;
+                }
+
+                categoryService
+                    .deleteSubcategory($stateParams.id, subcategory.id)
+                    .then(() => {
+                        vm.category.subcategories.splice($index, 1);
+                        loadCategory();
+                    }, utils.onError);
+            } else {
+                vm.category.subcategories.splice($index, 1);
+            }
         };
 
         // Private methods
@@ -44,17 +59,42 @@
 
         var saveSuccessful = function (respose) {
             utils.showSuccessMessage("Category saved successfully.");
-            clearForm();
+
+            if ($stateParams.id == 0) {
+                clearForm();
+            } else {
+                loadCategory();
+            }
         };
 
         var onSaveComplete = function () {
-            loadingService.hideLoading();
+            utils.hideLoading();
             vm.saveEnabled = true;
         };
+
+        // Load
+        var processCategory = function (response) {
+            angular.copy(response.data, defaultCategory);
+            clearForm();
+        };
+
+        var loadCategory = function () {
+            if ($stateParams.id != 0) {
+                utils.showLoading();
+
+                categoryService.getCategoryById($stateParams.id)
+                    .then(processCategory, utils.onError)
+                    .finally(utils.hideLoading);
+            }
+        };
+
+        $(function () {
+            loadCategory();
+        });
 
         return vm;
     };
 
-    module.controller("addCategoryController", ["categoryService", "loadingService", "utils", addCategoryController]);
+    module.controller("addCategoryController", ["$stateParams", "categoryService", "utils", addCategoryController]);
 
 })(angular.module("srisys-app"));

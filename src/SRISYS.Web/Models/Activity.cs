@@ -61,6 +61,11 @@
         public ActivityStatus Status { get; set; }
 
         /// <summary>
+        /// Gets or sets the use property.
+        /// </summary>
+        public string Use { get; set; }
+
+        /// <summary>
         /// Gets or sets the material navigation property.
         /// </summary>
         public Material Material { get; set; }

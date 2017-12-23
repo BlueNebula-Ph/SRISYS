@@ -1,6 +1,6 @@
 ﻿(function (module) {
     var localStorage = function ($window) {
-        var store = $window.localStorage;
+        var store = $window.sessionStorage;
 
         var add = function (key, value) {
             value = angular.toJson(value);

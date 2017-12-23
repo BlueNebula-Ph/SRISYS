@@ -20,6 +20,7 @@
     [Produces("application/json")]
     [Route("api/[controller]")]
     [Authorize]
+    [ValidateModel]
     public class CategoryController : Controller
     {
         private readonly SrisysDbContext context;
@@ -47,9 +48,10 @@
         [HttpPost("search", Name = "GetAllCategories")]
         public async Task<IActionResult> GetAll([FromBody]CategoryFilterRequest filter)
         {
-            // get list of active categorys (not deleted)
+            // get list of active categories (not deleted)
             var list = this.context.Categories
                 .AsNoTracking()
+                .Include(c => c.Subcategories)
                 .Where(c => !c.IsDeleted);
 
             // filter
@@ -73,6 +75,7 @@
             // get list of active categorys (not deleted)
             var list = this.context.Categories
                 .AsNoTracking()
+                .Include(c => c.Subcategories)
                 .Where(c => !c.IsDeleted)
                 .OrderBy(c => c.Name);
 
@@ -112,11 +115,6 @@
         [ServiceFilter(typeof(CheckDuplicateCategoryAttribute))]
         public async Task<IActionResult> Create([FromBody]SaveCategoryRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var category = this.mapper.Map<Category>(entity);
             await this.context.Categories.AddAsync(category);
             await this.context.SaveChangesAsync();
@@ -134,11 +132,6 @@
         [ServiceFilter(typeof(CheckDuplicateCategoryAttribute))]
         public async Task<IActionResult> Update(long id, [FromBody]SaveCategoryRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var category = await this.context.Categories
                 .AsNoTracking()
                 .SingleOrDefaultAsync(t => t.Id == id);
@@ -180,7 +173,30 @@
             this.context.Update(category);
             await this.context.SaveChangesAsync();
 
-            return new NoContentResult();
+            return this.NoContent();
+        }
+
+        /// <summary>
+        /// Deletes a specific <see cref="Subcategory"/>.
+        /// </summary>
+        /// <param name="id">The category id</param>
+        /// <param name="subcategoryId">The subcategory id to delete</param>
+        /// <returns>None</returns>
+        [HttpDelete("{id}/subcategory/{subcategoryId}")]
+        public async Task<IActionResult> DeleteSubcategory(long id, long subcategoryId)
+        {
+            var subcategory = await this.context.Subcategories
+                .SingleOrDefaultAsync(a => a.Id == subcategoryId && a.CategoryId == id);
+            if (subcategory == null)
+            {
+                return this.NotFound(subcategoryId);
+            }
+
+            subcategory.IsDeleted = true;
+            this.context.Update(subcategory);
+            await this.context.SaveChangesAsync();
+
+            return this.NoContent();
         }
     }
 }

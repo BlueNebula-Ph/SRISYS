@@ -23,7 +23,6 @@
                 .ForMember(d => d.Brand, s => s.MapFrom(o => o.Material.Brand))
                 .ForMember(d => d.Model, s => s.MapFrom(o => o.Material.Model))
                 .ForMember(d => d.Size, s => s.MapFrom(o => o.Material.Size))
-                .ForMember(d => d.Use, s => s.MapFrom(o => o.Material.Use))
                 .ForMember(d => d.BorrowedBy, s => s.MapFrom(o => o.BorrowedBy.Name))
                 .ForMember(d => d.ReturnedBy, s => s.MapFrom(o => o.ReturnedBy.Name))
                 .ForMember(d => d.ReleasedBy, s => s.MapFrom(o => $"{o.ReleasedBy.Firstname} {o.ReleasedBy.Lastname}"))
@@ -59,6 +58,9 @@
 
             // Adjustment
             this.CreateMap<Adjustment, AdjustmentSummary>();
+
+            this.CreateMap<SaveAdjustmentRequest, Adjustment>()
+                .ForMember(d => d.Date, s => s.MapFrom(o => DateTime.Now));
 
             // Subcategory
             this.CreateMap<Subcategory, SubcategorySummary>();

@@ -62,11 +62,14 @@
             vm.focus = true;
         };
 
+        // Paging
         vm.changePage = function () {
             vm.fetchItems();
 		};
 
-		vm.delete = function (id) {
+        vm.delete = function (id) {
+            if (!utils.showConfirmMessage("Are you sure you want to delete this item?")) { return; }
+
 			inventoryService.deleteItem(id)
 				.then((response) => { vm.fetchItems(); }, utils.onError)
 				.finally(utils.hideLoading);

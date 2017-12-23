@@ -6,20 +6,25 @@
         vm.username = "";
         vm.password = "";
         vm.userProfile = currentUser;
+        vm.signingIn = false;
 
         vm.login = function (form) {
+            vm.signingIn = true;
+
             if (form.$valid) {
                 authService.login(vm.username, vm.password)
                     .then(function (response) {
                         loginRedirect.redirectPostLogin();
                     }, function (errorResponse) {
-                        console.log(errorResponse);
-                        toastr.error(errorResponse.data.error);
+                        var errorMesssage = errorResponse ? errorResponse.data.error : "Unable to login.";
+                        toastr.error(errorResponse.data.error, "Something went wrong.");
                     }).finally(function () {
                         vm.password = vm.username = "";
                         form.$setUntouched();
+                        form.$setPristine();
 
                         vm.defaultFocus = true;
+                        vm.signingIn = false;
                     });
             }
         };

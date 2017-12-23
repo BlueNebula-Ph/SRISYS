@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using BlueNebula.Common.DTOs;
 
     /// <summary>
@@ -9,6 +10,8 @@
     /// </summary>
     public class MaterialSummary : DTOBase
     {
+        private IEnumerable<AdjustmentSummary> adjustments;
+
         /// <summary>
         /// Gets or sets the material type id.
         /// </summary>
@@ -120,6 +123,10 @@
         /// <summary>
         /// Gets or sets the adjustments made on this material.
         /// </summary>
-        public IEnumerable<AdjustmentSummary> Adjustments { get; set; }
+        public IEnumerable<AdjustmentSummary> Adjustments
+        {
+            get { return this.adjustments.OrderByDescending(a => a.Date); }
+            set { this.adjustments = value; }
+        }
     }
 }

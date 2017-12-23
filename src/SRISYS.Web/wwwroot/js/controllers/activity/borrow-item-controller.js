@@ -25,6 +25,7 @@
         vm.defaultFocus = true;
         vm.saveEnabled = true;
         vm.header = type == "Tools" ? "Borrow Tools." : "Use Consumables.";
+        vm.typeId = type == "Tools" ? 1 : 2;
 
         // Watchers
         $scope.$watch(() => { return vm.borrow.activities; },
@@ -40,7 +41,7 @@
             for (var i = 0, l = vm.borrow.activities.length; i < l; i++) {
                 vm.borrow.activities[i].borrowedById = vm.borrow.borrowedById;
                 vm.borrow.activities[i].releasedById = vm.borrow.releasedById;
-                vm.borrow.activities[i].date = vm.borrow.date;
+                vm.borrow.activities[i].date = vm.borrow.date.toLocaleDateString();
             }
 
             activityService.saveActivity(vm.borrow)
@@ -64,6 +65,7 @@
                 var selectedMaterial = item.selectedMaterial;
 
                 if (selectedMaterial) {
+                    console.log(selectedMaterial);
                     item.materialId = selectedMaterial.id;
                     item.unit = selectedMaterial.unit;
                     item.brand = selectedMaterial.brand;

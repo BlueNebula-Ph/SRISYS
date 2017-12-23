@@ -17,7 +17,7 @@
                         <div class="input-group input-group-sm bottom-margin-sm">
                             <input class="form-control input-sm" type="text" name="subcategory" ng-model="c.name" focus-me="c.focus" required />
                             <span class="input-group-btn">
-                                <button ng-click="ctrl.removeSubcategory()" class="btn btn-sm">
+                                <button ng-click="ctrl.removeSubcategory($index)" class="btn btn-sm">
                                     <i class="fa fa-times text-danger"></i>
                                 </button>
                             </span>

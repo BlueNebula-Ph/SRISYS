@@ -35,11 +35,14 @@
             vm.focus = true;
         };
 
+        // Paging
         vm.changePage = function () {
             vm.fetchBorrowers();
 		};
 
-		vm.delete = function (id) {
+        vm.delete = function (id) {
+            if (!utils.showConfirmMessage("Are you sure you want to delete this borrower?")) { return; }
+
 			borrowerService.deleteBorrower(id)
 				.then((response) => { vm.fetchBorrowers(); }, utils.onError)
 				.finally(utils.hideLoading);

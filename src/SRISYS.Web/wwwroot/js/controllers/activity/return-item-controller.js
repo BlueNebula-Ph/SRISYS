@@ -40,7 +40,7 @@
                 if (obj.quantityReturned && obj.quantityReturned != 0) {
                     var newReturn = {
                         id: obj.id,
-                        date: vm.returns.date,
+                        date: vm.returns.date.toLocaleDateString(),
                         materialId: obj.materialId,
                         quantity: obj.quantityReturned <= obj.balance ? obj.quantityReturned : obj.balance,
                         returnedById: vm.returns.returnedById,
@@ -49,6 +49,8 @@
                     vm.returns.activities.push(newReturn);
                 }
             }
+
+            console.log(vm.returns);
 
             // Perform save.
             activityService.saveActivity(vm.returns)

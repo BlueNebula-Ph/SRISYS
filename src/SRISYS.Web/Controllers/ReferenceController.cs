@@ -12,6 +12,7 @@ namespace Srisys.Web.Controllers
     using Microsoft.EntityFrameworkCore;
     using Srisys.Web.Common;
     using Srisys.Web.DTO;
+    using Srisys.Web.Filters;
     using Srisys.Web.Models;
 
     /// <summary>
@@ -19,6 +20,7 @@ namespace Srisys.Web.Controllers
     /// </summary>
     [Produces("application/json")]
     [Route("api/[controller]")]
+    [ValidateModel]
     public class ReferenceController : Controller
     {
         private readonly SrisysDbContext context;
@@ -139,11 +141,6 @@ namespace Srisys.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Create([FromBody] SaveReferenceRequest entity)
         {
-            if (entity == null || !this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var reference = this.mapper.Map<Reference>(entity);
             await this.context.References.AddAsync(reference);
 
@@ -176,11 +173,6 @@ namespace Srisys.Web.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(long id, [FromBody]SaveReferenceRequest entity)
         {
-            if (entity == null || entity.Id == 0 || id == 0)
-            {
-                return this.BadRequest();
-            }
-
             var reference = await this.context.References.SingleOrDefaultAsync(t => t.Id == id);
             if (reference == null)
             {
