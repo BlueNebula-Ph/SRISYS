@@ -71,7 +71,7 @@
     </shell-form>
     <shell-controls>
         <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
-                      save-enabled="!ctrl.borrowForm.$pristine && ctrl.borrowForm.$valid && ctrl.borrow.activities.length > 0 && ctrl.saveEnabled">
+                      save-enabled="!ctrl.borrowForm.$pristine && ctrl.borrowForm.$valid && ctrl.borrow.activities.length > 0 && ctrl.saveEnabled && ctrl.borrow.borrowedById != 0">
         </form-control>
     </shell-controls>
 </add-edit-shell>

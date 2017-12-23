@@ -30,7 +30,6 @@
         // Watchers
         $scope.$watch(() => { return vm.borrow.activities; },
             function (newVal, oldVal) {
-                console.log(newVal);
                 assignValues();
             }, true);
 
@@ -42,7 +41,7 @@
             for (var i = 0, l = vm.borrow.activities.length; i < l; i++) {
                 vm.borrow.activities[i].borrowedById = vm.borrow.borrowedById;
                 vm.borrow.activities[i].releasedById = vm.borrow.releasedById;
-                vm.borrow.activities[i].date = vm.borrow.date;
+                vm.borrow.activities[i].date = vm.borrow.date.toLocaleDateString();
             }
 
             activityService.saveActivity(vm.borrow)
