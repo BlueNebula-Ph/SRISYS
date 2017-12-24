@@ -378,21 +378,18 @@
         border: 1px solid #66afe9;
         border-radius: 4px;
         box-shadow: rgba(204,204,204,0.8) 4px 4px;
-        width: 90%;
+        width: 95%;
         position: absolute;
     }
 
         .autocomplete ul {
             list-style: none;
-            margin: 0 0 0 -40px;
         }
 
         .autocomplete li {
             padding: 1px 3px;
             -o-text-overflow: ellipsis;
             -ms-text-overflow: ellipsis;
-            /*text-overflow: ellipsis;
-            white-space: nowrap;*/
             overflow: hidden;
         }
 

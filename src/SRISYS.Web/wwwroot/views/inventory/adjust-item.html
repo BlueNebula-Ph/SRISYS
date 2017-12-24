@@ -5,10 +5,9 @@
     <shell-form>
         <form name="ctrl.adjustmentForm">
             <div class="col-md-3 left-padding-none">
-                <div form-input>
+                <div class="form-group form-group-sm">
                     <label for="item">Material Name</label>
-                    <select name="item" focus-me="ctrl.defaultFocus" required
-                             ng-options="item.id as item.name for item in ctrl.itemList" ng-model="ctrl.adjustment.materialId"></select>
+                    <autocomplete route="/api/material/lookup/0" selected-item="ctrl.adjustment.material" selected-value="ctrl.adjustment.materialId" is-focused="ctrl.defaultFocus"></autocomplete>
                 </div>
                 <div form-input>
                     <label for="type">Adjustment Type</label>
@@ -30,6 +29,6 @@
     </shell-form>
     <shell-controls>
         <form-control on-save="ctrl.save()" on-reset="ctrl.reset()"
-                      save-enabled="!ctrl.adjustmentForm.$pristine && ctrl.adjustmentForm.$valid && ctrl.saveEnabled"></form-control>
+                      save-enabled="!ctrl.adjustmentForm.$pristine && ctrl.adjustmentForm.$valid && ctrl.saveEnabled && ctrl.adjustment.materialId != 0"></form-control>
     </shell-controls>
 </add-edit-shell>

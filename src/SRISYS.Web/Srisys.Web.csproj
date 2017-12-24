@@ -10,6 +10,10 @@
     <NoWarn>1701;1702;1705;SA1633;</NoWarn>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1705;SA1633;</NoWarn>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="wwwroot\views\login\**" />
     <Content Remove="wwwroot\views\login\**" />
