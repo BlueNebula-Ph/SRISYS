@@ -9,6 +9,8 @@
     /// </summary>
     public class SaveAdjustmentRequest
     {
+        private DateTime date;
+
         /// <summary>
         /// Gets or sets the id of the material to be adjusted.
         /// </summary>
@@ -39,10 +41,13 @@
         public bool IsPurchase { get; set; }
 
         /// <summary>
-        /// Gets or sets the purchase date.
-        /// Only used when the adjustment is a purchase.
+        /// Gets or sets the purchase / adjustment date.
         /// </summary>
-        public DateTime PurchaseDate { get; set; }
+        public DateTime Date
+        {
+            get => this.date == default(DateTime) ? DateTime.Today : this.date;
+            set => this.date = value;
+        }
 
         /// <summary>
         /// Gets or sets a value indicating whether the price of a material should be updated.

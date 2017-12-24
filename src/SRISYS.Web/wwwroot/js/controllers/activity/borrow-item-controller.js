@@ -24,8 +24,8 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.saveEnabled = true;
-        vm.header = type == "Tools" ? "Borrow Tools." : "Use Consumables.";
-        vm.typeId = type == "Tools" ? 1 : 2;
+        vm.header = type === "Tools" ? "Borrow Tools." : "Use Consumables.";
+        vm.typeId = type === "Tools" ? 1 : 2;
 
         // Watchers
         $scope.$watch(() => { return vm.borrow.activities; },
@@ -56,6 +56,10 @@
         vm.addItemBorrowed = function () {
             var detail = angular.copy(newActivity);
             vm.borrow.activities.splice(0, 0, detail);
+        };
+
+        vm.removeItemBorrowed = function ($index) {
+            vm.borrow.activities.splice($index, 1);
         };
 
         // Private methods
@@ -99,7 +103,7 @@
         var loadAll = function () {
             utils.showLoading();
 
-            var typeId = type == "Tools" ? 1 : 2;
+            var typeId = type === "Tools" ? 1 : 2;
             var requests = {
 				item: inventoryService.getItemLookup(typeId),
 				borrower: borrowerService.getBorrowerLookup()

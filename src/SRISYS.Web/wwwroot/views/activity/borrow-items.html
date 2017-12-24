@@ -59,7 +59,7 @@
                             <td><input class="form-control input-sm" type="number" ng-model="i.quantity" min="1" max="{{ i.remainingQuantity }}" /></td>
                             <td ng-if="ctrl.typeId == 2"><input class="form-control input-sm" ng-model="i.use" /></td>
                             <td class="text-center">
-                                <button class="btn btn-danger btn-xs" style="margin-top: 3px;">
+                                <button class="btn btn-danger btn-xs" style="margin-top: 3px;" ng-click="ctrl.removeItemBorrowed($index)">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </td>

@@ -59,8 +59,7 @@
             // Adjustment
             this.CreateMap<Adjustment, AdjustmentSummary>();
 
-            this.CreateMap<SaveAdjustmentRequest, Adjustment>()
-                .ForMember(d => d.Date, s => s.MapFrom(o => DateTime.Now));
+            this.CreateMap<SaveAdjustmentRequest, Adjustment>();
 
             // Subcategory
             this.CreateMap<Subcategory, SubcategorySummary>();

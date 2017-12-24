@@ -253,7 +253,7 @@
             // If the adjustment is a result of a purchase, update the last purchase date and price of the material.
             if (saveAdjustmentRequest.IsPurchase)
             {
-                material.LastPurchaseDate = saveAdjustmentRequest.PurchaseDate;
+                material.LastPurchaseDate = saveAdjustmentRequest.Date;
                 material.Price = saveAdjustmentRequest.UpdatePrice ?
                     saveAdjustmentRequest.Price :
                     material.Price;
