@@ -26,7 +26,7 @@
                 <tr ng-repeat="c in ctrl.summaryResult.items track by c.id">
                     <td>{{ c.username }}</td>
                     <td>{{ c.firstname }} {{ c.lastname }}</td>
-                    <td class="text-center"><input type="checkbox" ng-checked="c.isAdmin" readonly disabled /></td>
+                    <td class="text-center"><input type="checkbox" ng-checked="c.admin" readonly disabled /></td>
                     <td class="text-center"><input type="checkbox" ng-checked="c.canView" readonly disabled /></td>
                     <td class="text-center"><input type="checkbox" ng-checked="c.canWrite" readonly disabled /></td>
                     <td class="text-center"><input type="checkbox" ng-checked="c.canDelete" readonly disabled /></td>

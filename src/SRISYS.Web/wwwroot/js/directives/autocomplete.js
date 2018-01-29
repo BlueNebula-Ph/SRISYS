@@ -27,8 +27,14 @@
         $scope.itemSelected = function (item) {
             if (item != undefined) {
                 $scope.selectedItem = item;
-                $scope.selectedValue = item.Id;
-                $scope.search = item.ItemName;
+                $scope.selectedValue = item.id;
+                $scope.search = item.name;
+
+                if ($scope.onEnter) {
+                    $timeout(function () {
+                        $scope.onEnter();
+                    }, 50);
+                }
             } else {
                 clearAutocomplete();
             }
@@ -61,12 +67,6 @@
                 case 13: // Enter
                     var selectedItem = $scope.items[$scope.selectedIndex];
                     $scope.itemSelected(selectedItem);
-
-                    if ($scope.onEnter) {
-                        $timeout(function () {
-                            $scope.onEnter();
-                        }, 50);
-                    }
                     break;
                 case 38: // Up
                     if ($scope.selectedIndex != 0) {

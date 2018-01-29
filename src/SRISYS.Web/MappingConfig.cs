@@ -59,8 +59,7 @@
             // Adjustment
             this.CreateMap<Adjustment, AdjustmentSummary>();
 
-            this.CreateMap<SaveAdjustmentRequest, Adjustment>()
-                .ForMember(d => d.Date, s => s.MapFrom(o => DateTime.Now));
+            this.CreateMap<SaveAdjustmentRequest, Adjustment>();
 
             // Subcategory
             this.CreateMap<Subcategory, SubcategorySummary>();
@@ -92,7 +91,7 @@
 
             // User
             this.CreateMap<ApplicationUser, UserSummary>()
-                .ForMember(d => d.IsAdmin, o => o.MapFrom(s => s.AccessRights.Contains("admin")))
+                .ForMember(d => d.Admin, o => o.MapFrom(s => s.AccessRights.Contains("admin")))
                 .ForMember(d => d.CanView, o => o.MapFrom(s => s.AccessRights.Contains("canView")))
                 .ForMember(d => d.CanWrite, o => o.MapFrom(s => s.AccessRights.Contains("canWrite")))
                 .ForMember(d => d.CanDelete, o => o.MapFrom(s => s.AccessRights.Contains("canDelete")));

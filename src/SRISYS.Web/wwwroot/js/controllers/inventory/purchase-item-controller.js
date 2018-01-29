@@ -6,7 +6,7 @@
             adjustmentType: "1",
             quantity: 1,
             isPurchase: true,
-            purchaseDate: new Date(),
+            date: new Date(),
             price: 0,
             updatePrice: false,
             remarks: "",
@@ -26,6 +26,8 @@
         vm.save = function () {
             utils.showLoading();
             vm.saveEnabled = false;
+
+            vm.purchase.date = vm.purchase.date.toLocaleDateString();
 
             inventoryService.adjustQuantity(vm.purchase)
                 .then(saveSuccessful, utils.onError)

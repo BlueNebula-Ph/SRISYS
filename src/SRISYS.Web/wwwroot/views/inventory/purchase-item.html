@@ -5,14 +5,13 @@
     <shell-form>
         <form name="ctrl.addPurchaseForm">
             <div class="col-md-3 left-padding-none">
-                <div form-input>
+                <div class="form-group form-group-sm">
                     <label for="item">Material Name</label>
-                    <select name="item" focus-me="ctrl.defaultFocus" required
-                            ng-options="item.id as item.name for item in ctrl.itemList" ng-model="ctrl.purchase.materialId"></select>
+                    <autocomplete route="/api/material/lookup/0" selected-item="ctrl.purchase.material" selected-value="ctrl.purchase.materialId" is-focused="ctrl.defaultFocus"></autocomplete>
                 </div>
                 <div form-input>
                     <label for="purchaseDate">Purchase Date</label>
-                    <input type="date" ng-model="ctrl.purchase.purchaseDate" />
+                    <input type="date" ng-model="ctrl.purchase.date" />
                 </div>
                 <div form-input>
                     <label for="supplier">Supplier</label>

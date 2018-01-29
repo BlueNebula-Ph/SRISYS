@@ -15,7 +15,7 @@
                     </li>
                     <li ng-repeat="c in ctrl.category.subcategories track by $index">
                         <div class="input-group input-group-sm bottom-margin-sm">
-                            <input class="form-control input-sm" type="text" name="subcategory" ng-model="c.name" focus-me="c.focus" required />
+                            <input class="form-control input-sm wide" type="text" name="subcategory" ng-model="c.name" focus-me="c.focus" required />
                             <span class="input-group-btn">
                                 <button ng-click="ctrl.removeSubcategory($index)" class="btn btn-sm">
                                     <i class="fa fa-times text-danger"></i>

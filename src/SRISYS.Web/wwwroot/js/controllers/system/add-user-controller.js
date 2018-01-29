@@ -12,7 +12,7 @@
         vm.defaultFocus = true;
         vm.saveEnabled = true;
         vm.accessRights = [
-            { text: "Administrator", value: "isAdmin", selected: false },
+            { text: "Administrator", value: "admin", selected: false },
             { text: "Can View", value: "canView", selected: true },
             { text: "Can Write", value: "canWrite", selected: false },
             { text: "Can Delete", value: "canDelete", selected: false }];

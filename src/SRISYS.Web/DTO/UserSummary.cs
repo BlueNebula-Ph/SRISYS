@@ -25,7 +25,7 @@
         /// <summary>
         /// Gets or sets a value indicating whether a user is an admin.
         /// </summary>
-        public bool IsAdmin { get; set; }
+        public bool Admin { get; set; }
 
         /// <summary>
         /// Gets or sets a value indicating whether a user has view access.

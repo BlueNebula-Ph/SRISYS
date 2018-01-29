@@ -6,6 +6,10 @@
             toastr.success(message, "Success");
         };
 
+        service.showErrorMessage = function (message) {
+            toastr.error(message, "Error");
+        };
+
         service.onError = function (errorResponse) {
             var errorMessage = "There was an error processing your requests.";
 
@@ -13,7 +17,7 @@
                 errorMessage = errorResponse.data.errorMessage;
             }
 
-            toastr.error(errorMessage, "Error");
+            service.showErrorMessage(errorMessage);
             console.log(errorResponse);
         };
 

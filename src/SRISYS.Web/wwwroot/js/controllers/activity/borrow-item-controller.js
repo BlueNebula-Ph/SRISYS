@@ -1,18 +1,17 @@
 ﻿(function (module) {
     var borrowItemController = function ($q, $scope, $state, activityService, inventoryService, borrowerService, currentUser, utils) {
         var vm = this;
+        var newActivity = {
+            quantity: 0,
+            materialId: 0
+        };
         var defaultBorrow = {
             type: 1,
             borrowedById: 0,
             releasedById: currentUser.userProfile.userId,
             releasedByUser: currentUser.userProfile.name,
             date: new Date(),
-            activities: []
-        };
-        var newActivity = {
-            quantity: 0,
-            isFocused: true,
-            materialId: 0,
+            activities: [newActivity]
         };
         var type = $state.current.data.type;
 
@@ -24,19 +23,27 @@
         // Helper properties
         vm.defaultFocus = true;
         vm.saveEnabled = true;
-        vm.header = type == "Tools" ? "Borrow Tools." : "Use Consumables.";
-        vm.typeId = type == "Tools" ? 1 : 2;
+        vm.header = type === "Tools" ? "Borrow Tools." : "Use Consumables.";
+        vm.typeId = type === "Tools" ? 1 : 2;
 
-        // Watchers
-        $scope.$watch(() => { return vm.borrow.activities; },
-            function (newVal, oldVal) {
-                assignValues();
-            }, true);
+        // On select from autocomplete
+        vm.onEnter = function (item) {
+            if (item.selectedMaterial) {
+                var selectedMaterial = item.selectedMaterial;
+                item.unit = selectedMaterial.unit;
+                item.brand = selectedMaterial.brand;
+                item.size = selectedMaterial.size;
+                item.remainingQuantity = selectedMaterial.remainingQuantity;
+            }
+        };
 
         // Public methods
         vm.save = function () {
             utils.showLoading();
             vm.saveEnabled = false;
+
+            // Cleanup activities before saving
+            vm.borrow.activities = vm.borrow.activities.filter((val) => { return val.materialId && val.materialId != 0 });
 
             for (var i = 0, l = vm.borrow.activities.length; i < l; i++) {
                 vm.borrow.activities[i].borrowedById = vm.borrow.borrowedById;
@@ -55,7 +62,12 @@
 
         vm.addItemBorrowed = function () {
             var detail = angular.copy(newActivity);
-            vm.borrow.activities.splice(0, 0, detail);
+            detail.isFocused = true;
+            vm.borrow.activities.push(detail);
+        };
+
+        vm.removeItemBorrowed = function ($index) {
+            vm.borrow.activities.splice($index, 1);
         };
 
         // Private methods
@@ -65,7 +77,6 @@
                 var selectedMaterial = item.selectedMaterial;
 
                 if (selectedMaterial) {
-                    console.log(selectedMaterial);
                     item.materialId = selectedMaterial.id;
                     item.unit = selectedMaterial.unit;
                     item.brand = selectedMaterial.brand;
@@ -86,7 +97,7 @@
         };
 
         var saveSuccessful = function () {
-            utils.showSuccessMessage("Materials borrowed successfully.");
+            utils.showSuccessMessage("Materials borrowed/used successfully.");
             loadAll();
             clearForm();
         };
@@ -99,7 +110,7 @@
         var loadAll = function () {
             utils.showLoading();
 
-            var typeId = type == "Tools" ? 1 : 2;
+            var typeId = type === "Tools" ? 1 : 2;
             var requests = {
 				item: inventoryService.getItemLookup(typeId),
 				borrower: borrowerService.getBorrowerLookup()

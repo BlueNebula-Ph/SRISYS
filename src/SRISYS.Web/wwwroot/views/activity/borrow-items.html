@@ -27,7 +27,7 @@
                 <table class="table table-condensed input-details-table">
                     <thead>
                         <tr>
-                            <th style="width: 25%;">Item</th>
+                            <th style="width: 20%;">Item</th>
                             <th style="width: 5%;">Unit</th>
                             <th style="width: 10%;">Brand</th>
                             <th style="width: 10%;">Model</th>
@@ -35,21 +35,20 @@
                             <th style="width: 15%;">Qty In Stock</th>
                             <th ng-style="{ width: ctrl.typeId == 2 ? '10%' : '20%' }">Quantity</th>
                             <th ng-if="ctrl.typeId == 2" style="width: 10%;">Use</th>
-                            <th style="width: 5%;"></th>
+                            <th style="width: 10%;"></th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <!--<tr>
                             <td colspan="{{ ctrl.typeId == 2 ? 9 : 8 }}">
                                 <button class="btn btn-primary btn-xs" ng-click="ctrl.addItemBorrowed()">
                                     <i class="fa fa-plus"></i> Add material
                                 </button>
                             </td>
-                        </tr>
+                        </tr>-->
                         <tr ng-repeat="i in ctrl.borrow.activities track by $index">
                             <td>
-                                <select name="item" focus-me="i.isFocused" class="form-control input-sm" required
-                                        ng-options="item.name for item in ctrl.itemList" ng-model="i.selectedMaterial"></select>
+                                <autocomplete route="/api/material/lookup/{{ ctrl.typeId }}" selected-item="i.selectedMaterial" selected-value="i.materialId" is-focused="i.isFocused" on-enter="ctrl.onEnter(i)"></autocomplete>
                             </td>
                             <td><input type="text" class="form-control input-sm" ng-model="i.unit" readonly /></td>
                             <td><input type="text" class="form-control input-sm" ng-model="i.brand" readonly /></td>
@@ -59,7 +58,10 @@
                             <td><input class="form-control input-sm" type="number" ng-model="i.quantity" min="1" max="{{ i.remainingQuantity }}" /></td>
                             <td ng-if="ctrl.typeId == 2"><input class="form-control input-sm" ng-model="i.use" /></td>
                             <td class="text-center">
-                                <button class="btn btn-danger btn-xs" style="margin-top: 3px;">
+                                <button class="btn btn-primary btn-xs" style="margin-top: 3px;" title="Add more materials" ng-click="ctrl.addItemBorrowed()">
+                                    <i class="fa fa-plus"></i>
+                                </button>
+                                <button class="btn btn-danger btn-xs" style="margin-top: 3px;" title="Delete material" ng-click="ctrl.removeItemBorrowed($index)">
                                     <i class="fa fa-times"></i>
                                 </button>
                             </td>

@@ -50,6 +50,12 @@
                 }
             }
 
+            if (vm.returns.activities.length == 0) {
+                utils.showErrorMessage("Please input at least 1 return item.");
+                onSaveComplete();
+                return;
+            }
+
             console.log(vm.returns);
 
             // Perform save.
