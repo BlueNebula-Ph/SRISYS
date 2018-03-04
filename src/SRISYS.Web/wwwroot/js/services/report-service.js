@@ -18,6 +18,11 @@
             return $http.get(url);
         };
 
+        dataFactory.getCountSheet = function () {
+            var url = urlBase + "/count-sheet";
+            return $http.get(url);
+        };
+
         return dataFactory;
     };
 

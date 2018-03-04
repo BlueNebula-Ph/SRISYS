@@ -206,6 +206,9 @@
                     templateUrl: "/views/report/count-sheet-report.html",
                     controller: "stocksReportController",
                     controllerAs: "ctrl",
+                    data: {
+                        reportType: "Countsheet"
+                    }
                 }).state("reports.low-stocks", {
                     url: "/lowstocks",
                     templateUrl: "/views/report/low-stocks-report.html",
@@ -215,7 +218,10 @@
                     url: "/stocks",
                     templateUrl: "/views/report/stocks-report.html",
                     controller: "stocksReportController",
-                    controllerAs: "ctrl"
+                    controllerAs: "ctrl",
+                    data: {
+                        reportType: "Stocks"
+                    }
                 })
 
                 .state("unauthorized", {

@@ -1,9 +1,10 @@
 ﻿(function (module) {
-    var stocksReportController = function ($window, reportService, utils) {
+    var stocksReportController = function ($state, $window, reportService, utils) {
         var vm = this;
 
         // Main properties
         vm.items = [];
+        
         vm.date = new Date().toLocaleDateString();
 
         vm.print = () => {
@@ -11,10 +12,18 @@
         };
 
         // Private methods
-        var loadReport = function () {
+        var loadStocksReport = function () {
             utils.showLoading();
 
             reportService.getStocks()
+                .then(processResponse, utils.hideLoading)
+                .finally(utils.hideLoading);
+        };
+
+        var loadCountSheet = function () {
+            utils.showLoading();
+
+            reportService.getCountSheet()
                 .then(processResponse, utils.hideLoading)
                 .finally(utils.hideLoading);
         };
@@ -24,12 +33,17 @@
         };
 
         $(function () {
-            loadReport();
+            var reportType = $state.current.data.reportType;
+            if (reportType == "Countsheet") {
+                loadCountSheet();
+            } else if (reportType == "Stocks") {
+                loadStocksReport();
+            }
         });
 
         return vm;
     };
 
-    module.controller("stocksReportController", ["$window", "reportService", "utils", stocksReportController]);
+    module.controller("stocksReportController", ["$state", "$window", "reportService", "utils", stocksReportController]);
 
 })(angular.module("srisys-app"));

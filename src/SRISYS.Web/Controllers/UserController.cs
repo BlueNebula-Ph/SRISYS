@@ -141,6 +141,8 @@ namespace Srisys.Web.Controllers
             try
             {
                 this.mapper.Map(entity, user);
+                user.PasswordHash = this.passwordHasher.HashPassword(user, entity.Password);
+
                 this.context.Update(user);
                 await this.context.SaveChangesAsync();
             }
