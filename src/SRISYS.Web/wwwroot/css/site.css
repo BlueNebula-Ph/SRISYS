@@ -378,7 +378,7 @@
         border: 1px solid #66afe9;
         border-radius: 4px;
         box-shadow: rgba(204,204,204,0.8) 4px 4px;
-        width: 95%;
+        min-width: 230px;
         position: absolute;
     }
 

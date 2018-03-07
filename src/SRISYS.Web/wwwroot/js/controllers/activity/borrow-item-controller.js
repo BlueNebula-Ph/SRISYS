@@ -37,6 +37,11 @@
             }
         };
 
+        $scope.$watch(() => { return vm.borrow.activities; },
+            function (newVal, oldVal) {
+                assignValues();
+            }, true);
+
         // Public methods
         vm.save = function () {
             utils.showLoading();
