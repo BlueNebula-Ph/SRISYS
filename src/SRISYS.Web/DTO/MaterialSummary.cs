@@ -11,6 +11,7 @@
     public class MaterialSummary : DTOBase
     {
         private IEnumerable<AdjustmentSummary> adjustments;
+        private IEnumberable<ActivitySummary> activities;
 
         /// <summary>
         /// Gets or sets the material type id.
@@ -127,6 +128,15 @@
         {
             get { return this.adjustments.OrderByDescending(a => a.Date); }
             set { this.adjustments = value; }
+        }
+
+        /// <summary>
+        /// Gets or sets the activities of this material.
+        /// </summary>
+        public IEnumerable<ActivitySummary> Activities
+        {
+            get { return this.activities.OrderByDescending(a => a.Date); }
+            set { this.activities = value; }
         }
     }
 }
