@@ -158,6 +158,15 @@
 
             var mappedEntity = this.mapper.Map<MaterialSummary>(entity);
 
+            // Fetch material activities
+            var activities = await this.context.Activities
+                .Where(a => a.MaterialId == id)
+                .OrderByDescending(a => a.Date)
+                .ProjectTo<ActivitySummary>()
+                .ToListAsync();
+
+            mappedEntity.Activities = activities;
+
             return this.Ok(mappedEntity);
         }
 

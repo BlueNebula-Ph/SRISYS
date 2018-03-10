@@ -17,7 +17,7 @@
                 <dt>Size</dt>
                 <dd>{{ ctrl.item.size }}</dd>
                 <dt>Use</dt>
-                <dd>{{ ctrl.item.use }}</dd>
+                <dd>{{ ctrl.item.use | noValue }}</dd>
             </dl>
         </div>
         <div class="col-md-6" ng-show="ctrl.item.typeId == 2">
@@ -64,7 +64,27 @@
         </div>
         <div class="clearfix"></div>
         <h4>Activities.</h4>
-
+        <table class="table table-condensed table-bordered table-striped details-table">
+            <thead>
+                <tr>
+                    <th class="text-center">Date</th>
+                    <th class="text-right">Qty Out</th>
+                    <th class="text-right">Qty In</th>
+                    <th>Borrowed / Taken By</th>
+                    <th>Returned / Exchanged By</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="tr in ctrl.item.activities track by $index">
+                    <td class="text-center">{{ tr.date | date:'MM/dd/yyyy' }}</td>
+                    <td class="text-right">{{ tr.quantityBorrowed | number:0 }} {{ tr.unit }}</td>
+                    <td class="text-right">{{ tr.totalQuantityReturned | number:0 }} {{ tr.unit }}</td>
+                    <td>{{ tr.borrowedBy }}</td>
+                    <td>{{ tr.returnedBy | noValue }}</td>
+                </tr>
+                <tr no-records ng-if="ctrl.item.activities.length == 0" colspan="5"></tr>
+            </tbody>
+        </table>
         <h4>Transactions.</h4>
         <table class="table table-condensed table-bordered table-striped details-table">
             <thead>
