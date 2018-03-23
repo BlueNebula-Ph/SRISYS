@@ -60,7 +60,7 @@
         /// <summary>
         /// Gets or sets the category id property.
         /// </summary>
-        public int CategoryId { get; set; }
+        public int? CategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets property Category Id.
@@ -70,7 +70,7 @@
         /// <summary>
         /// Gets or sets the subcategory id property.
         /// </summary>
-        public int SubCategoryId { get; set; }
+        public int? SubCategoryId { get; set; }
 
         /// <summary>
         /// Gets or sets property Subcategory Id.
@@ -91,7 +91,7 @@
         /// <summary>
         /// Gets or sets the supplier id property.
         /// </summary>
-        public int SupplierId { get; set; }
+        public int? SupplierId { get; set; }
 
         /// <summary>
         /// Gets or sets property SupplierId.
@@ -128,5 +128,10 @@
             get { return this.adjustments.OrderByDescending(a => a.Date); }
             set { this.adjustments = value; }
         }
+
+        /// <summary>
+        /// Gets or sets the activities of this material.
+        /// </summary>
+        public IEnumerable<ActivitySummary> Activities { get; set; }
     }
 }

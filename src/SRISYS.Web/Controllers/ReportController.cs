@@ -118,5 +118,23 @@ namespace Srisys.Web.Controllers
 
             return this.Ok(mappedList);
         }
+
+        /// <summary>
+        /// Returns the count sheet report
+        /// </summary>
+        /// <returns>List of materials.</returns>
+        [HttpGet("count-sheet")]
+        public async Task<IActionResult> GetCountSheet()
+        {
+            // Get a list of materials.
+            var list = this.context.Materials
+                .AsNoTracking()
+                .Where(c => !c.IsDeleted && c.TypeId == (int)MaterialType.Tool)
+                .OrderBy(c => c.Name);
+
+            var mappedList = await list.ProjectTo<MaterialSummary>().ToListAsync();
+
+            return this.Ok(mappedList);
+        }
     }
 }
