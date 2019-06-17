@@ -17,7 +17,9 @@
             sortDirection: "desc",
             pageIndex: vm.currentPage,
             materialId: 0,
-            borrowedById: 0
+            borrowedById: 0,
+            selectedDateFrom: undefined,
+            selectedDateTo: undefined
         };
 
         // Public Methods
@@ -28,6 +30,14 @@
                 vm.filters.activityStatus = 2;
             } else {
                 vm.filters.activityStatus = undefined;
+            }
+
+            if (vm.filters.selectedDateFrom) {
+                vm.filters.dateFrom = vm.filters.selectedDateFrom.toDateString();
+            }
+
+            if (vm.filters.selectedDateTo) {
+                vm.filters.dateTo = vm.filters.selectedDateTo.toDateString();
             }
 
             activityService.searchActivities(vm.filters)

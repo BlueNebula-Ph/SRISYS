@@ -4,7 +4,7 @@
 
         // Main properties
         vm.items = [];
-        
+
         vm.date = new Date().toLocaleDateString();
 
         vm.print = () => {

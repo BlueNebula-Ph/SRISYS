@@ -21,8 +21,7 @@
         vm.fetchReport = function () {
             utils.showLoading();
 
-            vm.filters.reportDate = vm.filters.selectedDate.toLocaleDateString();
-            console.log(vm.filters.reportDate);
+            vm.filters.reportDate = vm.filters.selectedDate;
 
             reportService.getDailyActivities(vm.filters)
                 .then(processResponse, utils.onError)

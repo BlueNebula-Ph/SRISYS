@@ -10,7 +10,7 @@
             borrowedById: 0,
             releasedById: currentUser.userProfile.userId,
             releasedByUser: currentUser.userProfile.name,
-            date: new Date(),
+            selectedDate: new Date(),
             activities: [newActivity]
         };
         var type = $state.current.data.type;
@@ -32,6 +32,7 @@
                 var selectedMaterial = item.selectedMaterial;
                 item.unit = selectedMaterial.unit;
                 item.brand = selectedMaterial.brand;
+                item.model = selectedMaterial.model;
                 item.size = selectedMaterial.size;
                 item.remainingQuantity = selectedMaterial.remainingQuantity;
             }
@@ -48,12 +49,12 @@
             vm.saveEnabled = false;
 
             // Cleanup activities before saving
-            vm.borrow.activities = vm.borrow.activities.filter((val) => { return val.materialId && val.materialId != 0 });
+            vm.borrow.activities = vm.borrow.activities.filter((val) => { return val.materialId && val.materialId !== 0; });
 
             for (var i = 0, l = vm.borrow.activities.length; i < l; i++) {
                 vm.borrow.activities[i].borrowedById = vm.borrow.borrowedById;
                 vm.borrow.activities[i].releasedById = vm.borrow.releasedById;
-                vm.borrow.activities[i].date = vm.borrow.date.toLocaleDateString();
+                vm.borrow.activities[i].date = vm.borrow.selectedDate.toDateString();
             }
 
             activityService.saveActivity(vm.borrow)
@@ -85,6 +86,7 @@
                     item.materialId = selectedMaterial.id;
                     item.unit = selectedMaterial.unit;
                     item.brand = selectedMaterial.brand;
+                    item.model = selectedMaterial.model;
                     item.size = selectedMaterial.size;
                     item.remainingQuantity = selectedMaterial.remainingQuantity;
                 }

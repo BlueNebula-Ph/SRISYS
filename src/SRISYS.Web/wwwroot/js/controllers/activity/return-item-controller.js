@@ -3,7 +3,7 @@
         var vm = this;
         var defaultReturns = {
             type: 2,
-            date: new Date(),
+            selectedReturnDate: new Date(),
             returnedById: 0,
             receivedByUser: currentUser.userProfile.name,
             receivedById: currentUser.userProfile.userId,
@@ -21,7 +21,9 @@
             pageSize: 200,
             materialId: 0,
             borrowedById: 0,
-            activityStatus: 1
+            activityStatus: 1,
+            selectedDateFrom: undefined,
+            selectedDateTo: undefined
         };
         vm.returns = {};
 
@@ -40,7 +42,7 @@
                 if (obj.quantityReturned && obj.quantityReturned != 0) {
                     var newReturn = {
                         id: obj.id,
-                        date: vm.returns.date.toLocaleDateString(),
+                        date: vm.returns.selectedReturnDate.toDateString(),
                         materialId: obj.materialId,
                         quantity: obj.quantityReturned <= obj.balance ? obj.quantityReturned : obj.balance,
                         returnedById: vm.returns.returnedById,
@@ -70,6 +72,14 @@
 
         vm.performFilter = function () {
             utils.showLoading();
+
+            if (vm.filters.selectedDateFrom) {
+                vm.filters.dateFrom = vm.filters.selectedDateFrom.toDateString();
+            }
+
+            if (vm.filters.selectedDateTo) {
+                vm.filters.dateTo = vm.filters.selectedDateTo.toDateString();
+            }
 
             activityService.getActivities(vm.filters)
                 .then(processActivities, utils.onError)
