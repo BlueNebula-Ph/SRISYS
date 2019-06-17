@@ -47,7 +47,7 @@ namespace Srisys.Web.Controllers
             var list = this.context.Activities
                 .AsNoTracking();
 
-            var reportDate = (filter?.ReportDate ?? DateTime.Now).Date;
+            var reportDate = filter?.ReportDate ?? DateTime.Now;
             var nextDate = reportDate.AddDays(1);
 
             // To build the predicate
